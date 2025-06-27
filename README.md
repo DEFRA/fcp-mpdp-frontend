@@ -4,7 +4,9 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fcp-mpdp-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=DEFRA_fcp-mpdp-frontend)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fcp-mpdp-frontend&metric=coverage)](https://sonarcloud.io/summary/new_code?id=DEFRA_fcp-mpdp-frontend)
 
-Core delivery platform Node.js Frontend Template.
+Frontend service for the Making Payment Data Public (MPDP) service.
+
+MPDP is part of the Farming and Countryside Programme (FCP).
 
 - [Requirements](#requirements)
   - [Node.js](#nodejs)
