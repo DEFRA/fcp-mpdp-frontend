@@ -22,7 +22,7 @@ services:
       start_period: 5s
       retries: 3
     networks:
-      - cdp-tenant
+      - fcp-mpdp
 
   redis:
     image: redis:7.2.3-alpine3.18
@@ -30,12 +30,12 @@ services:
       - '6379:6379'
     restart: always
     networks:
-      - cdp-tenant
+      - fcp-mpdp
 
   mongodb:
     image: mongo:6.0.13
     networks:
-      - cdp-tenant
+      - fcp-mpdp
     ports:
       - '27017:27017'
     volumes:
@@ -44,7 +44,7 @@ services:
 
 ################################################################################
 
-  your-frontend:
+  fcp-mpdp-frontend:
     build: ./
     ports:
       - '3000:3000'
@@ -65,7 +65,7 @@ services:
       LOCALSTACK_ENDPOINT: http://localstack:4566
       USE_SINGLE_INSTANCE_CACHE: true
     networks:
-      - cdp-tenant
+      - fcp-mpdp
 
   # your-backend:
   #   image: defradigital/your-backend:${YOUR_BACKEND_VERSION:-latest}
@@ -94,5 +94,6 @@ volumes:
   mongodb-data:
 
 networks:
-  cdp-tenant:
+  fcp-mpdp:
     driver: bridge
+    name: fcp-mpdp
