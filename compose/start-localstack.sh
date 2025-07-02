@@ -5,9 +5,9 @@ export AWS_ACCESS_KEY_ID=test
 export AWS_SECRET_ACCESS_KEY=test
 
 # S3 buckets
-echo "Creating S3 bucket: fcp-mpdp-frontend-perf-tests"
-aws --endpoint-url=http://localhost:4566 s3 mb s3://fcp-mpdp-frontend-perf-tests
-echo "S3 bucket fcp-mpdp-frontend-perf-tests successfully created"
+echo "Creating S3 bucket: fcp-mpdp-performance-test-suite"
+aws --endpoint-url=http://localhost:4566 s3 mb s3://fcp-mpdp-performance-test-suite
+echo "S3 bucket fcp-mpdp-performance-test-suite successfully created"
 
 # SQS queues
 # aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name my-queue
