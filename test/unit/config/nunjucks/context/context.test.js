@@ -30,7 +30,9 @@ describe('context and cache', () => {
       let contextResult
 
       beforeAll(async () => {
-        contextImport = await import('./context.js')
+        contextImport = await import(
+          '../../../../../src/config/nunjucks/context/context.js'
+        )
       })
 
       beforeEach(() => {
@@ -86,7 +88,9 @@ describe('context and cache', () => {
       let contextImport
 
       beforeAll(async () => {
-        contextImport = await import('./context.js')
+        contextImport = await import(
+          '../../../../../src/config/nunjucks/context/context.js'
+        )
       })
 
       beforeEach(() => {
@@ -111,7 +115,9 @@ describe('context and cache', () => {
       let contextImport
 
       beforeAll(async () => {
-        contextImport = await import('./context.js')
+        contextImport = await import(
+          '../../../../../src/config/nunjucks/context/context.js'
+        )
       })
 
       beforeEach(() => {
