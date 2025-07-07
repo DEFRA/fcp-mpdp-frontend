@@ -1,11 +1,7 @@
 import tls from 'node:tls'
-
 import { config } from '../../../../config/config.js'
 import { getTrustStoreCerts } from './get-trust-store-certs.js'
 
-/**
- * Creates a new secure context loaded from Base64 encoded certs
- */
 export const secureContext = {
   plugin: {
     name: 'secure-context',

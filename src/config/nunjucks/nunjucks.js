@@ -2,7 +2,6 @@ import path from 'path'
 import nunjucks from 'nunjucks'
 import hapiVision from '@hapi/vision'
 import { fileURLToPath } from 'node:url'
-
 import { config } from '../config.js'
 import { context } from './context/context.js'
 import * as filters from './filters/filters.js'

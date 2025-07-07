@@ -36,7 +36,7 @@ describe('#startServer', () => {
 
   beforeAll(async () => {
     process.env = { ...PROCESS_ENV }
-    process.env.PORT = '3097' // Set to obscure port to avoid conflicts
+    process.env.PORT = '3097'
 
     createServerImport = await import('../../../../../src/server/server.js')
     startServerImport = await import(

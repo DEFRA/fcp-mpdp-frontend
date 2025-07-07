@@ -36,7 +36,6 @@ describe('context and cache', () => {
       })
 
       beforeEach(() => {
-        // Return JSON string
         mockReadFileSync.mockReturnValue(`{
         "application.js": "javascripts/application.js",
         "stylesheets/application.scss": "stylesheets/application.css"
@@ -121,7 +120,6 @@ describe('context and cache', () => {
       })
 
       beforeEach(() => {
-        // Return JSON string
         mockReadFileSync.mockReturnValue(`{
         "application.js": "javascripts/application.js",
         "stylesheets/application.scss": "stylesheets/application.css"
