@@ -23,7 +23,9 @@ describe('#errors', () => {
     })
 
     expect(result).toEqual(
-      expect.stringContaining('Page not found | fcp-mpdp-frontend')
+      expect.stringContaining(
+        'Page not found | Find farm and land payment data'
+      )
     )
     expect(statusCode).toBe(statusCodes.notFound)
   })

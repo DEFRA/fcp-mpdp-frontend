@@ -56,7 +56,7 @@ describe('context and cache', () => {
               href: '/'
             }
           ],
-          serviceName: 'fcp-mpdp-frontend',
+          serviceName: 'Find farm and land payment data',
           serviceUrl: '/'
         })
       })
@@ -143,7 +143,7 @@ describe('context and cache', () => {
               href: '/'
             }
           ],
-          serviceName: 'fcp-mpdp-frontend',
+          serviceName: 'Find farm and land payment data',
           serviceUrl: '/'
         })
       })
