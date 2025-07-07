@@ -43,7 +43,7 @@ export const config = convict({
   serviceName: {
     doc: 'Applications Service Name',
     format: String,
-    default: 'fcp-mpdp-frontend'
+    default: 'Find farm and land payment data'
   },
   root: {
     doc: 'Project root',
