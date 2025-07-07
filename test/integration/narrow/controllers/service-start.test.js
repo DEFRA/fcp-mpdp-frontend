@@ -19,7 +19,9 @@ describe('#serviceStartController', () => {
       url: '/'
     })
 
-    expect(result).toEqual(expect.stringContaining('Home |'))
+    expect(result).toEqual(
+      expect.stringContaining('Find farm and land payment data |')
+    )
     expect(statusCode).toBe(statusCodes.ok)
   })
 })
