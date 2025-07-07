@@ -49,13 +49,6 @@ describe('context and cache', () => {
           assetPath: '/public/assets',
           breadcrumbs: [],
           getAssetPath: expect.any(Function),
-          navigation: [
-            {
-              current: true,
-              text: 'Home',
-              href: '/'
-            }
-          ],
           serviceName: 'Find farm and land payment data',
           serviceUrl: '/'
         })
@@ -136,13 +129,6 @@ describe('context and cache', () => {
           assetPath: '/public/assets',
           breadcrumbs: [],
           getAssetPath: expect.any(Function),
-          navigation: [
-            {
-              current: true,
-              text: 'Home',
-              href: '/'
-            }
-          ],
           serviceName: 'Find farm and land payment data',
           serviceUrl: '/'
         })
