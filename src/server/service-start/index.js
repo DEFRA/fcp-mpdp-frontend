@@ -1,6 +1,6 @@
-import { homeController } from './controller.js'
+import { serviceStartController } from './controller.js'
 
-export const home = {
+export const serviceStart = {
   plugin: {
     name: 'home',
     register(server) {
@@ -8,7 +8,7 @@ export const home = {
         {
           method: 'GET',
           path: '/',
-          ...homeController
+          ...serviceStartController
         }
       ])
     }
