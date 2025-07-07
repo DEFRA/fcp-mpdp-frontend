@@ -3,14 +3,13 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{# {% from "macro.njk" import relatedContent %} #}
+{# {% from "common/macros/related-content.njk" import relatedContent %} #}
 
 {% block content %}
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds govuk-prose-scope">
       <div class="govuk-body" data-testid="app-page-body">
-
         <h1>{{ pageTitle }}</h1>
 
         <p>Check agricultural scheme payments to farmers and land managers in England</p>
@@ -91,9 +90,19 @@
         </p>
       </div>
     </div>
-    {# <div class="govuk-grid-column-one-third">
-      {{relatedContent(relatedContentData)}}
-    </div> #}
+    <div class='govuk-body'>
+      <hr class="govubk-section-break govuk-section-break--visible section-break-heading govuk-!-margin-bottom-3 govuk-!-margin-top-0 mpdp-link-bg" role="presentation">
+      <p class="govuk-!-font-size-19 govuk-!-margin-bottom-2" id='relatedContent'>
+        <b>Related Content</b>
+      </p>
+      <ul id='relatedContentList' class="govuk-list mpdp-no-bullet">
+        {% for item in relatedContentData %}
+          <li>
+            <a class='govuk-link govuk-!-font-size-16' href='{{ item.url }}' id='{{  item.id }}' target='_blank'>{{ item.text }}</a><br>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
 
 {% endblock %}

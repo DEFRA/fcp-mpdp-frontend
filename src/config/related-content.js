@@ -3,7 +3,7 @@ const relatedContentLinks = [
     id: 'fflmLink',
     text: 'Funding for farmers, growers and land managers',
     url: 'https://www.gov.uk/guidance/funding-for-farmers',
-    pages: ['service-start']
+    pages: ['service-start', 'search', 'details', 'scheme-payments-by-year']
   }
 ]
 
@@ -13,7 +13,4 @@ const getRelatedContentLinks = (page) => {
   )
 }
 
-module.exports = {
-  relatedContentLinks,
-  getRelatedContentLinks
-}
+export { relatedContentLinks, getRelatedContentLinks }
