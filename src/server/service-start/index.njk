@@ -3,7 +3,7 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{# {% from "server/common/macros/related-content.njk" import relatedContent %} #}
+{% from "related-content.njk" import relatedContent %}
 
 {% block content %}
 
@@ -90,22 +90,8 @@
         </p>
       </div>
     </div>
-    {# <div class="govuk-grid-column-one-third">
+    <div class="govuk-grid-column-one-third">
       {{relatedContent(relatedContentData)}}
-    </div> #}
-    {# temp related content section: #}
-    <div class='govuk-body'>
-      <hr class="govubk-section-break govuk-section-break--visible section-break-heading govuk-!-margin-bottom-3 govuk-!-margin-top-0 mpdp-link-bg" role="presentation">
-      <p class="govuk-!-font-size-19 govuk-!-margin-bottom-2" id='relatedContent'>
-        <b>Related Content</b>
-      </p>
-      <ul id='relatedContentList' class="govuk-list mpdp-no-bullet">
-        {% for item in relatedContentData %}
-          <li>
-            <a class='govuk-link govuk-!-font-size-16' href='{{ item.url }}' id='{{  item.id }}' target='_blank'>{{ item.text }}</a><br>
-          </li>
-        {% endfor %}
-      </ul>
     </div>
   </div>
 
