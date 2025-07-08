@@ -1,6 +1,5 @@
 import path from 'node:path'
 import { readFileSync } from 'node:fs'
-
 import { config } from '../../config.js'
 import { createLogger } from '../../../server/common/helpers/logging/logger.js'
 
