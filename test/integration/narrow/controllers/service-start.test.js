@@ -20,7 +20,7 @@ describe('#serviceStartController', () => {
     })
 
     expect(result).toEqual(
-      expect.stringContaining('Find farm and land payment data |')
+      expect.stringContaining('Find farm and land payment data -')
     )
     expect(statusCode).toBe(statusCodes.ok)
   })
