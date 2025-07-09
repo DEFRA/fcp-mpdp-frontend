@@ -1,5 +1,5 @@
 services:
-  fcp-mpdp-frontend:
+  development:
     build: ./
     ports:
       - '3000:3000'
@@ -17,7 +17,7 @@ services:
       PORT: 3000
       NODE_ENV: development
       REDIS_HOST: redis
-      LOCALSTACK_ENDPOINT: http://localstack:4566
+      LOCALSTACK_ENDPOINT: http://fcp-mpdp-frontend-localstack:4566
       USE_SINGLE_INSTANCE_CACHE: true
     networks:
       - fcp-mpdp
@@ -27,6 +27,7 @@ services:
 
   localstack:
     image: localstack/localstack:3.0.2
+    container_name: fcp-mpdp-frontend-localstack
     ports:
       - '4566:4566' # LocalStack Gateway
       - '4510-4559:4510-4559' # external services port range
@@ -50,6 +51,7 @@ services:
 
   redis:
     image: redis:7.2.3-alpine3.18
+    container_name: fcp-mpdp-frontend-redis
     ports:
       - '6379:6379'
     restart: always
