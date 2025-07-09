@@ -3,9 +3,6 @@ services:
     build: ./
     ports:
       - '3000:3000'
-    volumes:
-      - ./src:/home/node/src
-      - ./package.json:/home/node/package.json
     links:
       - 'localstack:localstack'
       - 'redis:redis'
@@ -24,6 +21,9 @@ services:
       USE_SINGLE_INSTANCE_CACHE: true
     networks:
       - fcp-mpdp
+    volumes:
+      - ./src:/home/node/src
+      - ./package.json:/home/node/package.json
 
   localstack:
     image: localstack/localstack:3.0.2
