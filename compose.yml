@@ -1,5 +1,6 @@
 services:
   development:
+    container_name: fcp-mpdp-frontend-development
     build: ./
     ports:
       - '3000:3000'
