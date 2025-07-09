@@ -56,19 +56,6 @@ services:
     networks:
       - fcp-mpdp
 
-  mongodb:
-    image: mongo:6.0.13
-    networks:
-      - fcp-mpdp
-    ports:
-      - '27017:27017'
-    volumes:
-      - mongodb-data:/data
-    restart: always
-
-volumes:
-  mongodb-data:
-
 networks:
   fcp-mpdp:
     driver: bridge
