@@ -12,7 +12,7 @@ const manifestPath = path.join(
 
 let webpackManifest
 
-export function context(request) {
+export function context(_request) {
   if (!webpackManifest) {
     try {
       webpackManifest = JSON.parse(readFileSync(manifestPath, 'utf-8'))
