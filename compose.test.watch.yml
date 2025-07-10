@@ -5,5 +5,5 @@ services:
       - ./.git:/home/node/.git
       - ./src/:/home/node/src
       - ./test/:/home/node/test
-      - ./package.json:/home/node/package.json
       - ./coverage:/home/node/coverage
+      - ./package.json:/home/node/package.json
