@@ -1,6 +1,13 @@
 import { Cluster, Redis } from 'ioredis'
+
 import { createLogger } from './logging/logger.js'
 
+/**
+ * Setup Redis and provide a redis client
+ *
+ * Local development - 1 Redis instance
+ * Environments - Elasticache / Redis Cluster with username and password
+ */
 export function buildRedisClient(redisConfig) {
   const logger = createLogger()
   const port = 6379

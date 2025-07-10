@@ -1,5 +1,6 @@
 import { Engine as CatboxRedis } from '@hapi/catbox-redis'
 import { Engine as CatboxMemory } from '@hapi/catbox-memory'
+
 import { createLogger } from '../logging/logger.js'
 import { buildRedisClient } from '../redis-client.js'
 import { config } from '../../../../config/config.js'

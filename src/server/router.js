@@ -1,4 +1,5 @@
 import inert from '@hapi/inert'
+
 import { health } from './health/index.js'
 import { serviceStart } from './service-start/index.js'
 import { serveStaticFiles } from './common/helpers/serve-static-files.js'
