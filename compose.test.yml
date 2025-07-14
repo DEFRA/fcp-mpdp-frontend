@@ -4,28 +4,8 @@ services:
       target: development
     image: fcp-mpdp-frontend-development
     container_name: fcp-mpdp-frontend-test
-    depends_on:
-      localstack:
-        condition: service_healthy
-      redis:
-        condition: service_started
     command: npm test
-    env_file:
-      - 'compose/aws.env'
-    environment:
-      PORT: 3000
-      NODE_ENV: development
-      LOCALSTACK_ENDPOINT: http://fcp-mpdp-frontend-localstack:4566
-      USE_SINGLE_INSTANCE_CACHE: true
     volumes:
       - ./src:/home/node/src
       - ./test:/home/node/test
       - ./coverage:/home/node/coverage
-      - ./package.json:/home/node/package.json
-    networks:
-      - fcp-mpdp
-
-networks:
-  fcp-mpdp:
-    driver: bridge
-    name: fcp-mpdp

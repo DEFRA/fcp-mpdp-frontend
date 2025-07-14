@@ -16,7 +16,7 @@ MPDP is part of the Farming and Countryside Programme (FCP).
   - [Setup](#setup)
   - [Development](#development)
   - [Production](#production)
-  - [NPM scripts](#npm-scripts)
+  - [npm scripts](#npm-scripts)
   - [Update dependencies](#update-dependencies)
   - [Formatting](#formatting)
     - [Windows prettier issue](#windows-prettier-issue)
@@ -25,7 +25,7 @@ MPDP is part of the Farming and Countryside Programme (FCP).
   - [Production image](#production-image)
   - [Docker Compose](#docker-compose)
   - [Dependabot](#dependabot)
-  - [SonarCloud](#sonarcloud)
+  - [SonarQube Cloud](#sonarqube-cloud)
 - [Licence](#licence)
   - [About the licence](#about-the-licence)
 
@@ -110,9 +110,9 @@ To mimic the application running in `production` mode locally run:
 npm start
 ```
 
-### NPM scripts
+### npm scripts
 
-All available NPM scripts can be seen in [package.json](./package.json)
+All available npm scripts can be seen in [package.json](./package.json)
 To view them in your command line run:
 
 ```bash
@@ -219,9 +219,9 @@ npm run docker:test:watch
 We have added an example dependabot configuration file to the repository. You can enable it by renaming
 the [.github/example.dependabot.yml](.github/example.dependabot.yml) to `.github/dependabot.yml`
 
-## SonarCloud
+## SonarQube Cloud
 
-Instructions for setting up SonarCloud can be found in [sonar-project.properties](./sonar-project.properties).
+Instructions for setting up SonarQube Cloud can be found in [sonar-project.properties](./sonar-project.properties).
 
 ## Licence
 
