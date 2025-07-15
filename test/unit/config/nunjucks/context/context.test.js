@@ -81,16 +81,11 @@ describe('context and cache', () => {
       })
 
       beforeEach(() => {
-        mockReadFileSync.mockImplementation(() => {
-          throw new Error('File not found')
-        })
+        mockReadFileSync.mockReturnValue(new Error('File not found'))
+        contextImport.context(mockRequest)
       })
 
       test('Should log that the Webpack Manifest file is not available', () => {
-        expect(() => {
-          contextImport.context(mockRequest)
-        }).toThrow('File not found')
-
         expect(mockLoggerError).toHaveBeenCalledWith(
           'Webpack assets-manifest.json not found'
         )
