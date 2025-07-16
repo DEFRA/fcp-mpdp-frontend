@@ -16,7 +16,6 @@ export default defineConfig({
         '**/test/**',
         'coverage',
         '.public',
-        '.server',
         'postcss.config.js',
         'stylelint.config.js'
       ]
