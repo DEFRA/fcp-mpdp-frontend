@@ -1,6 +1,6 @@
-export const serviceStartController = {
+export const startController = {
   handler(_request, h) {
-    return h.view('service-start/index', {
+    return h.view('start/index', {
       pageTitle: 'Find farm and land payment data',
       heading: 'Find farm and land payment data'
     })
