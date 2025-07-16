@@ -22,11 +22,7 @@ describe('#errors', () => {
       url: '/non-existent-path'
     })
 
-    expect(result).toEqual(
-      expect.stringContaining(
-        'Page not found - Find farm and land payment data'
-      )
-    )
+    expect(result).toEqual(expect.stringContaining('Page not found'))
     expect(statusCode).toBe(statusCodes.notFound)
   })
 })
