@@ -3,7 +3,6 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "related-content.njk" import relatedContent %}
 
 {% block content %}
 
@@ -91,7 +90,7 @@
       </div>
     </div>
     <div class="govuk-grid-column-one-third">
-      {{relatedContent(relatedContentData)}}
+      {% include 'related-content.njk' %}
     </div>
   </div>
 
