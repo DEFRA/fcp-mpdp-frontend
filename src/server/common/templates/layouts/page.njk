@@ -27,7 +27,10 @@
 {% endblock %}
 
 {% block pageTitle %}
-  {{ pageTitle }} - {{ serviceName }} - GOV.UK
+  {%if pageTitle and pageTitle != serviceName %} 
+    {{pageTitle}} - 
+  {%endif%} 
+  {{serviceName }} - GOV.UK
 {% endblock %}
 
 {% block beforeContent %}
