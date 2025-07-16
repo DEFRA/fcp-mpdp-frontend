@@ -219,11 +219,6 @@ export const config = convict({
       default: 'x-cdp-request-id',
       env: 'TRACING_HEADER'
     }
-  },
-  routes: {
-    '/': {
-      pageTitle: 'Find farm and land payment data'
-    }
   }
 })
 
