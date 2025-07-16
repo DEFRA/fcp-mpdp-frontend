@@ -4,25 +4,23 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    include: ['**/test/**/*.test.js'],
     clearMocks: true,
     coverage: {
       provider: 'v8',
-      reportOnFailure: true,
+      reportsDirectory: './coverage',
       clean: false,
-      reporter: ['lcov'],
-      include: ['src/**/*.js'],
+      reporter: ['text', 'lcov'],
+      include: ['src/**'],
       exclude: [
         ...configDefaults.exclude,
-        '.public',
-        'coverage',
-        'postcss.config.js',
-        'stylelint.config.js',
-        '**/node_modules/**',
         '**/test/**',
+        'coverage',
+        '.public',
         '.server',
-        'src/index.js'
+        'postcss.config.js',
+        'stylelint.config.js'
       ]
-    }
+    },
+    setupFiles: ['.vite/setup-files.js']
   }
 })
