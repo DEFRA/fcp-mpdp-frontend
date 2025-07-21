@@ -8,15 +8,18 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reportsDirectory: './coverage',
+      clean: false,
       reporter: ['text', 'lcov'],
       include: ['src/**'],
       exclude: [
         ...configDefaults.exclude,
-        '.public',
+        '**/test/**',
         'coverage',
+        '.public',
         'postcss.config.js',
         'stylelint.config.js'
       ]
-    }
+    },
+    setupFiles: ['.vite/setup-files.js']
   }
 })

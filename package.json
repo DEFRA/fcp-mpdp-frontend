@@ -12,11 +12,11 @@
     "build:frontend": "NODE_ENV=production webpack",
     "dev": "run-p frontend:watch server:watch",
     "dev:debug": "run-p frontend:watch server:debug",
-    "docker:dev": "npm run dev",
+    "docker:dev": "docker compose up",
     "format": "prettier --write \"src/**/*.js\" \"**/*.{js,cjs,md,json,config.js,test.js}\"",
     "format:check": "prettier --check \"src/**/*.js\" \"**/*.{js,cjs,md,json,config.js,test.js}\"",
     "frontend:watch": "NODE_ENV=development webpack --watch",
-    "git:pre-commit-hook": "npm run format:check && npm run lint && npm test",
+    "git:pre-commit-hook": "npm run format:check && npm run lint",
     "postinstall": "npm run setup:husky",
     "lint": "run-s lint:js lint:scss",
     "lint:js": "eslint .",
@@ -26,13 +26,18 @@
     "pretest": "npm run build:frontend",
     "test": "TZ=UTC vitest run --coverage",
     "test:watch": "TZ=UTC vitest",
-    "server:watch": "nodemon --inspect=0.0.0.0 --ext js,json --legacy-watch ./src",
+    "docker:test": "docker compose -f compose.yml -f compose.test.yml run --build --rm 'fcp-mpdp-frontend'",
+    "docker:test:watch": "docker compose down && docker compose -f compose.yml -f compose.test.yml -f compose.test.watch.yml run --build --rm 'fcp-mpdp-frontend'",
+    "server:watch": "nodemon --inspect=0.0.0.0 --ext js,json,njk --legacy-watch ./src",
     "server:debug": "nodemon --inspect-brk=0.0.0.0 --ext js,json --legacy-watch ./src",
     "prestart": "npm run build:frontend",
     "start": "NODE_ENV=production node --use-strict .",
     "setup:husky": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module"
   },
   "author": "Defra DDTS",
+  "contributors": [
+    "Rana Salem <rana.salem@defra.gov.uk>"
+  ],
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@defra/hapi-tracing": "^1.22.0",

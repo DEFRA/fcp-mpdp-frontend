@@ -13,7 +13,9 @@ const nunjucksEnvironment = nunjucks.configure(
   [
     'node_modules/govuk-frontend/dist/',
     path.resolve(dirname, '../../server/common/templates'),
-    path.resolve(dirname, '../../server/common/components')
+    path.resolve(dirname, '../../server/common/components'),
+    path.resolve(dirname, '../../server/common/macros'),
+    path.resolve(dirname, '../../server/common/templates/partials')
   ],
   {
     autoescape: true,
