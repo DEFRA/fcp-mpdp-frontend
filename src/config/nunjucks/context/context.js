@@ -23,7 +23,7 @@ export function context(_request) {
   }
 
   return {
-    assetPath: `${assetPath}/assets`,
+    assetPath: `${assetPath}/assets/rebrand`,
     serviceName: config.get('serviceName'),
     serviceUrl: '/',
     breadcrumbs: [],
