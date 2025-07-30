@@ -1,7 +1,8 @@
 {% extends "govuk/template.njk" %}
 
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
-{% from "heading/macro.njk" import appHeading %} #}
+{% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+{% from "heading/macro.njk" import appHeading %}
 
 {% set mainClasses = "app-main-wrapper" %}
 
@@ -17,6 +18,10 @@
     serviceName: serviceName,
     serviceUrl: serviceUrl,
     useTudorCrown: true
+  }) }}
+
+  {{ govukServiceNavigation({
+    navigation: navigation
   }) }}
 {% endblock %}
 
