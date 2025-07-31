@@ -1,7 +1,6 @@
 import { createServer } from '../../../../src/server.js'
-import { statusCodes } from '../../../../src/common/constants/status-codes.js'
 
-describe('#healthController', () => {
+describe('health route', () => {
   let server
 
   beforeAll(async () => {
@@ -19,7 +18,7 @@ describe('#healthController', () => {
       url: '/health'
     })
 
-    expect(result).toEqual({ message: 'success' })
-    expect(statusCode).toBe(statusCodes.ok)
+    expect(result).toEqual('ok')
+    expect(statusCode).toBe(200)
   })
 })

@@ -1,8 +1,8 @@
 import * as cheerio from 'cheerio'
 import { createServer } from '../../../../src/server.js'
-import { statusCodes } from '../../../../src/common/constants/status-codes.js'
+import { StatusCodes } from 'http-status-codes'
 
-describe('#startController', () => {
+describe('start route', () => {
   let server
 
   beforeAll(async () => {
@@ -23,7 +23,7 @@ describe('#startController', () => {
     const $ = cheerio.load(response.payload)
     const button = $('.govuk-main-wrapper .govuk-button')
 
-    expect(response.statusCode).toBe(statusCodes.ok)
+    expect(response.statusCode).toBe(StatusCodes.OK)
     expect($('h1').text()).toEqual('Find farm and land payment data')
     expect(expect(button.text()).toMatch('Start now'))
     expect(button.attr('href')).toMatch('#')

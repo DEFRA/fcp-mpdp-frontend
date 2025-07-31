@@ -1,5 +1,5 @@
 import { config } from '../../config/config.js'
-import { statusCodes } from '../constants/status-codes.js'
+import { StatusCodes } from 'http-status-codes'
 
 export const serveStaticFiles = {
   plugin: {
@@ -17,7 +17,7 @@ export const serveStaticFiles = {
           method: 'GET',
           path: '/favicon.ico',
           handler(_request, h) {
-            return h.response().code(statusCodes.noContent).type('image/x-icon')
+            return h.response().code(StatusCodes.NO_CONTENT).type('image/x-icon')
           }
         },
         {
