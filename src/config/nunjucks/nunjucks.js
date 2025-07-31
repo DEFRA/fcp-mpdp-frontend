@@ -12,10 +12,9 @@ const dirname = path.dirname(fileURLToPath(import.meta.url))
 const nunjucksEnvironment = nunjucks.configure(
   [
     'node_modules/govuk-frontend/dist/',
-    path.resolve(dirname, '../../server/common/templates'),
-    path.resolve(dirname, '../../server/common/components'),
-    path.resolve(dirname, '../../server/common/macros'),
-    path.resolve(dirname, '../../server/common/templates/partials')
+    path.resolve(dirname, '../../views/'),
+    path.resolve(dirname, '../../common/components'),
+    path.resolve(dirname, '../../views/partials')
   ],
   {
     autoescape: true,
@@ -42,7 +41,7 @@ export const nunjucksConfig = {
       environment: nunjucksEnvironment
     },
     relativeTo: path.resolve(dirname, '../..'),
-    path: 'server',
+    path: 'views',
     isCached: config.get('isProduction'),
     context
   }

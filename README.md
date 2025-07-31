@@ -1,5 +1,6 @@
 # fcp-mpdp-frontend
 
+![Build](https://github.com/defra/fcp-mpdp-frontend/actions/workflows/publish.yml/badge.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fcp-mpdp-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=DEFRA_fcp-mpdp-frontend)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fcp-mpdp-frontend&metric=bugs)](https://sonarcloud.io/summary/new_code?id=DEFRA_fcp-mpdp-frontend)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fcp-mpdp-frontend&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=DEFRA_fcp-mpdp-frontend)
@@ -7,7 +8,7 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fcp-mpdp-frontend&metric=coverage)](https://sonarcloud.io/summary/new_code?id=DEFRA_fcp-mpdp-frontend)
 
 Frontend service for the Making Payment Data Public (MPDP) service.
-
+x
 MPDP is part of the Farming and Countryside Programme (FCP).
 
 ## Requirements

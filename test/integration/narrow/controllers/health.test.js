@@ -1,5 +1,5 @@
-import { createServer } from '../../../../src/server/server.js'
-import { statusCodes } from '../../../../src/server/common/constants/status-codes.js'
+import { createServer } from '../../../../src/server.js'
+import { statusCodes } from '../../../../src/common/constants/status-codes.js'
 
 describe('#healthController', () => {
   let server

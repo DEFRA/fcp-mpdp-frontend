@@ -1,5 +1,5 @@
 import { getGlobalDispatcher, ProxyAgent } from 'undici'
-import { setupProxy } from '../../../../../../src/server/common/helpers/proxy/setup-proxy.js'
+import { setupProxy } from '../../../../../../src/common/helpers/proxy/setup-proxy.js'
 import { config } from '../../../../../../src/config/config.js'
 
 describe('setupProxy', () => {
