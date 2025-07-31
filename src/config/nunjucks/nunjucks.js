@@ -14,6 +14,7 @@ const nunjucksEnvironment = nunjucks.configure(
     'node_modules/govuk-frontend/dist/',
     path.resolve(dirname, '../../views/'),
     path.resolve(dirname, '../../common/components'),
+    path.resolve(dirname, '../../common/components/heading'),
     path.resolve(dirname, '../../views/partials')
   ],
   {

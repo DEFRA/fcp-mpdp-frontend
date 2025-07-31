@@ -1,8 +1,8 @@
 import { vi } from 'vitest'
 
-import { catchAll } from '../../../../src/common/helpers/errors.js'
-import { createServer } from '../../../../src/server.js'
-import { statusCodes } from '../../../../src/common/constants/status-codes.js'
+import { catchAll } from '../../../../../src/common/helpers/errors.js'
+import { createServer } from '../../../../../src/server.js'
+import { statusCodes } from '../../../../../src/common/constants/status-codes.js'
 
 describe('#errors', () => {
   let server
@@ -30,7 +30,7 @@ describe('#errors', () => {
 describe('#catchAll', () => {
   const mockErrorLogger = vi.fn()
   const mockStack = 'Mock error stack'
-  const errorPage = 'error/index'
+  const errorPage = 'error'
   const mockRequest = (statusCode) => ({
     response: {
       isBoom: true,

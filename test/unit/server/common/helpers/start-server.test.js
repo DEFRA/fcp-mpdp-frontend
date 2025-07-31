@@ -38,9 +38,9 @@ describe('#startServer', () => {
     process.env = { ...PROCESS_ENV }
     process.env.PORT = '3097'
 
-    createServerImport = await import('../../../../src/server.js')
+    createServerImport = await import('../../../../../src/server.js')
     startServerImport = await import(
-      '../../../../src/common/helpers/start-server.js'
+      '../../../../../src/common/helpers/start-server.js'
     )
 
     createServerSpy = vi.spyOn(createServerImport, 'createServer')
@@ -53,6 +53,10 @@ describe('#startServer', () => {
 
   describe('When server starts', () => {
     let server
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+    })
 
     afterAll(async () => {
       await server.stop({ timeout: 0 })
