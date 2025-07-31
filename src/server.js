@@ -1,7 +1,7 @@
 import path from 'path'
 import hapi from '@hapi/hapi'
 
-import { router } from './server/router.js'
+import { router } from './plugins/router.js'
 import { config } from './config/config.js'
 import { pulse } from './common/helpers/pulse.js'
 import { catchAll } from './common/helpers/errors.js'
