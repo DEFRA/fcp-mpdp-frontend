@@ -20,7 +20,7 @@ vi.mock('hapi-pino', () => ({
   }
 }))
 
-vi.mock('../../../../../src/common/helpers/logging/logger.js', () => ({
+vi.mock('../../../../src/common/helpers/logging/logger.js', () => ({
   createLogger: () => ({
     info: (...args) => mockLoggerInfo(...args),
     error: (...args) => mockLoggerError(...args)

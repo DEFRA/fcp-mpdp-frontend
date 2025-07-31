@@ -1,5 +1,5 @@
-import { startServer } from '../../../../../src/common/helpers/start-server.js'
-import { statusCodes } from '../../../../../src/common/constants/status-codes.js'
+import { startServer } from '../../../../src/common/helpers/start-server.js'
+import { statusCodes } from '../../../../src/common/constants/status-codes.js'
 
 describe('#serveStaticFiles', () => {
   let server

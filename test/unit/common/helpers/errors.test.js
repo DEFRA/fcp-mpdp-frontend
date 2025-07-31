@@ -30,7 +30,7 @@ describe('#errors', () => {
 describe('#catchAll', () => {
   const mockErrorLogger = vi.fn()
   const mockStack = 'Mock error stack'
-  const errorPage = 'error/index'
+  const errorPage = 'error'
   const mockRequest = (statusCode) => ({
     response: {
       isBoom: true,
