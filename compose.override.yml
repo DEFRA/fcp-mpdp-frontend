@@ -1,0 +1,11 @@
+services:
+  fcp-mpdp-frontend:
+    ports:
+      - '3000:3000'
+    networks:
+      - fcp-mpdp
+    
+networks:
+  fcp-mpdp:
+    driver: bridge
+    name: fcp-mpdp
