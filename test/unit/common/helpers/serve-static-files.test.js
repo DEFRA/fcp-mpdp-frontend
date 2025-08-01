@@ -2,7 +2,7 @@ import { describe, beforeEach, afterEach, test, expect } from 'vitest'
 import { startServer } from '../../../../src/common/helpers/start-server.js'
 import { StatusCodes } from 'http-status-codes'
 
-describe('Serve static files', () => {
+describe('serveStaticFiles', () => {
   let server
 
   describe('When secure context is disabled', () => {
