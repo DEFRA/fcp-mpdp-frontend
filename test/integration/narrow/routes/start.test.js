@@ -28,13 +28,15 @@ describe('Start route', () => {
     const button = $('.govuk-main-wrapper .govuk-button')
 
     expect(response.statusCode).toBe(StatusCodes.OK)
+
     expectTitle($, '')
-    expect($('h1').text()).toEqual('Find farm and land payment data')
     expectHeader($)
+    expect($('h1').text()).toEqual('Find farm and land payment data')
+    expect($('#published-data')).toBeDefined()
     expect(button.text()).toMatch('Start now')
     expect(button.attr('href')).toMatch('#')
-    expectFooter($)
     expectRelatedContent($)
+    expectFooter($)
   })
 })
 
