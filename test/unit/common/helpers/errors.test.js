@@ -1,6 +1,6 @@
 import { vi, describe, beforeAll, afterAll, test, expect } from 'vitest'
-import { catchAll } from '../../../src/common/errors.js'
-import { createServer } from '../../../src/server.js'
+import { catchAll } from '../../../../src/common/helpers/errors.js'
+import { createServer } from '../../../../src/server.js'
 import { StatusCodes } from 'http-status-codes'
 
 describe('errors', () => {
