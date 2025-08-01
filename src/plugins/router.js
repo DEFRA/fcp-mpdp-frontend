@@ -6,7 +6,7 @@ import { serveStaticFiles } from '../common/serve-static-files.js'
 export const router = {
   plugin: {
     name: 'router',
-    async register(server) {
+    async register (server) {
       await server.register([inert])
       await server.route(health)
       await server.route(start)

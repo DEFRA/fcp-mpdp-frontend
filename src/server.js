@@ -10,7 +10,7 @@ import { requestTracing } from './common/request-tracing.js'
 import { requestLogger } from './common/logging/request-logger.js'
 import { secureContext } from './common/secure-context/secure-context.js'
 
-export async function createServer() {
+export async function createServer () {
   setupProxy()
   const server = hapi.server({
     host: config.get('host'),

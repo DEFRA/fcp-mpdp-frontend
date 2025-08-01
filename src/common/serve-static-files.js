@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes'
 export const serveStaticFiles = {
   plugin: {
     name: 'staticFiles',
-    register(server) {
+    register (server) {
       server.route([
         {
           options: {
@@ -16,7 +16,7 @@ export const serveStaticFiles = {
           },
           method: 'GET',
           path: '/favicon.ico',
-          handler(_request, h) {
+          handler (_request, h) {
             return h.response().code(StatusCodes.NO_CONTENT).type('image/x-icon')
           }
         },

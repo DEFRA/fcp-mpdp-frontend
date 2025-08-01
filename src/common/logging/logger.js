@@ -3,7 +3,7 @@ import { loggerOptions } from './logger-options.js'
 
 const logger = pino(loggerOptions)
 
-function createLogger() {
+function createLogger () {
   return logger
 }
 

@@ -12,7 +12,7 @@ const manifestPath = path.join(
 
 let webpackManifest
 
-export function context(_request) {
+export function context (_request) {
   if (!webpackManifest) {
     try {
       webpackManifest = JSON.parse(readFileSync(manifestPath, 'utf-8'))
@@ -26,7 +26,7 @@ export function context(_request) {
     serviceName: config.get('serviceName'),
     serviceUrl: '/',
     breadcrumbs: [],
-    getAssetPath(asset) {
+    getAssetPath (asset) {
       const webpackAssetPath = webpackManifest?.[asset]
       return `${assetPath}/${webpackAssetPath ?? asset}`
     }
