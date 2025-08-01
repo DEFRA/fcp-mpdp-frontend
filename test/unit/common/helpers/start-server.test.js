@@ -1,5 +1,4 @@
 import { vi } from 'vitest'
-
 import hapi from '@hapi/hapi'
 
 const mockLoggerInfo = vi.fn()
@@ -27,7 +26,7 @@ vi.mock('../../../../src/common/helpers/logging/logger.js', () => ({
   })
 }))
 
-describe('#startServer', () => {
+describe('Start server', () => {
   const PROCESS_ENV = process.env
   let createServerSpy
   let hapiServerSpy
@@ -63,9 +62,6 @@ describe('#startServer', () => {
 
       expect(createServerSpy).toHaveBeenCalled()
       expect(hapiServerSpy).toHaveBeenCalled()
-      expect(mockLoggerInfo).toHaveBeenCalledWith(
-        'Using Catbox Memory session cache'
-      )
       expect(mockHapiLoggerInfo).toHaveBeenNthCalledWith(
         1,
         'Custom secure context is disabled'

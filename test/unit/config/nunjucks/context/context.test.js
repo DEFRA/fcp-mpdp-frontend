@@ -15,14 +15,14 @@ vi.mock('../../../../../src/common/helpers/logging/logger.js', () => ({
   createLogger: () => ({ error: (...args) => mockLoggerError(...args) })
 }))
 
-describe('context and cache', () => {
+describe('Context and cache', () => {
   beforeEach(() => {
     mockReadFileSync.mockReset()
     mockLoggerError.mockReset()
     vi.resetModules()
   })
 
-  describe('#context', () => {
+  describe('Context', () => {
     const mockRequest = { path: '/' }
 
     describe('When webpack manifest file read succeeds', () => {
@@ -31,7 +31,7 @@ describe('context and cache', () => {
 
       beforeAll(async () => {
         contextImport = await import(
-          '../../../../../src/config/nunjucks/context/context.js'
+          '../../../../../src/config/nunjucks/context.js'
         )
       })
 
@@ -76,7 +76,7 @@ describe('context and cache', () => {
 
       beforeAll(async () => {
         contextImport = await import(
-          '../../../../../src/config/nunjucks/context/context.js'
+          '../../../../../src/config/nunjucks/context.js'
         )
       })
 
@@ -93,7 +93,7 @@ describe('context and cache', () => {
     })
   })
 
-  describe('#context cache', () => {
+  describe('Context cache', () => {
     const mockRequest = { path: '/' }
     let contextResult
 
@@ -102,7 +102,7 @@ describe('context and cache', () => {
 
       beforeAll(async () => {
         contextImport = await import(
-          '../../../../../src/config/nunjucks/context/context.js'
+          '../../../../../src/config/nunjucks/context.js'
         )
       })
 

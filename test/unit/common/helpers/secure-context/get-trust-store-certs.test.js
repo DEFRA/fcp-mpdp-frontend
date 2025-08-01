@@ -1,6 +1,6 @@
 import { getTrustStoreCerts } from '../../../../../src/common/helpers/secure-context/get-trust-store-certs.js'
 
-describe('#getTrustStoreCerts', () => {
+describe('Get trust store certs', () => {
   const mockProcessEnvWithCerts = {
     TRUSTSTORE_CA_ONE:
       'LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCm1vY2stY2VydC1kb3JpcwotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==',

@@ -1,7 +1,5 @@
 import { vi } from 'vitest'
-
 import hapi from '@hapi/hapi'
-
 import { secureContext } from '../../../../../src/common/helpers/secure-context/secure-context.js'
 import { config } from '../../../../../src/config/config.js'
 import { requestLogger } from '../../../../../src/common/helpers/logging/request-logger.js'
@@ -34,7 +32,7 @@ vi.mock('node:tls', async () => {
   }
 })
 
-describe('#secureContext', () => {
+describe('Secure context', () => {
   let server
 
   describe('When secure context is disabled', () => {

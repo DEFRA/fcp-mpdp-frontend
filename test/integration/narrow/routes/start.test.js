@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio'
 import { createServer } from '../../../../src/server.js'
 import { StatusCodes } from 'http-status-codes'
 
-describe('start route', () => {
+describe('Start route', () => {
   let server
 
   beforeAll(async () => {

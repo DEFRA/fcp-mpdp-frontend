@@ -1,10 +1,9 @@
 import { vi } from 'vitest'
-
 import { catchAll } from '../../../../src/common/helpers/errors.js'
 import { createServer } from '../../../../src/server.js'
 import { StatusCodes } from 'http-status-codes'
 
-describe('#errors', () => {
+describe('errors', () => {
   let server
 
   beforeAll(async () => {

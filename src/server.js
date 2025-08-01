@@ -9,8 +9,6 @@ import { nunjucksConfig } from './config/nunjucks/nunjucks.js'
 import { setupProxy } from './common/helpers/proxy/setup-proxy.js'
 import { requestTracing } from './common/helpers/request-tracing.js'
 import { requestLogger } from './common/helpers/logging/request-logger.js'
-import { sessionCache } from './common/helpers/session-cache/session-cache.js'
-import { getCacheEngine } from './common/helpers/session-cache/cache-engine.js'
 import { secureContext } from './common/helpers/secure-context/secure-context.js'
 
 export async function createServer() {
@@ -41,12 +39,6 @@ export async function createServer() {
     router: {
       stripTrailingSlash: true
     },
-    cache: [
-      {
-        name: config.get('session.cache.name'),
-        engine: getCacheEngine(config.get('session.cache.engine'))
-      }
-    ],
     state: {
       strictHeader: false
     }
@@ -56,7 +48,6 @@ export async function createServer() {
     requestTracing,
     secureContext,
     pulse,
-    sessionCache,
     nunjucksConfig,
     router
   ])

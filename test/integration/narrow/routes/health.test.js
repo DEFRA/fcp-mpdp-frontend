@@ -1,6 +1,6 @@
 import { createServer } from '../../../../src/server.js'
 
-describe('health route', () => {
+describe('Health route', () => {
   let server
 
   beforeAll(async () => {
@@ -12,7 +12,7 @@ describe('health route', () => {
     await server.stop({ timeout: 0 })
   })
 
-  test('Should provide expected response', async () => {
+  test('Should provide expected response and return status code 200', async () => {
     const { result, statusCode } = await server.inject({
       method: 'GET',
       url: '/health'
