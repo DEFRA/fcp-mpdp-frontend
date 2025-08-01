@@ -1,5 +1,6 @@
+import { expect } from 'vitest'
 
-export function expectRelatedContent($) {
+export function expectRelatedContent ($) {
   const link = $('#related-content-list a.govuk-link')
   const relatedContentText = 'Funding for farmers, growers and land managers'
   const relatedContentLink = 'https://www.gov.uk/guidance/funding-for-farmers'

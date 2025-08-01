@@ -1,3 +1,4 @@
+import { expect } from 'vitest'
 import { config } from '../../src/config/config.js'
 
 const expectedHeaderLinks = [
@@ -5,11 +6,11 @@ const expectedHeaderLinks = [
   '/'
 ]
 
-function expectedHeaderElement($) {
+function expectedHeaderElement ($) {
   expect($('.govuk-header')).toBeDefined()
 }
 
-function expectHeaderLinks($) {
+function expectHeaderLinks ($) {
   const headerLinks = []
   $('.govuk-header__link').each((_index, value) => {
     headerLinks.push($(value).attr('href'))
@@ -21,12 +22,12 @@ function expectHeaderLinks($) {
   ).toEqual(true)
 }
 
-function expectLinkText($) {
+function expectLinkText ($) {
   expect($('.govuk-header__logo a title').text()).toContain('GOV.UK')
   expect($('.govuk-header__service-name').text()).toMatch(config.get('serviceName'))
 }
 
-export function expectHeader($) {
+export function expectHeader ($) {
   expectedHeaderElement($)
   expectHeaderLinks($)
   expectLinkText($)

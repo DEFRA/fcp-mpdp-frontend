@@ -1,3 +1,4 @@
+import { describe, afterEach, test, expect } from 'vitest'
 import { getGlobalDispatcher, ProxyAgent } from 'undici'
 import { setupProxy } from '../../../../src/common/proxy/setup-proxy.js'
 import { config } from '../../../../src/config/config.js'

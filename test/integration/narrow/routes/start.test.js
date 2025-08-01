@@ -1,3 +1,4 @@
+import { describe, beforeAll, afterAll, test, expect } from 'vitest'
 import * as cheerio from 'cheerio'
 import { createServer } from '../../../../src/server.js'
 import { StatusCodes } from 'http-status-codes'
@@ -39,4 +40,3 @@ describe('Start route', () => {
     expectFooter($)
   })
 })
-

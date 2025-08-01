@@ -1,4 +1,4 @@
-import { vi } from 'vitest'
+import { vi, describe, beforeAll, afterAll, test, expect } from 'vitest'
 import { catchAll } from '../../../src/common/errors.js'
 import { createServer } from '../../../src/server.js'
 import { StatusCodes } from 'http-status-codes'
@@ -26,7 +26,7 @@ describe('errors', () => {
   })
 })
 
-describe('#catchAll', () => {
+describe('catchAll', () => {
   const mockErrorLogger = vi.fn()
   const mockStack = 'Mock error stack'
   const errorPage = 'error'

@@ -1,3 +1,5 @@
+import { expect } from 'vitest'
+
 const expectedFooterLinks = [
   'https://www.gov.uk/help/privacy-notice',
   'https://www.gov.uk/help/cookies',
@@ -7,7 +9,7 @@ const expectedFooterLinks = [
   'https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/'
 ]
 
-export function expectFooter($) {
+export function expectFooter ($) {
   const footerLinks = []
   $('.govuk-footer__link').each((_index, value) => {
     footerLinks.push($(value).attr('href'))
