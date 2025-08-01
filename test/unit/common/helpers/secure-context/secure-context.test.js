@@ -1,8 +1,8 @@
 import { vi } from 'vitest'
 import hapi from '@hapi/hapi'
-import { secureContext } from '../../../../../src/common/helpers/secure-context/secure-context.js'
+import { secureContext } from '../../../../../src/common/secure-context/secure-context.js'
 import { config } from '../../../../../src/config/config.js'
-import { requestLogger } from '../../../../../src/common/helpers/logging/request-logger.js'
+import { requestLogger } from '../../../../../src/common/logging/request-logger.js'
 
 const mockAddCACert = vi.fn()
 const mockCreateSecureContext = vi

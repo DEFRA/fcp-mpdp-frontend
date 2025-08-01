@@ -19,7 +19,7 @@ vi.mock('hapi-pino', () => ({
   }
 }))
 
-vi.mock('../../../../src/common/helpers/logging/logger.js', () => ({
+vi.mock('../../../../src/common/logging/logger.js', () => ({
   createLogger: () => ({
     info: (...args) => mockLoggerInfo(...args),
     error: (...args) => mockLoggerError(...args)
@@ -39,7 +39,7 @@ describe('Start server', () => {
 
     createServerImport = await import('../../../../src/server.js')
     startServerImport = await import(
-      '../../../../src/common/helpers/start-server.js'
+      '../../../../src/common/start-server.js'
     )
 
     createServerSpy = vi.spyOn(createServerImport, 'createServer')
