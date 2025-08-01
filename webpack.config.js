@@ -93,8 +93,7 @@ export default {
               sassOptions: {
                 loadPaths: [
                   path.join(dirname, 'src/client/stylesheets'),
-                  path.join(dirname, 'src/common/components'),
-                  path.join(dirname, 'src/common/templates/partials')
+                  path.join(dirname, 'src/views/components'),
                 ],
                 quietDeps: true,
                 sourceMapIncludeSources: true,
