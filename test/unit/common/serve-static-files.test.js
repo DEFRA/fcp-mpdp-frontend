@@ -1,4 +1,4 @@
-import { startServer } from '../../../../src/common/start-server.js'
+import { startServer } from '../../../src/common/start-server.js'
 import { StatusCodes } from 'http-status-codes'
 
 describe('Serve static files', () => {
