@@ -62,20 +62,6 @@ export default {
         enforce: 'pre'
       },
       {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-        options: {
-          browserslistEnv: 'javascripts',
-          cacheDirectory: true,
-          extends: path.join(dirname, 'babel.config.cjs'),
-          presets: [['@babel/preset-env']]
-        },
-
-        // Flag loaded modules as side effect free
-        sideEffects: false
-      },
-      {
         test: /\.scss$/,
         type: ruleTypeAssetResource,
         generator: {
@@ -172,5 +158,5 @@ export default {
     loggingDebug: ['sass-loader'],
     preset: 'minimal'
   },
-  target: 'browserslist:javascripts'
+  target: 'web'
 }
