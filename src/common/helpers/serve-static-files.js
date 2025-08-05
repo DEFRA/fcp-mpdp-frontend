@@ -1,5 +1,5 @@
-import { config } from '../../config/config.js'
 import { constants as httpConstants } from 'http2'
+import { config } from '../../config/config.js'
 
 export const serveStaticFiles = {
   plugin: {
