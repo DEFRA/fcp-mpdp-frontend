@@ -1,0 +1,17 @@
+{% extends 'layouts.njk' %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds govuk-prose-scope">
+      <div class="govuk-body" data-testid="app-page-body">
+        <h1>{{ serviceName }}</h1>
+
+        <p>Hello world</p>
+
+      </div>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      {% include 'related-content.njk' %}
+    </div>
+  </div>
+{% endblock %}
