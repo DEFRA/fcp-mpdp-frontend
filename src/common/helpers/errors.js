@@ -1,4 +1,6 @@
-import { constants as httpConstants } from 'http2'
+import http2 from 'node:http2'
+
+const { constants: httpConstants } = http2
 
 function statusCodeMessage (statusCode) {
   switch (statusCode) {

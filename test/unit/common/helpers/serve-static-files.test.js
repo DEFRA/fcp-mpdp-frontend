@@ -1,6 +1,8 @@
 import { describe, beforeEach, afterEach, test, expect } from 'vitest'
-import { constants as httpConstants } from 'http2'
+import http2 from 'node:http2'
 import { startServer } from '../../../../src/common/helpers/start-server.js'
+
+const { constants: httpConstants } = http2
 
 describe('serveStaticFiles', () => {
   let server

@@ -1,11 +1,13 @@
 import { describe, beforeAll, afterAll, test, expect } from 'vitest'
-import { constants as httpConstants } from 'http2'
+import http2 from 'node:http2'
 import * as cheerio from 'cheerio'
 import { createServer } from '../../../../src/server.js'
 import { expectTitle } from '../../../utils/title-expect.js'
 import { expectHeader } from '../../../utils/header-expect.js'
 import { expectFooter } from '../../../utils/footer-expect.js'
 import { expectRelatedContent } from '../../../utils/related-content-expect.js'
+
+const { constants: httpConstants } = http2
 
 describe('Start route', () => {
   let server
