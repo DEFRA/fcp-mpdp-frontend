@@ -26,7 +26,7 @@ vi.mock('../../../../src/common/helpers/logging/logger.js', () => ({
   })
 }))
 
-describe('startSeerver', () => {
+describe('startServer', () => {
   const PROCESS_ENV = process.env
   let createServerSpy
   let hapiServerSpy
@@ -85,7 +85,7 @@ describe('startSeerver', () => {
     test('Should log failed startup message', async () => {
       await startServerImport.startServer()
 
-      expect(mockLoggerInfo).toHaveBeenCalledWith('Server failed to start :(')
+      expect(mockLoggerInfo).toHaveBeenCalledWith('Server failed to start')
       expect(mockLoggerError).toHaveBeenCalledWith(
         Error('Server failed to start')
       )

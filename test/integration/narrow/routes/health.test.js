@@ -19,7 +19,7 @@ describe('Health route', () => {
       url: '/health'
     })
 
-    expect(result).toEqual('ok')
+    expect(result).toEqual({ message: 'success' })
     expect(statusCode).toBe(200)
   })
 })

@@ -1,12 +1,8 @@
 services:
   fcp-mpdp-frontend:
-    container_name: fcp-mpdp-frontend-development
     build:
       context: .
       target: development
-    environment:
-      PORT: 3000
-      NODE_ENV: development
     volumes:
       - ./src:/home/node/src
       - ./package.json:/home/node/package.json
