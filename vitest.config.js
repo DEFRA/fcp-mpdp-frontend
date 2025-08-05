@@ -3,7 +3,7 @@ import { defineConfig, configDefaults } from 'vitest/config'
 export default defineConfig({
   test: {
     globals: true,
-    environment: 'node',
+    include: ['**/test/**/*.test.js'],
     clearMocks: true,
     coverage: {
       provider: 'v8',
@@ -16,10 +16,8 @@ export default defineConfig({
         '**/test/**',
         'coverage',
         '.public',
-        'postcss.config.js',
-        'stylelint.config.js'
+        'postcss.config.js'
       ]
-    },
-    setupFiles: ['.vite/setup-files.js']
+    }
   }
 })

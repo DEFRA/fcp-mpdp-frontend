@@ -2,6 +2,7 @@ services:
   fcp-mpdp-frontend:
     build:
       target: development
-    image: fcp-mpdp-frontend-development
-    container_name: fcp-mpdp-frontend-test
     command: npm test
+    volumes:
+      - ./test:/home/node/test
+      - ./coverage:/home/node/coverage
