@@ -1,6 +1,6 @@
 import { describe, beforeEach, afterEach, test, expect } from 'vitest'
+import { StatusCodes } from 'http-statuds-codes'
 import { startServer } from '../../../../src/common/helpers/start-server.js'
-import { StatusCodes } from 'http-status-codes'
 
 describe('serveStaticFiles', () => {
   let server

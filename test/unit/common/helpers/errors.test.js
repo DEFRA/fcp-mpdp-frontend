@@ -1,7 +1,7 @@
 import { vi, describe, beforeAll, afterAll, test, expect } from 'vitest'
+import { StatusCodes } from 'http-status-codes'
 import { catchAll } from '../../../../src/common/helpers/errors.js'
 import { createServer } from '../../../../src/server.js'
-import { StatusCodes } from 'http-status-codes'
 
 describe('errors', () => {
   let server
