@@ -1,7 +1,7 @@
 import { describe, beforeAll, afterAll, test, expect } from 'vitest'
+import { constants as httpConstants } from 'http2'
 import * as cheerio from 'cheerio'
 import { createServer } from '../../../../src/server.js'
-import { StatusCodes } from 'http-status-codes'
 import { expectTitle } from '../../../utils/title-expect.js'
 import { expectHeader } from '../../../utils/header-expect.js'
 import { expectFooter } from '../../../utils/footer-expect.js'
@@ -28,7 +28,7 @@ describe('Start route', () => {
     const $ = cheerio.load(response.payload)
     const button = $('.govuk-main-wrapper .govuk-button')
 
-    expect(response.statusCode).toBe(StatusCodes.OK)
+    expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
 
     expectTitle($, '')
     expectHeader($)

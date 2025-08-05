@@ -1,5 +1,5 @@
 import { describe, beforeEach, afterEach, test, expect } from 'vitest'
-import { StatusCodes } from 'http-statuds-codes'
+import { constants as httpConstants } from 'http2'
 import { startServer } from '../../../../src/common/helpers/start-server.js'
 
 describe('serveStaticFiles', () => {
@@ -20,7 +20,7 @@ describe('serveStaticFiles', () => {
         url: '/favicon.ico'
       })
 
-      expect(statusCode).toBe(StatusCodes.NO_CONTENT)
+      expect(statusCode).toBe(httpConstants.HTTP_STATUS_NO_CONTENT)
     })
 
     test('Should serve assets as expected', async () => {
@@ -29,7 +29,7 @@ describe('serveStaticFiles', () => {
         url: '/public/assets/images/govuk-crest.svg'
       })
 
-      expect(statusCode).toBe(StatusCodes.OK)
+      expect(statusCode).toBe(httpConstants.HTTP_STATUS_OK)
     })
   })
 })
