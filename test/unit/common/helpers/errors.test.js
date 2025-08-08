@@ -23,7 +23,7 @@ describe('errors', () => {
       url: '/non-existent-path'
     })
 
-    expect(result).toEqual(expect.stringContaining('Sorry, there is a problem with the service'))
+    expect(result).toEqual(expect.stringContaining('Page not found'))
     expect(statusCode).toBe(httpConstants.HTTP_STATUS_NOT_FOUND)
   })
 })
@@ -31,7 +31,8 @@ describe('errors', () => {
 describe('catchAll', () => {
   const mockErrorLogger = vi.fn()
   const mockStack = 'Mock error stack'
-  const errorPage = 'errors/500'
+  const errorPage500 = 'errors/500'
+  const errorPage404 = 'errors/404'
   const mockRequest = (statusCode) => ({
     response: {
       isBoom: true,
@@ -53,8 +54,8 @@ describe('catchAll', () => {
     catchAll(mockRequest(httpConstants.HTTP_STATUS_NOT_FOUND), mockToolkit)
 
     expect(mockErrorLogger).not.toHaveBeenCalledWith(mockStack)
-    expect(mockToolkitView).toHaveBeenCalledWith(errorPage, {
-      pageTitle: 'Sorry, there is a problem with the service'
+    expect(mockToolkitView).toHaveBeenCalledWith(errorPage404, {
+      pageTitle: 'Page not found'
     })
     expect(mockToolkitCode).toHaveBeenCalledWith(httpConstants.HTTP_STATUS_NOT_FOUND)
   })
@@ -63,7 +64,7 @@ describe('catchAll', () => {
     catchAll(mockRequest(httpConstants.HTTP_STATUS_FORBIDDEN), mockToolkit)
 
     expect(mockErrorLogger).not.toHaveBeenCalledWith(mockStack)
-    expect(mockToolkitView).toHaveBeenCalledWith(errorPage, {
+    expect(mockToolkitView).toHaveBeenCalledWith(errorPage500, {
       pageTitle: 'Sorry, there is a problem with the service'
     })
     expect(mockToolkitCode).toHaveBeenCalledWith(httpConstants.HTTP_STATUS_FORBIDDEN)
@@ -73,7 +74,7 @@ describe('catchAll', () => {
     catchAll(mockRequest(httpConstants.HTTP_STATUS_UNAUTHORIZED), mockToolkit)
 
     expect(mockErrorLogger).not.toHaveBeenCalledWith(mockStack)
-    expect(mockToolkitView).toHaveBeenCalledWith(errorPage, {
+    expect(mockToolkitView).toHaveBeenCalledWith(errorPage500, {
       pageTitle: 'Sorry, there is a problem with the service'
     })
     expect(mockToolkitCode).toHaveBeenCalledWith(httpConstants.HTTP_STATUS_UNAUTHORIZED)
@@ -83,7 +84,7 @@ describe('catchAll', () => {
     catchAll(mockRequest(httpConstants.HTTP_STATUS_BAD_REQUEST), mockToolkit)
 
     expect(mockErrorLogger).not.toHaveBeenCalledWith(mockStack)
-    expect(mockToolkitView).toHaveBeenCalledWith(errorPage, {
+    expect(mockToolkitView).toHaveBeenCalledWith(errorPage500, {
       pageTitle: 'Sorry, there is a problem with the service'
     })
     expect(mockToolkitCode).toHaveBeenCalledWith(httpConstants.HTTP_STATUS_BAD_REQUEST)
@@ -93,7 +94,7 @@ describe('catchAll', () => {
     catchAll(mockRequest(httpConstants.HTTP_STATUS_IM_A_TEAPOT), mockToolkit)
 
     expect(mockErrorLogger).not.toHaveBeenCalledWith(mockStack)
-    expect(mockToolkitView).toHaveBeenCalledWith(errorPage, {
+    expect(mockToolkitView).toHaveBeenCalledWith(errorPage500, {
       pageTitle: 'Sorry, there is a problem with the service'
     })
     expect(mockToolkitCode).toHaveBeenCalledWith(httpConstants.HTTP_STATUS_IM_A_TEAPOT)
@@ -103,7 +104,7 @@ describe('catchAll', () => {
     catchAll(mockRequest(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR), mockToolkit)
 
     expect(mockErrorLogger).toHaveBeenCalledWith(mockStack)
-    expect(mockToolkitView).toHaveBeenCalledWith(errorPage, {
+    expect(mockToolkitView).toHaveBeenCalledWith(errorPage500, {
       pageTitle: 'Sorry, there is a problem with the service'
     })
     expect(mockToolkitCode).toHaveBeenCalledWith(
