@@ -23,7 +23,7 @@ describe('errors', () => {
       url: '/non-existent-path'
     })
 
-    expect(result).toEqual(expect.stringContaining('Page not found'))
+    expect(result).toEqual(expect.stringContaining('Sorry, there is a problem with the service'))
     expect(statusCode).toBe(httpConstants.HTTP_STATUS_NOT_FOUND)
   })
 })
@@ -31,7 +31,7 @@ describe('errors', () => {
 describe('catchAll', () => {
   const mockErrorLogger = vi.fn()
   const mockStack = 'Mock error stack'
-  const errorPage = 'error'
+  const errorPage = 'errors/500'
   const mockRequest = (statusCode) => ({
     response: {
       isBoom: true,
@@ -54,9 +54,7 @@ describe('catchAll', () => {
 
     expect(mockErrorLogger).not.toHaveBeenCalledWith(mockStack)
     expect(mockToolkitView).toHaveBeenCalledWith(errorPage, {
-      pageTitle: 'Page not found',
-      heading: httpConstants.HTTP_STATUS_NOT_FOUND,
-      message: 'Page not found'
+      pageTitle: 'Sorry, there is a problem with the service'
     })
     expect(mockToolkitCode).toHaveBeenCalledWith(httpConstants.HTTP_STATUS_NOT_FOUND)
   })
@@ -66,9 +64,7 @@ describe('catchAll', () => {
 
     expect(mockErrorLogger).not.toHaveBeenCalledWith(mockStack)
     expect(mockToolkitView).toHaveBeenCalledWith(errorPage, {
-      pageTitle: 'Forbidden',
-      heading: httpConstants.HTTP_STATUS_FORBIDDEN,
-      message: 'Forbidden'
+      pageTitle: 'Sorry, there is a problem with the service'
     })
     expect(mockToolkitCode).toHaveBeenCalledWith(httpConstants.HTTP_STATUS_FORBIDDEN)
   })
@@ -78,9 +74,7 @@ describe('catchAll', () => {
 
     expect(mockErrorLogger).not.toHaveBeenCalledWith(mockStack)
     expect(mockToolkitView).toHaveBeenCalledWith(errorPage, {
-      pageTitle: 'Unauthorized',
-      heading: httpConstants.HTTP_STATUS_UNAUTHORIZED,
-      message: 'Unauthorized'
+      pageTitle: 'Sorry, there is a problem with the service'
     })
     expect(mockToolkitCode).toHaveBeenCalledWith(httpConstants.HTTP_STATUS_UNAUTHORIZED)
   })
@@ -90,9 +84,7 @@ describe('catchAll', () => {
 
     expect(mockErrorLogger).not.toHaveBeenCalledWith(mockStack)
     expect(mockToolkitView).toHaveBeenCalledWith(errorPage, {
-      pageTitle: 'Bad Request',
-      heading: httpConstants.HTTP_STATUS_BAD_REQUEST,
-      message: 'Bad Request'
+      pageTitle: 'Sorry, there is a problem with the service'
     })
     expect(mockToolkitCode).toHaveBeenCalledWith(httpConstants.HTTP_STATUS_BAD_REQUEST)
   })
@@ -102,21 +94,17 @@ describe('catchAll', () => {
 
     expect(mockErrorLogger).not.toHaveBeenCalledWith(mockStack)
     expect(mockToolkitView).toHaveBeenCalledWith(errorPage, {
-      pageTitle: 'Something went wrong',
-      heading: httpConstants.HTTP_STATUS_IM_A_TEAPOT,
-      message: 'Something went wrong'
+      pageTitle: 'Sorry, there is a problem with the service'
     })
     expect(mockToolkitCode).toHaveBeenCalledWith(httpConstants.HTTP_STATUS_IM_A_TEAPOT)
   })
 
-  test('Should provide expected "Something went wrong" page and log error for internalServerError', () => {
+  test('Should provide expected "Sorry, there is a problem with the service" page and log error for internalServerError', () => {
     catchAll(mockRequest(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR), mockToolkit)
 
     expect(mockErrorLogger).toHaveBeenCalledWith(mockStack)
     expect(mockToolkitView).toHaveBeenCalledWith(errorPage, {
-      pageTitle: 'Something went wrong',
-      heading: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR,
-      message: 'Something went wrong'
+      pageTitle: 'Sorry, there is a problem with the service'
     })
     expect(mockToolkitCode).toHaveBeenCalledWith(
       httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR
