@@ -23,7 +23,7 @@ describe('errors', () => {
       url: '/non-existent-path'
     })
 
-    expect(result).toEqual(expect.stringContaining('Sorry, there is a problem with the service'))
+    expect(result).toEqual(expect.stringContaining('Page not found'))
     expect(statusCode).toBe(httpConstants.HTTP_STATUS_NOT_FOUND)
   })
 })
