@@ -4,7 +4,7 @@ import { createLogger } from '../common/helpers/logging/logger.js'
 
 const logger = createLogger()
 
-export async function get(url) {
+export async function get (url) {
   try {
     return (await Wreck.get(`${config.get('backend.endpoint')}${config.get('backend.path')}${url}`))
   } catch (error) {
