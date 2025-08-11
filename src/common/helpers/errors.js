@@ -15,5 +15,9 @@ export function catchAll (request, h) {
     request.logger.error(response?.stack)
   }
 
+  if (statusCode === httpConstants.HTTP_STATUS_NOT_FOUND) {
+    return h.view('errors/404', { pageTitle: 'Page not found' }).code(statusCode)
+  }
+
   return h.view('errors/500', { pageTitle: 'Sorry, there is a problem with the service' }).code(statusCode)
 }

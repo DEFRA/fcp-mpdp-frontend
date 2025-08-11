@@ -31,7 +31,8 @@
   },
   "author": "Defra DDTS",
   "contributors": [
-    "Rana Salem <rana.salem@defra.gov.uk>"
+    "Rana Salem <rana.salem@defra.gov.uk>",
+    "John Watson <john.watson1@defra.gov.uk>"
   ],
   "license": "OGL-UK-3.0",
   "dependencies": {
