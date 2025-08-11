@@ -2,7 +2,7 @@ function sortFinancialYears (financialYears) {
   return financialYears.sort((a, b) => {
     const [, endYearA] = a.split('/')
     const [, endYearB] = b.split('/')
-    
+
     return parseInt(endYearA) - parseInt(endYearB)
   })
 }
