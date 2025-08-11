@@ -1,4 +1,4 @@
-// import { schemePaymentsByYearModel } from './models/scheme-payments-by-year.js'
+import { schemePaymentsByYearModel } from './models/scheme-payments-by-year.js'
 
 export const schemePaymentsByYear = {
   method: 'GET',
@@ -6,8 +6,10 @@ export const schemePaymentsByYear = {
   handler: async function (_request, h) {
     return h.view(
       'scheme-payments-by-year',
-      { pageTitle: 'Scheme payments by year' }
-      // await schemePaymentsByYearModel()
+      {
+        pageTitle: 'Scheme payments by year',
+        ...(await schemePaymentsByYearModel())
+      }
     )
   }
 }
