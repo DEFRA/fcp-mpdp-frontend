@@ -7,5 +7,5 @@ services:
       - ./src:/home/node/src
       - ./package.json:/home/node/package.json
     environment:
-      MPDP_BACKEND_ENDPOINT: 'http://fcp-mpdp-backend:3001'
-      MPDP_BACKEND_PATH: '/v1/payments'
+      MPDP_BACKEND_ENDPOINT: ${MPDP_BACKEND_ENDPOINT:-http://fcp-mpdp-backend:3001}
+      MPDP_BACKEND_PATH: ${MPDP_BACKEND_PATH:-/v1/payments}
