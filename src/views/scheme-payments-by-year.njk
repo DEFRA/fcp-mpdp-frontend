@@ -47,13 +47,13 @@
             </dl>
           </div> #}
 
-          <div class="govuk-grid-column-two-thirds govuk-!-margin-top-0">
+          <div class="govuk-grid-column-two-thirds">
             <h2 id="total-years" class="govuk-heading-s text-color-white govuk-!-margin-bottom-0">Over {{ summary.financial_years.length }} financial {{ "year" if summary.financial_years.length === 1 else "years" }}</h2>
-            <p id="date-range" class="govuk-!-font-size-19 text-color-white govuk-!-margin-bottom-0" >1 April {{ summary.startYear }} to 31 March {{ summary.endYear }}</p>
+            <p id="date-range" class="govuk-!-font-size-19 text-color-white" >1 April {{ summary.startYear }} to 31 March {{ summary.endYear }}</p>
           </div>
 
           <div class="govuk-grid-colum-one-third"> 
-            <button id="payments-by-year-summary-toggle" class="govuk-link govuk-heading-s text-color-white govuk-!-margin-bottom-0" aria-live="polite">Show details</button>
+            <button id="payments-by-year-summary-toggle" class="link-btn govuk-heading-s text-color-white govuk-!-margin-bottom-0" aria-live="polite">Show details</button>
           </div>
         </div>
 
@@ -61,7 +61,7 @@
           <h2 class="govuk-heading-m govuk-!-margin-bottom-1">Payment summary</h2>
           <div class="govuk-body govuk-!-margin-bottom-0">
             <div style="height:20px;" class="govuk-!-margin-bottom-1 mpdp-position-relative">
-              <button id="show-all-year-payments-button" class="mpdp-font-size-17 mpdp-link-btn nojs-hidden mpdp-position-absolute mpdp-right-0" aria-live="polite">Show all</button>
+              <button id="show-all-year-payments-button" class="mpdp-font-size-17 link-btn nojs-hidden mpdp-position-absolute mpdp-right-0" aria-live="polite">Show all</button>
             </div>
 
             <dl class="govuk-caption-s">
