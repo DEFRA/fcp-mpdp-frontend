@@ -1,0 +1,5 @@
+@use "govuk-frontend" as *;
+
+.text-color-white {
+  color: govuk-colour('white') !important;
+}
