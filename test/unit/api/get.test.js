@@ -24,8 +24,8 @@ describe('Backend API: get', () => {
     config.validate({ allowed: 'strict' })
 
     vi.spyOn(config, 'get').mockImplementation(value => {
-      if (value === 'backend.endpoint') return 'https://__TEST_ENDPOINT__'
-      if (value === 'backend.path') return '/v1/payments'
+      if (value === 'backend.endpoint') return endpoint
+      if (value === 'backend.path') return path
       return config[value]
     })
   })
