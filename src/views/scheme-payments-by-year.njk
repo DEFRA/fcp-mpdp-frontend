@@ -21,7 +21,7 @@
           <p> </p>
         </div>
         <div class="govuk-!-font-size-17">
-          <a id='download-details-link' class="govuk-link"
+          <a id="download-details-link" class="govuk-link"
             href="#">
             Download this data (.CSV)
           </a>
@@ -29,57 +29,57 @@
       </div>
 
       <div>
-        <div class="mpdp-panel" id="mpdp-summary-panel">
+        <div class="mpdp-panel" id="summary-panel">
           <div class="grid-column-two-one">
             <div> 
-              <h2 id='total-schemes' class="govuk-heading-m govuk-!-text-color-white">Payments from {{ summary.totalPaymentsBySchemes.length }} schemes</h2>
+              <h2 id="total-schemes" class="govuk-heading-m govuk-!-text-color-white">Payments from {{ summary.totalPaymentsBySchemes.length }} schemes</h2>
             </div>
             <div> 
               <p class="govuk-heading-m govuk-!-text-color-white govuk-!-text-align-right">£{{ summary.readableTotalAmount }}</p>
             </div>
           </div>
-          <div id='summaryDetails' class='govuk-!-margin-bottom-4'>
-            <dl class='govuk-list govuk-list--bullet govuk-!-padding-left-6 govuk-!-margin-0 mpdp-text-color-white grid-column-three-one mpdp-dl-list'>
+          <div id="summary-details" class="govuk-!-margin-bottom-4">
+            <dl class="govuk-list govuk-list--bullet govuk-!-padding-left-6 govuk-!-margin-0 mpdp-text-color-white grid-column-three-one mpdp-dl-list">
               {% for schemePayment in summary.totalPaymentsBySchemes %}
-                <dt class='govuk-!-margin-bottom-1'>{{schemePayment.name}}</dt>
+                <dt class="govuk-!-margin-bottom-1">{{schemePayment.name}}</dt>
                 <dd>£{{schemePayment.readableTotal}}</dd>
               {% endfor %}  
             </dl>
           </div>
           <div class="grid-column-two-one govuk-!-margin-top-0">
             <div> 
-              <h2 id='totalYears' class="govuk-heading-s mpdp-text-color-white govuk-!-margin-bottom-0">Over {{summary.financial_years.length}} financial {{ "year" if summary.financial_years.length === 1 else "years"}}</h2>
-              <p id='dateRange' class='govuk-!-font-size-19 mpdp-text-color-white govuk-!-margin-bottom-0' >1 April {{summary.startYear}} to 31 March {{summary.endYear}}</p>
+              <h2 id="total-years" class="govuk-heading-s mpdp-text-color-white govuk-!-margin-bottom-0">Over {{summary.financial_years.length}} financial {{ "year" if summary.financial_years.length === 1 else "years"}}</h2>
+              <p id="date-range" class="govuk-!-font-size-19 mpdp-text-color-white govuk-!-margin-bottom-0" >1 April {{summary.startYear}} to 31 March {{summary.endYear}}</p>
             </div>
-            <div class='mpdp-position-relative'> 
-              <button id='paymentsByYearSummaryToggle' class='mpdp-link-btn nojs-hidden govuk-heading-s mpdp-text-color-white govuk-!-margin-bottom-0 mpdp-position-absolute mpdp-right-0 mpdp-bottom-0' aria-live='polite'>Show details</button>
+            <div class="mpdp-position-relative"> 
+              <button id="payments-by-year-summary-toggle" class="mpdp-link-btn nojs-hidden govuk-heading-s mpdp-text-color-white govuk-!-margin-bottom-0 mpdp-position-absolute mpdp-right-0 mpdp-bottom-0" aria-live="polite">Show details</button>
             </div>
           </div>
         </div>
 
-        <div class='govuk-!-margin-top-7 govuk-!-margin-bottom-7'>
-          <h2 class='govuk-heading-m govuk-!-margin-bottom-1'>Payment summary</h2>
+        <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-7">
+          <h2 class="govuk-heading-m govuk-!-margin-bottom-1">Payment summary</h2>
           <div class="govuk-body govuk-!-margin-bottom-0">
-            <div style='height:20px;' class='govuk-!-margin-bottom-1 mpdp-position-relative'>
-              <button id='showAllYearPaymentsButton' class='mpdp-font-size-17 mpdp-link-btn nojs-hidden mpdp-position-absolute mpdp-right-0' aria-live='polite'>Show all</button>
+            <div style="height:20px;" class="govuk-!-margin-bottom-1 mpdp-position-relative">
+              <button id="show-all-year-payments-button" class="mpdp-font-size-17 mpdp-link-btn nojs-hidden mpdp-position-absolute mpdp-right-0" aria-live="polite">Show all</button>
             </div>
 
-            <dl class='govuk-caption-s'>
-              <dt class='govuk-heading-s govuk-!-padding-left-3 govuk-!-margin-0 mpdp-position-relative mpdp-float-left'>Financial year</dt>
-              <dd class='govuk-heading-s mpdp-text-align-right govuk-!-padding-right-3 govuk-!-margin-0'>Payment</dd>
+            <dl class="govuk-caption-s">
+              <dt class="govuk-heading-s govuk-!-padding-left-3 govuk-!-margin-0 mpdp-position-relative mpdp-float-left">Financial year</dt>
+              <dd class="govuk-heading-s mpdp-text-align-right govuk-!-padding-right-3 govuk-!-margin-0">Payment</dd>
               <hr class="govuk-section-break govuk-section-break--visible mpdp-border-color-light-grey mpdp-grid-column-1-span-2 mpdp-hr" role="presentation">
               {% for year, schemeActivity in summary.schemePaymentsByYear %}
                 <dt>
-                  <details class='yearlyActivity' close>
-                    <summary class='detailsSummary'>
-                        <div class='mpdp-text-link-color mpdp-text-underline'>{{ year }}</div>
-                        <div class='mpdp-text-align-right govuk-!-font-weight-bold'>£{{summary.totalPaymentsByYear[year].readableTotal}}</div>
+                  <details class="yearly-activity" close>
+                    <summary class="detailsSummary">
+                        <div class="mpdp-text-link-color mpdp-text-underline">{{ year }}</div>
+                        <div class="mpdp-text-align-right govuk-!-font-weight-bold">£{{summary.totalPaymentsByYear[year].readableTotal}}</div>
                     </summary>
                     <div>
-                      <dl class='grid-column-three-one mpdp-grid-column-1-span-2 mpdp-text-color-dark-grey mpdp-details-text'>
+                      <dl class="grid-column-three-one mpdp-grid-column-1-span-2 mpdp-text-color-dark-grey mpdp-details-text">
                         {% for schemeDetail in schemeActivity %}
-                          <dt class='govuk-!-padding-left-3 schemeActivity'><span class='mpdp-details-summary'>{{schemeDetail.scheme}}</span></dt>
-                          <dd class='mpdp-text-align-right govuk-!-margin-right-2'>£{{schemeDetail.total_amount}}</dd>
+                          <dt class="govuk-!-padding-left-3 scheme-activity"><span class="mpdp-details-summary">{{schemeDetail.scheme}}</span></dt>
+                          <dd class="mpdp-text-align-right govuk-!-margin-right-2">£{{schemeDetail.total_amount}}</dd>
                           {% if not loop.last %}
                             <hr class="govuk-section-break govuk-section-break--visible mpdp-border-color-light-grey mpdp-grid-column-1-span-2 govuk-!-margin-2 govuk-!-margin-right-3" role="presentation">
                           {% endif %}
@@ -97,7 +97,7 @@
         </div>
 
         <details class="govuk-details govuk-!-margin-top-negative-3">
-          <summary class="govuk-details__summary">
+          <summary class="govuk-details__summary" id="report-problem">
             <span class="govuk-details__summary-text">
               Report a problem
             </span>
@@ -120,11 +120,11 @@
           </div>
         </details>
 
-        <div class='govuk-!-margin-top-7 govuk-!-margin-bottom-7' id='more-actions'>
+        <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-7" id="more-actions">
           <h2 class="govuk-heading-m govuk-!-margin-bottom-1">More actions:</h2>
-          <div class='govuk-body'>
+          <div class="govuk-body">
             You can:
-            <ul class='govuk-!-padding-left-5'>
+            <ul class="govuk-!-padding-left-5">
               <li><a id="new-search-link" class="govuk-body govuk-!-font-size-16" href="#">start a new search</a></li>
               <li><a id="print-link" class="govuk-body govuk-!-font-size-16" href="javascript:window.print()">print this page</a></li>
             </ul>
