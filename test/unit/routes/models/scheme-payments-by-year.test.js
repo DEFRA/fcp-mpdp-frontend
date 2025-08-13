@@ -40,7 +40,6 @@ describe('schemePaymentsByYearModel', () => {
       return `£${amount.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
     })
 
-
     const result = await schemePaymentsByYearModel()
 
     expect(result.summary).toHaveProperty('financial_years')
