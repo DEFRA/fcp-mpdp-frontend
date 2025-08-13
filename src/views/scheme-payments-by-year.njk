@@ -16,20 +16,10 @@
       <h1 class="govuk-heading-l govuk-!-margin-bottom-3">{{ pageTitle }}</h1>
       <span class="subtitle" id="subtitle">We publish some scheme payments as a total for each financial year.</span>
 
-      <div class="govuk-grid-row govuk-!-margin-top-4">
-        <div class="govuk-grid-column-two-thirds">
-          <p> </p>
-        </div>
-
-        <div class="govuk-grid-column-one-third govuk-!-font-size-16">
-          <a id="download-details-link" class="govuk-link"
-            href="#">
-            Download this data (.CSV)
-          </a>
-        </div>
-      </div>
-
       <div>
+        <div class="govuk-!-font-size-16 govuk-!-text-align-right">
+          <a id="download-details-link" class="govuk-link nojs-hidden" href="#">Download this data (.CSV)</a>
+        </div>
         <div class="mpdp-panel" id="summary-panel">
           <div class="govuk-grid-column-two-thirds">
             <h2 id="total-schemes" class="govuk-heading-m text-color-white">Payments from {{ summary.totalPaymentsBySchemes.length }} schemes</h2>
@@ -38,22 +28,21 @@
             <p class="govuk-heading-m text-color-white govuk-!-text-align-right">£{{ summary.readableTotalAmount }}</p>
           </div>
 
-          {# <div id="summary-details" class="govuk-!-margin-bottom-4">
-            <dl class="govuk-list govuk-list--bullet govuk-!-padding-left-6 govuk-!-margin-0 text-color-white govuk-grid-column-one-third dl-list">
+          <div id="summary-details" class="govuk-!-margin-bottom-4">
+            <dl class="govuk-list govuk-list--bullet govuk-!-padding-left-6 govuk-!-margin-0 text-color-white dl-list">
               {% for schemePayment in summary.totalPaymentsBySchemes %}
                 <dt class="govuk-!-margin-bottom-1">{{ schemePayment.name }}</dt>
                 <dd>£{{ schemePayment.readableTotal }}</dd>
               {% endfor %}  
             </dl>
-          </div> #}
+          </div>
 
           <div class="govuk-grid-column-two-thirds">
             <h2 id="total-years" class="govuk-heading-s text-color-white govuk-!-margin-bottom-0">Over {{ summary.financial_years.length }} financial {{ "year" if summary.financial_years.length === 1 else "years" }}</h2>
             <p id="date-range" class="govuk-!-font-size-19 text-color-white" >1 April {{ summary.startYear }} to 31 March {{ summary.endYear }}</p>
           </div>
-
-          <div class="govuk-grid-colum-one-third"> 
-            <button id="payments-by-year-summary-toggle" class="link-btn govuk-heading-s text-color-white govuk-!-margin-bottom-0" aria-live="polite">Show details</button>
+          <div class="position-relative"> 
+            <button id="payments-by-year-summary-toggle" class="link-btn nojs-hidden govuk-heading-s text-color-white govuk-!-margin-bottom-0 position-absolute right-0 bottom-0" aria-live="polite">Show details</button>
           </div>
         </div>
 
@@ -61,7 +50,7 @@
           <h2 class="govuk-heading-m govuk-!-margin-bottom-1">Payment summary</h2>
           <div class="govuk-body govuk-!-margin-bottom-0">
             <div style="height:20px;" class="govuk-!-margin-bottom-1 mpdp-position-relative">
-              <button id="show-all-year-payments-button" class="mpdp-font-size-17 link-btn nojs-hidden mpdp-position-absolute mpdp-right-0" aria-live="polite">Show all</button>
+              <button id="show-all-year-payments-button" class="govuk-!-font-size-17 link-btn nojs-hidden position-absolute right-0" aria-live="polite">Show all</button>
             </div>
 
             <dl class="govuk-caption-s">
