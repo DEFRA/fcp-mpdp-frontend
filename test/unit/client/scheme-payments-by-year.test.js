@@ -12,7 +12,7 @@ describe('search', () => {
 
   beforeEach(() => {
     document.body.innerHTML = `
-          <div id="mpdp-panel">
+          <div id="mpdp-summary-panel">
             <div>
               <div> 
                 <h2 id="total-schemes">Payments from 2 schemes</h2>
