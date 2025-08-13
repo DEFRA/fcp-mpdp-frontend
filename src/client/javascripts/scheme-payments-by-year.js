@@ -1,5 +1,5 @@
 export default {
-  init() {
+  init () {
     this.setupAggregateSummaryShowHideButton()
     this.setupAggregateShowAllButton()
   },
@@ -23,15 +23,15 @@ export default {
     })
   },
 
-  toggleDisplay(element) {
+  toggleDisplay (element) {
     element.style.display = element.style.display === 'none' ? 'block' : 'none'
   },
 
-  toggleDetails(element) {
+  toggleDetails (element) {
     element.innerText = element.innerText === 'Show Details' ? 'Hide Details' : 'Show Details'
   },
 
-  setupAggregateShowAllButton() {
+  setupAggregateShowAllButton () {
     const showAllButton = document.querySelector('#show-all-year-payments-button')
     if (!showAllButton) {
       return
