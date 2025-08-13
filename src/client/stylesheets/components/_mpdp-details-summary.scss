@@ -1,22 +1,22 @@
 @use "govuk-frontend" as *;
 
-.details-summary {
+.mpdp-details-summary {
   margin: 5px 15px 5px 15px;
   display: grid; 
   grid-template-columns: 1fr 25fr 1fr; 
   column-gap: 5px
 }
 
-.details-summary:hover :first-child {
+.mpdp-details-summary:hover :first-child {
   color: govuk-colour("dark-blue");
   cursor: pointer;
 }
 
-.details-summary::-webkit-details-marker {
+.mpdp-details-summary::-webkit-details-marker {
   display: none
 }
 
-.details-summary:before {
+.mpdp-details-summary:before {
   content: '';
   width: 0;
   height: 0;
@@ -27,12 +27,12 @@
 }
 
 @media screen and (max-width: 640px) {
-  .details-summary:before {
+  .mpdp-details-summary:before {
     margin-top: 4px;
   }
 }
 
-details[open] .details-summary:before {
+details[open] .mpdp-details-summary:before {
   content: '';
   width: 0;
   height: 0;
@@ -42,12 +42,12 @@ details[open] .details-summary:before {
   margin-top: 6px;
 }
 
-.details-summary:hover::before {
+.mpdp-details-summary:hover::before {
   border-left: 12px solid govuk-colour("dark-blue");
   cursor: pointer;
 }
 
-details[open] .details-summary:hover::before {
+details[open] .mpdp-details-summary:hover::before {
   border-top: 12px solid govuk-colour("dark-blue");
   cursor: pointer;
 }
