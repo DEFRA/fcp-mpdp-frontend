@@ -31,16 +31,18 @@
           </div>
 
           <div id="summary-details" class="govuk-!-margin-bottom-4">
-            <dl class="govuk-list govuk-list--bullet govuk-!-padding-left-6 govuk-!-margin-0 text-color-white dl-list">
+            <ul class="govuk-list govuk-list--bullet govuk-!-padding-left-6 govuk-!-margin-0 text-color-white dl-list">
               {% for schemePayment in summary.totalPaymentsBySchemes %}
-                <div class="govuk-grid-column-two-thirds">
-                  <dt class="govuk-!-margin-bottom-1 govuk-!-text-align-left">{{ schemePayment.name }}</dt>
-                </div>
-                <div class="govuk-grid-column-one-third">
-                  <dd>£{{ schemePayment.readableTotal }}</dd>
+                <div class="govuk-grid-row">
+                  <div class="govuk-grid-column-two-thirds">
+                    <li class="govuk-!-margin-bottom-1 text-color-white">{{ schemePayment.name }}</li>
+                  </div>
+                  <div class="govuk-grid-column-one-third">
+                    <p class="govuk-!-text-align-right text-color-white govuk-!-margin-bottom-1">£{{ schemePayment.readableTotal }}</->
+                  </div>
                 </div>
               {% endfor %}
-            </dl>
+            </ul>
           </div>
 
           <div class="govuk-grid-row">
