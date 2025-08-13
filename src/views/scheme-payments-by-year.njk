@@ -53,9 +53,10 @@
 
         <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-7">
           <h2 class="govuk-heading-m govuk-!-margin-bottom-1">Payment summary</h2>
+
           <div class="govuk-body govuk-!-margin-bottom-0">
-            <div class="govuk-!-margin-bottom-1 mpdp-position-relative">
-              <button id="show-all-year-payments-button" class="govuk-!-font-size-17 mpdp-link-btn nojs-hidden mpdp-position-absolute mpdp-right-0" aria-live="polite">Show all</button>
+            <div style="height:20px;" class="govuk-!-margin-bottom-1 mpdp-position-relative">
+              <button id="show-all-year-payments-button" class="govuk-!-font-size-16 mpdp-link-btn nojs-hidden mpdp-position-absolute mpdp-right-0" aria-live="polite">Show all</button>
             </div>
 
             <dl class="govuk-caption-s">
@@ -65,7 +66,7 @@
               {% for year, schemeActivity in summary.schemePaymentsByYear %}
                 <dt>
                   <details class="yearly-activity" close>
-                    <summary class="detailsSummary">
+                    <summary class="details-summary">
                         <div class="mpdp-text-link-color mpdp-text-underline">{{ year }}</div>
                         <div class="mpdp-text-align-right govuk-!-font-weight-bold">£{{ summary.totalPaymentsByYear[year].readableTotal }}</div>
                     </summary>
@@ -73,7 +74,7 @@
                     <div>
                       <dl class="grid-column-three-one mpdp-grid-column-1-span-2 mpdp-text-color-dark-grey mpdp-details-text">
                         {% for schemeDetail in schemeActivity %}
-                          <dt class="govuk-!-padding-left-3 scheme-activity"><span class="mpdp-details-summary">{{ schemeDetail.scheme }}</span></dt>
+                          <dt class="govuk-!-padding-left-3 scheme-activity"><span>{{ schemeDetail.scheme }}</span></dt>
                           <dd class="mpdp-text-align-right govuk-!-margin-right-2">£{{ schemeDetail.total_amount }}</dd>
                           {% if not loop.last %}
                             <hr class="govuk-section-break govuk-section-break--visible mpdp-border-color-light-grey mpdp-grid-column-1-span-2 govuk-!-margin-2 govuk-!-margin-right-3" role="presentation">
@@ -85,7 +86,6 @@
                 </dt>
                 
                 <hr class="govuk-section-break govuk-section-break--visible mpdp-border-color-light-grey mpdp-grid-column-1-span-2 mpdp-hr" role="presentation">
-                
               {% endfor %}
             </dl>
           </div>
