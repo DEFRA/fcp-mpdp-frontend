@@ -1,0 +1,27 @@
+.mpdp-grid-column-two-one {
+  display: grid; 
+  grid-template-columns: 2fr 1fr;
+  column-gap: 5px;
+}
+
+.mpdp-grid-column-three-one {
+  display: grid; 
+  grid-template-columns: 3fr 1fr;
+  column-gap: 5px;
+}
+
+.mpdp-position-absolute {
+  position: absolute;
+}
+
+.mpdp-position-relative {
+  position: relative;
+}
+
+.mpdp-right-0 {
+  right: 0;
+}
+
+.mpdp-text-align-right {
+  text-align: right;
+}
