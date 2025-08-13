@@ -34,16 +34,16 @@
           <div id="summary-details" class="govuk-!-margin-bottom-4">
             <dl class="govuk-list govuk-list--bullet govuk-!-padding-left-6 govuk-!-margin-0 mpdp-text-colour-white mpdp-grid-column-three-one mpdp-dl-list">
               {% for schemePayment in summary.totalPaymentsBySchemes %}
-                <dt class="govuk-!-margin-bottom-1">{{schemePayment.name}}</dt>
-                <dd class="mpdp-text-align-right">£{{schemePayment.readableTotal}}</dd>
+                <dt class="govuk-!-margin-bottom-1">{{ schemePayment.name }}</dt>
+                <dd class="mpdp-text-align-right">£{{ schemePayment.readableTotal }}</dd>
               {% endfor %}  
             </dl>
           </div>
 
           <div class="mpdp-grid-column-two-one govuk-!-margin-top-0">
             <div> 
-              <h2 id="total-years" class="govuk-heading-s mpdp-text-colour-white govuk-!-margin-bottom-0">Over {{summary.financial_years.length}} financial {{ "year" if summary.financial_years.length === 1 else "years"}}</h2>
-              <p id="date-range" class="govuk-!-font-size-19 mpdp-text-colour-white govuk-!-margin-bottom-0" >1 April {{summary.startYear}} to 31 March {{summary.endYear}}</p>
+              <h2 id="total-years" class="govuk-heading-s mpdp-text-colour-white govuk-!-margin-bottom-0">Over {{ summary.financial_years.length }} financial {{ "year" if summary.financial_years.length === 1 else "years" }}</h2>
+              <p id="date-range" class="govuk-!-font-size-19 mpdp-text-colour-white govuk-!-margin-bottom-0" >1 April {{ summary.startYear }} to 31 March {{ summary.endYear }}</p>
             </div>
             <div class="mpdp-position-relative"> 
               <button id="payments-by-year-summary-toggle" class="mpdp-link-btn nojs-hidden govuk-heading-s mpdp-text-colour-white govuk-!-margin-bottom-0 mpdp-position-absolute mpdp-right-0 mpdp-bottom-0" aria-live="polite">Show details</button>
@@ -62,7 +62,6 @@
             <dl class="govuk-caption-s">
               <dt class="govuk-heading-s govuk-!-padding-left-3 govuk-!-margin-0 mpdp-position-relative mpdp-float-left">Financial year</dt>
               <dd class="govuk-heading-s mpdp-text-align-right govuk-!-padding-right-3 govuk-!-margin-0">Payment</dd>
-              <hr class="govuk-section-break govuk-section-break--visible mpdp-border-color-light-grey mpdp-grid-column-1-span-2 mpdp-hr" role="presentation">
               {% for year, schemeActivity in summary.schemePaymentsByYear %}
                 <dt>
                   <details class="yearly-activity" close>
@@ -76,16 +75,11 @@
                         {% for schemeDetail in schemeActivity %}
                           <dt class="govuk-!-padding-left-3 scheme-activity"><span>{{ schemeDetail.scheme }}</span></dt>
                           <dd class="mpdp-text-align-right govuk-!-margin-right-2">£{{ schemeDetail.total_amount }}</dd>
-                          {% if not loop.last %}
-                            <hr class="govuk-section-break govuk-section-break--visible mpdp-border-color-light-grey mpdp-grid-column-1-span-2 govuk-!-margin-2 govuk-!-margin-right-3" role="presentation">
-                          {% endif %}
                         {% endfor %}
                       </dl>
                     </div>
                   </details>
                 </dt>
-                
-                <hr class="govuk-section-break govuk-section-break--visible mpdp-border-color-light-grey mpdp-grid-column-1-span-2 mpdp-hr" role="presentation">
               {% endfor %}
             </dl>
           </div>
@@ -99,7 +93,7 @@
           </summary>
           <div class="govuk-details__text">
             <b>Rural Payments Agency</b><br>
-            Email: <a href="mailto:ruralpayments@defra.gov.uk">ruralpayments@defra.gov.uk</a><br>
+            Email: <a id="rpa-email" href="mailto:ruralpayments@defra.gov.uk">ruralpayments@defra.gov.uk</a><br>
             Telephone: 03000 200 301<br>
             Monday to Friday, 8.30am to 5pm<br>
 
