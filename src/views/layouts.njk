@@ -1,6 +1,5 @@
 {% extends "govuk/template.njk" %}
 
-{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
 
 {% set mainClasses = "app-main-wrapper" %}
@@ -31,13 +30,7 @@
   {{serviceName }} - GOV.UK
 {% endblock %}
 
-{% block beforeContent %}
-  {% if breadcrumbs.length > 1 %}
-    {{ govukBreadcrumbs({
-      items: breadcrumbs
-    }) }}
-  {% endif %}
-{% endblock %}
+{% block beforeContent %}{% endblock %}
 
 {% block content %}{% endblock %}
 
