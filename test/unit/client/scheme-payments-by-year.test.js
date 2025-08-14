@@ -90,13 +90,13 @@ describe('search', () => {
   describe('toggleDetails', () => {
     test('should toggle the innerText of an element', () => {
       const element = document.createElement('div')
-      element.innerText = 'Show Details'
+      element.innerText = 'Show details'
 
       schemePaymentsByYear.toggleDetails(element)
-      expect(element.innerText).toBe('Hide Details')
+      expect(element.innerText).toBe('Hide details')
 
       schemePaymentsByYear.toggleDetails(element)
-      expect(element.innerText).toBe('Show Details')
+      expect(element.innerText).toBe('Show details')
     })
   })
 
