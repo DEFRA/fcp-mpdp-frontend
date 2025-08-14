@@ -5,7 +5,9 @@
 {% endblock %}
 
 {% block beforeContent %}
-  <a id="back-link" href="/" class="govuk-back-link">Back</a>
+  <nav>
+    <a id="back-link" href="/" class="govuk-back-link">Back</a>
+  </nav>
 {% endblock %}
 
 {% set mainClasses = "govuk-!-padding-top-2 govuk-!-padding-left-1" %}
@@ -59,11 +61,12 @@
               <button id="show-all-year-payments-button" class="govuk-!-font-size-16 mpdp-link-btn nojs-hidden mpdp-position-absolute mpdp-right-0" aria-live="polite">Show all</button>
             </div>
 
-            <dl class="govuk-caption-s">
-              <dt class="govuk-heading-s govuk-!-padding-left-3 govuk-!-margin-0 mpdp-position-relative mpdp-float-left">Financial year</dt>
-              <dd class="govuk-heading-s mpdp-text-align-right govuk-!-padding-right-3 govuk-!-margin-0">Payment</dd>
+            <div class="govuk-caption-s">
+              <div class="govuk-heading-s govuk-!-padding-left-3 govuk-!-margin-0 mpdp-position-relative mpdp-float-left">Financial year</div>
+              <div class="govuk-heading-s mpdp-text-align-right govuk-!-padding-right-3 govuk-!-margin-0">Payment</div>
+              <hr class="govuk-section-break govuk-section-break--visible mpdp-border-color-light-grey mpdp-grid-column-1-span-2 mpdp-hr" role="presentation">
               {% for year, schemeActivity in summary.schemePaymentsByYear %}
-                <dt>
+                <div>
                   <details class="yearly-activity" close>
                     <summary class="mpdp-details-summary">
                         <div class="mpdp-text-link-color mpdp-text-underline">{{ year }}</div>
@@ -71,17 +74,26 @@
                     </summary>
 
                     <div>
-                      <dl class="mpdp-grid-column-three-one mpdp-grid-column-1-span-2 mpdp-text-color-dark-grey mpdp-details-text">
+                      <div class="mpdp-grid-column-three-one mpdp-grid-column-1-span-2 mpdp-text-color-dark-grey mpdp-details-text">
                         {% for schemeDetail in schemeActivity %}
-                          <dt class="govuk-!-padding-left-3 scheme-activity"><span>{{ schemeDetail.scheme }}</span></dt>
-                          <dd class="mpdp-text-align-right govuk-!-margin-right-2">£{{ schemeDetail.total_amount }}</dd>
+                          <div class="govuk-!-padding-left-3 scheme-activity">
+                            <span>{{ schemeDetail.scheme }}</span>
+                          </div>
+                          <div class="mpdp-text-align-right govuk-!-margin-right-2">
+                            <span>£{{ schemeDetail.total_amount }}</span>
+                          </div>
+                          {% if not loop.last %}
+                            <hr class="govuk-section-break govuk-section-break--visible mpdp-border-color-light-grey mpdp-grid-column-1-span-2 govuk-!-margin-2 govuk-!-margin-right-3" role="presentation">
+                          {% endif %}
                         {% endfor %}
-                      </dl>
+                      </div>
                     </div>
                   </details>
-                </dt>
+                </div>
               {% endfor %}
-            </dl>
+
+              <hr class="govuk-section-break govuk-section-break--visible mpdp-border-color-light-grey mpdp-grid-column-1-span-2 mpdp-hr" role="presentation">
+            </div>
           </div>
         </div>
 

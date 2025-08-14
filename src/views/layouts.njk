@@ -30,7 +30,9 @@
   {{serviceName }} - GOV.UK
 {% endblock %}
 
-{% block beforeContent %}{% endblock %}
+{% block beforeContent %}
+  {{ super() }}
+{% endblock %}
 
 {% block content %}{% endblock %}
 
