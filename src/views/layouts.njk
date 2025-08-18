@@ -2,6 +2,7 @@
 
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
 
 {% set mainClasses = "app-main-wrapper" %}
 
@@ -19,9 +20,15 @@
     useTudorCrown: true
   }) }}
 
-  {{ govukServiceNavigation({
-    navigation: navigation
-  }) }}
+ <div class="govuk-grid-row govuk-width-container">
+{{ govukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service. Help us improve it and <a class="govuk-link" href="https://defragroup.eu.qualtrics.com/jfe/form/SV_1FcBVO6IMkfHmbs" target="_blank">give your feedback (opens in new tab)</a>.'
+}) }}
+  </div>
+
 {% endblock %}
 
 {% block pageTitle %}
