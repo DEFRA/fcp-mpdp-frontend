@@ -4,6 +4,7 @@ import * as cheerio from 'cheerio'
 import { createServer } from '../../../../src/server.js'
 import { expectTitle } from '../../../utils/title-expect.js'
 import { expectHeader } from '../../../utils/header-expect.js'
+import { expectPhaseBanner } from '../../../utils/phase-banner-expect.js'
 import { expectFooter } from '../../../utils/footer-expect.js'
 import { expectRelatedContent } from '../../../utils/related-content-expect.js'
 
@@ -34,6 +35,7 @@ describe('Start route', () => {
 
     expectTitle($, '')
     expectHeader($)
+    expectPhaseBanner($)
     expect($('h1').text()).toEqual('Find farm and land payment data')
     expect($('#published-data')).toBeDefined()
     expect(button.text()).toMatch('Start now')
