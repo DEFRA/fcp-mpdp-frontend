@@ -43,7 +43,7 @@ describe('Scheme Payments by year route', () => {
 
     if (response) { return }
 
-    const options = getOptions('schemePaymentsByYear', 'GET')
+    const options = getOptions('scheme-payments-by-year', 'GET')
 
     response = await server.inject(options)
     $ = cheerio.load(response.payload)
@@ -54,7 +54,7 @@ describe('Scheme Payments by year route', () => {
     vi.resetAllMocks()
   })
 
-  test('Should return status code 200 when hitting /schemePaymentsByYear', async () => {
+  test('Should return status code 200 when hitting /scheme-payments-by-year', async () => {
     expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
   })
 
