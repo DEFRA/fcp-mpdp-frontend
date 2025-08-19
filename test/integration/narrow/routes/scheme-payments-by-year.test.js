@@ -3,6 +3,7 @@ import http2 from 'node:http2'
 import * as cheerio from 'cheerio'
 import { createServer } from '../../../../src/server.js'
 import { expectHeader } from '../../../utils/header-expect.js'
+import { expectPhaseBanner } from '../../../utils/phase-banner-expect.js'
 import { expectFooter } from '../../../utils/footer-expect.js'
 import { getOptions } from '../../../utils/helpers.js'
 
@@ -93,6 +94,7 @@ describe('Scheme Payments by year route', () => {
 
   test('Check for other common elements', () => {
     expectHeader($)
+    expectPhaseBanner($)
     expectFooter($)
   })
 })
