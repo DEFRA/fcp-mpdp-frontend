@@ -1,11 +1,11 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest'
 import { schemePaymentsByYearModel } from '../../../../src/routes/models/scheme-payments-by-year/model.js'
-import { getSchemePaymentsByYear } from '../../../../src/api/get-scheme-payments-by-year.js'
+import { fetchSchemePaymentsByYear } from '../../../../src/services/fetch-scheme-payments-by-year.js'
 import { getFinancialYearSummary } from '../../../../src/common/utils/get-financial-year-summary.js'
 import { getReadableAmount } from '../../../../src/common/utils/get-readable-amount.js'
 
-vi.mock('../../../../src/api/get-scheme-payments-by-year.js', () => ({
-  getSchemePaymentsByYear: vi.fn()
+vi.mock('../../../../src/services/fetch-scheme-payments-by-year.js', () => ({
+  fetchSchemePaymentsByYear: vi.fn()
 }))
 
 vi.mock('../../../../src/common/utils/get-financial-year-summary.js', () => ({
@@ -33,7 +33,7 @@ describe('schemePaymentsByYearModel', () => {
       ]
     }
 
-    getSchemePaymentsByYear.mockResolvedValue(mockRawData)
+    fetchSchemePaymentsByYear.mockResolvedValue(mockRawData)
     getFinancialYearSummary.mockReturnValue({ financial_years: ['21/22', '22/23'], startYear: '2021', endYear: '2023' })
     getReadableAmount.mockImplementation(amount => {
       if (typeof amount !== 'number') return '£0.00'
@@ -72,8 +72,8 @@ describe('schemePaymentsByYearModel', () => {
     })
   })
 
-  test('should throw an error if getSchemePaymentsByYear returns null', async () => {
-    getSchemePaymentsByYear.mockResolvedValue(null)
+  test('should throw an error if fetchSchemePaymentsByYear returns null', async () => {
+    fetchSchemePaymentsByYear.mockResolvedValue(null)
 
     await expect(schemePaymentsByYearModel()).rejects.toThrow()
   })
