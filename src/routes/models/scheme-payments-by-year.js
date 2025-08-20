@@ -14,7 +14,7 @@ function getSchemeSummary (schemePaymentsByYear) {
     /* eslint-disable camelcase */
     schemePaymentsByYear[year].forEach(({ scheme, total_amount }) => {
       const schemeData = totalPaymentsBySchemes.find(x => x?.name === scheme)
-      const schemeAmount = parseInt(total_amount)
+      const schemeAmount = parseFloat(total_amount)
 
       if (!schemeData) {
         totalPaymentsBySchemes.push({
