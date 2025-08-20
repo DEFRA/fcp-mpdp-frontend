@@ -1,5 +1,5 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest'
-import { schemePaymentsByYearModel } from '../../../../src/routes/models/scheme-payments-by-year.js'
+import { schemePaymentsByYearModel } from '../../../../src/routes/models/scheme-payments-by-year/model.js'
 import { getSchemePaymentsByYear } from '../../../../src/api/get-scheme-payments-by-year.js'
 import { getFinancialYearSummary } from '../../../../src/common/utils/get-financial-year-summary.js'
 import { getReadableAmount } from '../../../../src/common/utils/get-readable-amount.js'

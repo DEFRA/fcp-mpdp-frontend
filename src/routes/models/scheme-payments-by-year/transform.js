@@ -1,6 +1,9 @@
-import { getSchemePaymentsByYear } from '../../api/get-scheme-payments-by-year.js'
-import { getFinancialYearSummary } from '../../common/utils/get-financial-year-summary.js'
-import { getReadableAmount } from '../../common/utils/get-readable-amount.js'
+import { getReadableAmount } from '../../../common/utils/get-readable-amount.js'
+import { getFinancialYearSummary } from '../../../common/utils/get-financial-year-summary.js'
+
+function getFormattedYear (year) {
+  return year.split('/').map(x => `20${x}`).join(' to ')
+}
 
 function getSchemeSummary (schemePaymentsByYear) {
   let total = 0
@@ -42,10 +45,6 @@ function getSchemeSummary (schemePaymentsByYear) {
   }
 }
 
-function getFormattedYear (year) {
-  return year.split('/').map(x => `20${x}`).join(' to ')
-}
-
 function transformSummary (schemePaymentsByYear) {
   const schemePaymentsSummary = {}
 
@@ -59,18 +58,12 @@ function transformSummary (schemePaymentsByYear) {
   return schemePaymentsSummary
 }
 
-export async function schemePaymentsByYearModel () {
-  const schemePaymentsByYear = await getSchemePaymentsByYear()
-
-  if (!schemePaymentsByYear) {
-    throw new Error()
-  }
-
+export function transformSchemePaymentsData (rawSchemePaymentsByYear) {
   return {
     summary: {
-      ...getFinancialYearSummary(Object.keys(schemePaymentsByYear)),
-      ...getSchemeSummary(schemePaymentsByYear),
-      schemePaymentsByYear: transformSummary(schemePaymentsByYear)
+      ...getFinancialYearSummary(Object.keys(rawSchemePaymentsByYear)),
+      ...getSchemeSummary(rawSchemePaymentsByYear),
+      schemePaymentsByYear: transformSummary(rawSchemePaymentsByYear)
     }
   }
 }
