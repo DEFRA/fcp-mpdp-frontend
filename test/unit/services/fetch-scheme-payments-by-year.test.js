@@ -1,5 +1,5 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest'
-import { getSchemePaymentsByYear } from '../../../src/api/get-scheme-payments-by-year.js'
+import { fetchSchemePaymentsByYear } from '../../../src/services/fetch-scheme-payments-by-year.js'
 import { getUrlParams } from '../../../src/api/get-url-params.js'
 import { get } from '../../../src/api/get.js'
 
@@ -11,7 +11,7 @@ vi.mock('../../../src/api/get.js', () => ({
   get: vi.fn()
 }))
 
-describe('getSchemePaymentsByYear', () => {
+describe('fetchSchemePaymentsByYear', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -20,7 +20,7 @@ describe('getSchemePaymentsByYear', () => {
     getUrlParams.mockReturnValue('/test/url')
     get.mockResolvedValue({ payload: '{ "year": 2023, "amount": 1000 }' })
 
-    const result = await getSchemePaymentsByYear()
+    const result = await fetchSchemePaymentsByYear()
 
     expect(getUrlParams).toHaveBeenCalledWith('summary')
     expect(get).toHaveBeenCalledWith('/test/url')
@@ -31,15 +31,13 @@ describe('getSchemePaymentsByYear', () => {
     getUrlParams.mockReturnValue('/test/url')
     get.mockResolvedValue(null)
 
-    const result = await getSchemePaymentsByYear()
-
-    expect(result).toBeNull()
+    await expect(fetchSchemePaymentsByYear()).rejects.toThrow()
   })
 
   test('should throw if payload is not valid JSON', async () => {
     getUrlParams.mockReturnValue('/test/url')
     get.mockResolvedValue({ payload: 'invalid-json' })
 
-    await expect(getSchemePaymentsByYear()).rejects.toThrow()
+    await expect(fetchSchemePaymentsByYear()).rejects.toThrow(SyntaxError)
   })
 })

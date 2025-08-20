@@ -22,7 +22,7 @@ describe('schemePaymentsByYearModel', () => {
   })
 
   test('should return a summary object with totals and transformed data', async () => {
-    const mockData = {
+    const mockRawData = {
       '21/22': [
         { scheme: 'A', total_amount: '1000' },
         { scheme: 'B', total_amount: '2000' }
@@ -33,14 +33,14 @@ describe('schemePaymentsByYearModel', () => {
       ]
     }
 
-    getSchemePaymentsByYear.mockResolvedValue(mockData)
+    getSchemePaymentsByYear.mockResolvedValue(mockRawData)
     getFinancialYearSummary.mockReturnValue({ financial_years: ['21/22', '22/23'], startYear: '2021', endYear: '2023' })
     getReadableAmount.mockImplementation(amount => {
       if (typeof amount !== 'number') return '£0.00'
       return `£${amount.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
     })
 
-    const result = await schemePaymentsByYearModel()
+    const result = await schemePaymentsByYearModel(mockRawData)
 
     expect(result.summary).toHaveProperty('financial_years')
     expect(result.summary).toHaveProperty('startYear')
