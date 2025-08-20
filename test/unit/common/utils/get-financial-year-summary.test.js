@@ -6,7 +6,7 @@ describe('getFinancialYearSummary', () => {
     const input = ['21/22', '19/20', '20/21']
     const result = getFinancialYearSummary(input)
 
-    expect(result.financial_years).toEqual(['19/20', '20/21', '21/22'])
+    expect(result.sortedFinancialYears).toEqual(['19/20', '20/21', '21/22'])
     expect(result.startYear).toBe('2019')
     expect(result.endYear).toBe('2022')
   })
@@ -20,7 +20,7 @@ describe('getFinancialYearSummary', () => {
     const input = ['22/23']
     const result = getFinancialYearSummary(input)
 
-    expect(result.financial_years).toEqual(['22/23'])
+    expect(result.sortedFinancialYears).toEqual(['22/23'])
     expect(result.startYear).toBe('2022')
     expect(result.endYear).toBe('2023')
   })
@@ -29,7 +29,7 @@ describe('getFinancialYearSummary', () => {
     const input = ['23/24', '21/22', '22/23']
     const result = getFinancialYearSummary(input)
 
-    expect(result.financial_years).toEqual(['21/22', '22/23', '23/24'])
+    expect(result.sortedFinancialYears).toEqual(['21/22', '22/23', '23/24'])
     expect(result.startYear).toBe('2021')
     expect(result.endYear).toBe('2024')
   })

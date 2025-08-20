@@ -45,7 +45,7 @@
 
           <div class="mpdp-grid-column-two-one govuk-!-margin-top-0">
             <div> 
-              <h2 id="total-years" class="govuk-heading-s mpdp-text-colour-white govuk-!-margin-bottom-0">Over {{ summary.financial_years.length }} financial {{ "year" if summary.financial_years.length === 1 else "years" }}</h2>
+              <h2 id="total-years" class="govuk-heading-s mpdp-text-colour-white govuk-!-margin-bottom-0">Over {{ summary.sortedFinancialYears.length }} financial {{ "year" if summary.sortedFinancialYears.length === 1 else "years" }}</h2>
               <p id="date-range" class="govuk-!-font-size-19 mpdp-text-colour-white govuk-!-margin-bottom-0" >1 April {{ summary.startYear }} to 31 March {{ summary.endYear }}</p>
             </div>
             <div class="mpdp-position-relative"> 
