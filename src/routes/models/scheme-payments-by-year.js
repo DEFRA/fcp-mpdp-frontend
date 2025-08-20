@@ -1,5 +1,5 @@
-import { getReadableAmount } from '../../../common/utils/get-readable-amount.js'
-import { getFinancialYearSummary } from '../../../common/utils/get-financial-year-summary.js'
+import { getReadableAmount } from '../../common/utils/get-readable-amount.js'
+import { getFinancialYearSummary } from '../../common/utils/get-financial-year-summary.js'
 
 function getFormattedYear (year) {
   return year.split('/').map(x => `20${x}`).join(' to ')
@@ -58,7 +58,7 @@ function transformSummary (schemePaymentsByYear) {
   return schemePaymentsSummary
 }
 
-export function transformSchemePaymentsData (rawSchemePaymentsByYear) {
+export async function schemePaymentsByYearModel (rawSchemePaymentsByYear) {
   return {
     summary: {
       ...getFinancialYearSummary(Object.keys(rawSchemePaymentsByYear)),

@@ -1,5 +1,5 @@
 import { fetchSchemePaymentsByYear } from '../services/fetch-scheme-payments-by-year.js'
-import { schemePaymentsByYearModel } from './models/scheme-payments-by-year/model.js'
+import { schemePaymentsByYearModel } from './models/scheme-payments-by-year.js'
 
 export const schemePaymentsByYear = {
   method: 'GET',

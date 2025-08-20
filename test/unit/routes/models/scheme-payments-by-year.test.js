@@ -1,12 +1,7 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest'
-import { schemePaymentsByYearModel } from '../../../../src/routes/models/scheme-payments-by-year/model.js'
-import { fetchSchemePaymentsByYear } from '../../../../src/services/fetch-scheme-payments-by-year.js'
+import { schemePaymentsByYearModel } from '../../../../src/routes/models/scheme-payments-by-year.js'
 import { getFinancialYearSummary } from '../../../../src/common/utils/get-financial-year-summary.js'
 import { getReadableAmount } from '../../../../src/common/utils/get-readable-amount.js'
-
-vi.mock('../../../../src/services/fetch-scheme-payments-by-year.js', () => ({
-  fetchSchemePaymentsByYear: vi.fn()
-}))
 
 vi.mock('../../../../src/common/utils/get-financial-year-summary.js', () => ({
   getFinancialYearSummary: vi.fn()
@@ -33,8 +28,8 @@ describe('schemePaymentsByYearModel', () => {
       ]
     }
 
-    fetchSchemePaymentsByYear.mockResolvedValue(mockRawData)
     getFinancialYearSummary.mockReturnValue({ financial_years: ['21/22', '22/23'], startYear: '2021', endYear: '2023' })
+
     getReadableAmount.mockImplementation(amount => {
       if (typeof amount !== 'number') return '£0.00'
       return `£${amount.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
@@ -70,11 +65,5 @@ describe('schemePaymentsByYearModel', () => {
         { scheme: 'C', total_amount: '£2,500.00' }
       ]
     })
-  })
-
-  test('should throw an error if fetchSchemePaymentsByYear returns null', async () => {
-    fetchSchemePaymentsByYear.mockResolvedValue(null)
-
-    await expect(schemePaymentsByYearModel()).rejects.toThrow()
   })
 })
