@@ -5,10 +5,12 @@ import { createLogger } from '../common/helpers/logging/logger.js'
 const logger = createLogger()
 
 export async function get (url) {
+  const backendUrl = `${config.get('backend.endpoint')}${config.get('backend.path')}${url}` 
+
   try {
-    return await Wreck.get(`${config.get('backend.endpoint')}${config.get('backend.path')}${url}`)
+    return await Wreck.get(backendUrl)
   } catch (error) {
-    logger.error(`Encountered error while calling the backend with url: ${config.backendEndpoint}${url}}`, error)
-    throw new Error()
+    logger.error(`Encountered error while calling the backend with url: ${backendUrl}`, error)
+    throw error
   }
 }
