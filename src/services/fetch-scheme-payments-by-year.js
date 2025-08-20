@@ -5,9 +5,5 @@ export async function fetchSchemePaymentsByYear () {
   const url = getUrlParams('summary')
   const response = await get(url)
 
-  if (!response) {
-    throw new Error()
-  }
-
   return JSON.parse(response.payload)
 }

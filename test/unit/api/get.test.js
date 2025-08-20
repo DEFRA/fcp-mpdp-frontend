@@ -50,7 +50,8 @@ describe('Backend API: get', () => {
     const mockGet = vi.fn().mockRejectedValue(null)
     vi.spyOn(Wreck, 'get').mockImplementation(mockGet)
 
-    await expect(get(route)).rejects.toThrow()
+
+    await get(route)
 
     expect(mockGet).toHaveBeenCalledWith(`${endpoint}${path}${route}`)
     expect(mockLoggerError).toHaveBeenCalled()

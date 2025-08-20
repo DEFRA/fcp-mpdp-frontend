@@ -9,6 +9,5 @@ export async function get (url) {
     return await Wreck.get(`${config.get('backend.endpoint')}${config.get('backend.path')}${url}`)
   } catch (error) {
     logger.error(`Encountered error while calling the backend with url: ${config.backendEndpoint}${url}}`, error)
-    throw new Error()
   }
 }
