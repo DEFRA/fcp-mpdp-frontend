@@ -9,8 +9,8 @@ import { getOptions } from '../../../utils/helpers.js'
 
 const { constants: httpConstants } = http2
 
-vi.mock('../../../../src/api/get-scheme-payments-by-year.js', () => ({
-  getSchemePaymentsByYear: () => ({
+vi.mock('../../../../src/services/fetch-scheme-payments-by-year.js', () => ({
+  fetchSchemePaymentsByYear: () => ({
     '22/23': [
       {
         scheme: 'Sustainable Farming Incentive',
