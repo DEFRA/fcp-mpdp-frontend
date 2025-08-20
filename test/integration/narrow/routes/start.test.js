@@ -2,6 +2,7 @@ import { describe, beforeAll, afterAll, test, expect } from 'vitest'
 import http2 from 'node:http2'
 import * as cheerio from 'cheerio'
 import { createServer } from '../../../../src/server.js'
+import { getOptions } from '../../../utils/helpers.js'
 import { expectTitle } from '../../../utils/title-expect.js'
 import { expectHeader } from '../../../utils/header-expect.js'
 import { expectPhaseBanner } from '../../../utils/phase-banner-expect.js'
@@ -23,10 +24,8 @@ describe('Start route', () => {
   })
 
   test('Should return status code 200 and render expected content when hitting the start page', async () => {
-    const response = await server.inject({
-      method: 'GET',
-      url: '/'
-    })
+    const options = getOptions('/', 'GET')
+    const response = await server.inject(options)
 
     const $ = cheerio.load(response.payload)
     const button = $('.govuk-main-wrapper .govuk-button')

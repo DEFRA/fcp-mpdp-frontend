@@ -5,7 +5,6 @@ import convictFormatWithValidator from 'convict-format-with-validator'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const fourHoursMs = 14400000
 const oneWeekMs = 604800000
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -117,29 +116,6 @@ export const config = convict({
     default: isProduction,
     env: 'ENABLE_METRICS'
   },
-  session: {
-    cookie: {
-      ttl: {
-        doc: 'Session cookie ttl',
-        format: Number,
-        default: fourHoursMs,
-        env: 'SESSION_COOKIE_TTL'
-      },
-      password: {
-        doc: 'session cookie password',
-        format: String,
-        default: 'the-password-must-be-at-least-32-characters-long',
-        env: 'SESSION_COOKIE_PASSWORD',
-        sensitive: true
-      },
-      secure: {
-        doc: 'set secure flag on cookie',
-        format: Boolean,
-        default: isProduction,
-        env: 'SESSION_COOKIE_SECURE'
-      }
-    }
-  },
   nunjucks: {
     watch: {
       doc: 'Reload templates when they are changed.',
@@ -158,6 +134,20 @@ export const config = convict({
       format: String,
       default: 'x-cdp-request-id',
       env: 'TRACING_HEADER'
+    }
+  },
+  backend: {
+    endpoint: {
+      doc: 'Endpoint for fcp-mpdp-backend',
+      format: String,
+      default: null,
+      env: 'MPDP_BACKEND_ENDPOINT'
+    },
+    path: {
+      doc: 'Path for fcp-mpdp-backend endpoint',
+      format: String,
+      default: '/v1/payments',
+      env: 'MPDP_BACKEND_PATH'
     }
   }
 })

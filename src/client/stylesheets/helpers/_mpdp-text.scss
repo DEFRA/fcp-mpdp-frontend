@@ -1,0 +1,11 @@
+@use "govuk-frontend" as *;
+
+.mpdp-details-text {
+  border-left: 5px solid govuk-colour("mid-grey");
+  margin: 0 0 10px 15px;
+  padding: 10px 5px;
+}
+
+.mpdp-text-underline {
+  text-decoration: underline;
+}
