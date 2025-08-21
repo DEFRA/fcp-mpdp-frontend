@@ -73,7 +73,6 @@
                         <div class="mpdp-text-link-color mpdp-text-underline">{{ year }}</div>
                         <div class="mpdp-text-align-right govuk-!-font-weight-bold">£{{ summary.totalPaymentsByYear[year].readableTotal }}</div>
                     </summary>
-
                     <div>
                       <div class="mpdp-grid-column-three-one mpdp-grid-column-1-span-2 mpdp-text-color-dark-grey mpdp-details-text">
                         {% for schemeDetail in schemeActivity %}
@@ -90,10 +89,9 @@
                       </div>
                     </div>
                   </details>
+                  <hr class="govuk-section-break govuk-section-break--visible mpdp-border-color-light-grey mpdp-grid-column-1-span-2 mpdp-hr" role="presentation">
                 </div>
               {% endfor %}
-
-              <hr class="govuk-section-break govuk-section-break--visible mpdp-border-color-light-grey mpdp-grid-column-1-span-2 mpdp-hr" role="presentation">
             </div>
           </div>
         </div>
