@@ -20,10 +20,7 @@
 {% endblock %}
 
 {% block pageTitle %}
-  {%if pageTitle and pageTitle != serviceName %} 
-    {{pageTitle}} - 
-  {%endif%} 
-  {{serviceName }} - GOV.UK
+  {% if pageTitle and pageTitle != serviceName %}{{ pageTitle }} - {% endif %}{{ serviceName }} - GOV.UK
 {% endblock %}
 
 {% block beforeContent %}

@@ -17,6 +17,6 @@ export function expectFooter ($) {
 
   expect(
     expectedFooterLinks.length === footerLinks.length &&
-    expectedFooterLinks.every(x => footerLinks.includes(x))
+    expectedFooterLinks.every(link => footerLinks.includes(link))
   ).toEqual(true)
 }
