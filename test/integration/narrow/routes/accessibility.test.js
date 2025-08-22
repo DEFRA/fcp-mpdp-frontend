@@ -53,5 +53,24 @@ describe('Accessibility route', () => {
     expect(backLink.attr('href')).toBe('/previous-page')
     expect(backLink.text()).toBe('Back')
   })
+
+  test('Should have a link to the equality advisory and support service with correct attributes', async () => {
+    const options = getOptions('accessibility', 'GET')
+    const response = await server.inject(options)
+    const $ = cheerio.load(response.payload)
+    const eassLink = $('#eass-link')
+
+    expect(eassLink).toBeDefined()
+    expect(eassLink.attr('href')).toBe('https://www.equalityadvisoryservice.com/')
+  })
+
+  test('Should have a link to the web content accessibility guidelines with correct attributes', async () => {
+    const options = getOptions('accessibility', 'GET')
+    const response = await server.inject(options)
+    const $ = cheerio.load(response.payload)
+    const wcagLink = $('#wcag-link')
+
+    expect(wcagLink).toBeDefined()
+    expect(wcagLink.attr('href')).toBe('https://www.w3.org/TR/WCAG21/')
+  })
 })
- 
