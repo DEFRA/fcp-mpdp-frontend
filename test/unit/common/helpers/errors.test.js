@@ -31,84 +31,101 @@ describe('errors', () => {
 describe('catchAll', () => {
   const mockErrorLogger = vi.fn()
   const mockStack = 'Mock error stack'
-  const errorPage500 = 'errors/500'
-  const errorPage404 = 'errors/404'
   const mockRequest = (statusCode) => ({
     response: {
       isBoom: true,
       stack: mockStack,
       output: {
-        statusCode
+        statusCode,
+        headers: {}
       }
     },
     logger: { error: mockErrorLogger }
   })
   const mockToolkitView = vi.fn()
   const mockToolkitCode = vi.fn()
+  const mockToolkitContinue = vi.fn()
   const mockToolkit = {
     view: mockToolkitView.mockReturnThis(),
-    code: mockToolkitCode.mockReturnThis()
+    code: mockToolkitCode.mockReturnThis(),
+    continue: mockToolkitContinue
   }
 
   test('Should provide expected "Not Found" page', () => {
-    catchAll(mockRequest(httpConstants.HTTP_STATUS_NOT_FOUND), mockToolkit)
+    const request = mockRequest(httpConstants.HTTP_STATUS_NOT_FOUND)
+    const result = catchAll(request, mockToolkit)
 
     expect(mockErrorLogger).not.toHaveBeenCalledWith(mockStack)
-    expect(mockToolkitView).toHaveBeenCalledWith(errorPage404, {
-      pageTitle: 'Page not found'
-    })
-    expect(mockToolkitCode).toHaveBeenCalledWith(httpConstants.HTTP_STATUS_NOT_FOUND)
+    expect(mockToolkitView).not.toHaveBeenCalled()
+    expect(mockToolkitCode).not.toHaveBeenCalled()
+    expect(result).toBe(mockToolkitContinue)
+    expect(request.response.output.statusCode).toBe(httpConstants.HTTP_STATUS_NOT_FOUND)
+    expect(request.response.output.headers['content-type']).toBe('text/html; charset=utf-8')
+    expect(request.response.output.payload).toContain('Page not found')
   })
 
   test('Should provide expected "Forbidden" page', () => {
-    catchAll(mockRequest(httpConstants.HTTP_STATUS_FORBIDDEN), mockToolkit)
+    const request = mockRequest(httpConstants.HTTP_STATUS_FORBIDDEN)
+    const result = catchAll(request, mockToolkit)
 
     expect(mockErrorLogger).not.toHaveBeenCalledWith(mockStack)
-    expect(mockToolkitView).toHaveBeenCalledWith(errorPage500, {
-      pageTitle: 'Sorry, there is a problem with the service'
-    })
-    expect(mockToolkitCode).toHaveBeenCalledWith(httpConstants.HTTP_STATUS_FORBIDDEN)
+    expect(mockToolkitView).not.toHaveBeenCalled()
+    expect(mockToolkitCode).not.toHaveBeenCalled()
+    expect(result).toBe(mockToolkitContinue)
+    expect(request.response.output.statusCode).toBe(httpConstants.HTTP_STATUS_FORBIDDEN)
+    expect(request.response.output.headers['content-type']).toBe('text/html; charset=utf-8')
+    expect(request.response.output.payload).toContain('Sorry, there is a problem with the service')
   })
 
   test('Should provide expected "Unauthorized" page', () => {
-    catchAll(mockRequest(httpConstants.HTTP_STATUS_UNAUTHORIZED), mockToolkit)
+    const request = mockRequest(httpConstants.HTTP_STATUS_UNAUTHORIZED)
+    const result = catchAll(request, mockToolkit)
 
     expect(mockErrorLogger).not.toHaveBeenCalledWith(mockStack)
-    expect(mockToolkitView).toHaveBeenCalledWith(errorPage500, {
-      pageTitle: 'Sorry, there is a problem with the service'
-    })
-    expect(mockToolkitCode).toHaveBeenCalledWith(httpConstants.HTTP_STATUS_UNAUTHORIZED)
+    expect(mockToolkitView).not.toHaveBeenCalled()
+    expect(mockToolkitCode).not.toHaveBeenCalled()
+    expect(result).toBe(mockToolkitContinue)
+    expect(request.response.output.statusCode).toBe(httpConstants.HTTP_STATUS_UNAUTHORIZED)
+    expect(request.response.output.headers['content-type']).toBe('text/html; charset=utf-8')
+    expect(request.response.output.payload).toContain('Sorry, there is a problem with the service')
   })
 
   test('Should provide expected "Bad Request" page', () => {
-    catchAll(mockRequest(httpConstants.HTTP_STATUS_BAD_REQUEST), mockToolkit)
+    const request = mockRequest(httpConstants.HTTP_STATUS_BAD_REQUEST)
+    const result = catchAll(request, mockToolkit)
 
     expect(mockErrorLogger).not.toHaveBeenCalledWith(mockStack)
-    expect(mockToolkitView).toHaveBeenCalledWith(errorPage500, {
-      pageTitle: 'Sorry, there is a problem with the service'
-    })
-    expect(mockToolkitCode).toHaveBeenCalledWith(httpConstants.HTTP_STATUS_BAD_REQUEST)
+    expect(mockToolkitView).not.toHaveBeenCalled()
+    expect(mockToolkitCode).not.toHaveBeenCalled()
+    expect(result).toBe(mockToolkitContinue)
+    expect(request.response.output.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
+    expect(request.response.output.headers['content-type']).toBe('text/html; charset=utf-8')
+    expect(request.response.output.payload).toContain('Sorry, there is a problem with the service')
   })
 
   test('Should provide expected default page', () => {
-    catchAll(mockRequest(httpConstants.HTTP_STATUS_IM_A_TEAPOT), mockToolkit)
+    const request = mockRequest(httpConstants.HTTP_STATUS_IM_A_TEAPOT)
+    const result = catchAll(request, mockToolkit)
 
     expect(mockErrorLogger).not.toHaveBeenCalledWith(mockStack)
-    expect(mockToolkitView).toHaveBeenCalledWith(errorPage500, {
-      pageTitle: 'Sorry, there is a problem with the service'
-    })
-    expect(mockToolkitCode).toHaveBeenCalledWith(httpConstants.HTTP_STATUS_IM_A_TEAPOT)
+    expect(mockToolkitView).not.toHaveBeenCalled()
+    expect(mockToolkitCode).not.toHaveBeenCalled()
+    expect(result).toBe(mockToolkitContinue)
+    expect(request.response.output.statusCode).toBe(httpConstants.HTTP_STATUS_IM_A_TEAPOT)
+    expect(request.response.output.headers['content-type']).toBe('text/html; charset=utf-8')
+    expect(request.response.output.payload).toContain('Sorry, there is a problem with the service')
   })
 
   test('Should provide expected "Sorry, there is a problem with the service" page and log error for internalServerError', () => {
-    catchAll(mockRequest(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR), mockToolkit)
+    const request = mockRequest(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+    const result = catchAll(request, mockToolkit)
 
     expect(mockErrorLogger).toHaveBeenCalledWith(mockStack)
-    expect(mockToolkitView).toHaveBeenCalledWith(errorPage500, {
-      pageTitle: 'Sorry, there is a problem with the service'
-    })
-    expect(mockToolkitCode).toHaveBeenCalledWith(
-      httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR
-    )
+    expect(mockToolkitView).not.toHaveBeenCalled()
+    expect(mockToolkitCode).not.toHaveBeenCalled()
+    expect(result).toBe(mockToolkitContinue)
+    expect(request.response.output.statusCode).toBe(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+    expect(request.response.output.headers['content-type']).toBe('text/html; charset=utf-8')
+    expect(request.response.output.payload).toContain('Sorry, there is a problem with the service')
   })
 })

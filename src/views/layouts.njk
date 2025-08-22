@@ -64,5 +64,5 @@
 {% endblock %}
 
 {% block bodyEnd %}
-  <script type="module" src="{{ getAssetPath('application.js') }}"></script>
+  <script type="module" nonce="{{ nonce }}" src="{{ getAssetPath('application.js') }}"></script>
 {% endblock %}

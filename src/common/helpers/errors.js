@@ -1,4 +1,6 @@
 import http2 from 'node:http2'
+import { nunjucksEnvironment } from '../../config/nunjucks/nunjucks.js'
+import { context } from '../../config/nunjucks/context.js'
 
 const { constants: httpConstants } = http2
 
@@ -15,9 +17,30 @@ export function catchAll (request, h) {
     request.logger.error(response?.stack)
   }
 
+  const pageContext = context(request)
+
   if (statusCode === httpConstants.HTTP_STATUS_NOT_FOUND) {
-    return h.view('errors/404', { pageTitle: 'Page not found' }).code(statusCode)
+    // Render the template manually using Nunjucks
+    const html = nunjucksEnvironment.render('errors/404.njk', {
+      ...pageContext,
+      pageTitle: 'Page not found'
+    })
+
+    response.output.payload = html
+    response.output.headers = response.output.headers || {}
+    response.output.headers['content-type'] = 'text/html; charset=utf-8'
+    response.output.statusCode = statusCode
+  } else {
+    const html = nunjucksEnvironment.render('errors/500.njk', {
+      ...pageContext,
+      pageTitle: 'Sorry, there is a problem with the service'
+    })
+
+    response.output.payload = html
+    response.output.headers = response.output.headers || {}
+    response.output.headers['content-type'] = 'text/html; charset=utf-8'
+    response.output.statusCode = statusCode
   }
 
-  return h.view('errors/500', { pageTitle: 'Sorry, there is a problem with the service' }).code(statusCode)
+  return h.continue
 }

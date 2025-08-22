@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import nunjucks from 'nunjucks'
 import hapiVision from '@hapi/vision'
 import { fileURLToPath } from 'node:url'
@@ -47,3 +47,5 @@ export const nunjucksConfig = {
 Object.entries(globals).forEach(([name, global]) => {
   nunjucksEnvironment.addGlobal(name, global)
 })
+
+export { nunjucksEnvironment }
