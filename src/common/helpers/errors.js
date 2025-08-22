@@ -1,6 +1,4 @@
 import http2 from 'node:http2'
-import { nunjucksEnvironment } from '../../config/nunjucks/nunjucks.js'
-import { context } from '../../config/nunjucks/context.js'
 
 const { constants: httpConstants } = http2
 
@@ -13,34 +11,26 @@ export function catchAll (request, h) {
 
   const statusCode = response.output.statusCode
 
+  let template = 'errors/500'
+  let pageTitle = 'Sorry, there is a problem with the service'
+
+  if (statusCode === httpConstants.HTTP_STATUS_NOT_FOUND) {
+    template = 'errors/404'
+    pageTitle = 'Page not found'
+  }
+
   if (statusCode >= httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR) {
     request.logger.error(response?.stack)
   }
 
-  const pageContext = context(request)
+  const viewResponse = h.view(template, { pageTitle }).code(statusCode)
 
-  if (statusCode === httpConstants.HTTP_STATUS_NOT_FOUND) {
-    // Render the template manually using Nunjucks
-    const html = nunjucksEnvironment.render('errors/404.njk', {
-      ...pageContext,
-      pageTitle: 'Page not found'
-    })
-
-    response.output.payload = html
-    response.output.headers = response.output.headers || {}
-    response.output.headers['content-type'] = 'text/html; charset=utf-8'
-    response.output.statusCode = statusCode
-  } else {
-    const html = nunjucksEnvironment.render('errors/500.njk', {
-      ...pageContext,
-      pageTitle: 'Sorry, there is a problem with the service'
-    })
-
-    response.output.payload = html
-    response.output.headers = response.output.headers || {}
-    response.output.headers['content-type'] = 'text/html; charset=utf-8'
-    response.output.statusCode = statusCode
+  // Preserve any existing headers from the boom response
+  const originalHeaders = response.headers || response.output?.headers || {}
+  for (const [key, value] of Object.entries(originalHeaders)) {
+    if (key.toLowerCase() === 'content-type') continue
+    viewResponse.header(key, value)
   }
 
-  return h.continue
+  return viewResponse
 }

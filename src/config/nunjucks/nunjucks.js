@@ -47,5 +47,3 @@ export const nunjucksConfig = {
 Object.entries(globals).forEach(([name, global]) => {
   nunjucksEnvironment.addGlobal(name, global)
 })
-
-export { nunjucksEnvironment }
