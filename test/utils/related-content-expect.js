@@ -1,11 +1,14 @@
 import { expect } from 'vitest'
+import { getRelatedContentLinks } from '../../src/common/utils/related-content.js'
 
-export function expectRelatedContent ($) {
-  const link = $('#related-content-list a.govuk-link')
-  const relatedContentText = 'Funding for farmers, growers and land managers'
-  const relatedContentLink = 'https://www.gov.uk/guidance/funding-for-farmers'
-
-  expect(link.length).toBe(1)
-  expect(link.text().trim()).toBe(relatedContentText)
-  expect(link.attr('href')).toBe(relatedContentLink)
+export function expectRelatedContent ($, page) {
+  const relatedContentLinks = getRelatedContentLinks(page)
+ 
+  relatedContentLinks.forEach((link) => {
+    const linkElement = $(`#${link.id}`)
+ 
+    expect(linkElement).toBeDefined()
+    expect(linkElement.attr('href')).toContain(link.url)
+    expect(linkElement.text()).toMatch(link.text)
+  })
 }

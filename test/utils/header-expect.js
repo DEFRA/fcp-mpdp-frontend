@@ -18,7 +18,7 @@ function expectHeaderLinks ($) {
 
   expect(
     expectedHeaderLinks.length === headerLinks.length &&
-    expectedHeaderLinks.every(x => headerLinks.includes(x))
+    expectedHeaderLinks.every(link => headerLinks.includes(link))
   ).toEqual(true)
 }
 
