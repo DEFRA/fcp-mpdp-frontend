@@ -7,7 +7,7 @@ ignore:
         reason: No fix available
         expires: 2025-09-24T17:59:08.684Z
         created: 2025-08-25T17:59:08.689Z
-  SNYK-JS-USERAGENT-83093697:
+  SNYK-JS-USERAGENT-8309369:
     - '*':
         reason: No fix available
         expires: 2025-09-24T17:59:39.786Z
