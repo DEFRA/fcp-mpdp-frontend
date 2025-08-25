@@ -23,7 +23,14 @@ describe('Context and cache', () => {
   })
 
   describe('Context', () => {
-    const mockRequest = { path: '/' }
+    const mockRequest = {
+      path: '/',
+      response: {
+        source: {
+          context: {}
+        }
+      }
+    }
 
     describe('When webpack manifest file read succeeds', () => {
       let contextImport
@@ -69,6 +76,34 @@ describe('Context and cache', () => {
           )
         })
       })
+
+      describe('With existing context', () => {
+        test('Should preserve existing context properties', () => {
+          const mockRequestWithContext = {
+            path: '/',
+            response: {
+              source: {
+                context: {
+                  pageTitle: 'Custom Page Title',
+                  customProperty: 'existing value'
+                }
+              }
+            }
+          }
+
+          const result = contextImport.context(mockRequestWithContext)
+
+          expect(result).toEqual({
+            pageTitle: 'Custom Page Title',
+            customProperty: 'existing value',
+            assetPath: '/public/assets/rebrand',
+            breadcrumbs: [],
+            getAssetPath: expect.any(Function),
+            serviceName: 'Find farm and land payment data',
+            serviceUrl: '/'
+          })
+        })
+      })
     })
 
     describe('When webpack manifest file read fails', () => {
@@ -94,7 +129,14 @@ describe('Context and cache', () => {
   })
 
   describe('Context cache', () => {
-    const mockRequest = { path: '/' }
+    const mockRequest = {
+      path: '/',
+      response: {
+        source: {
+          context: {}
+        }
+      }
+    }
     let contextResult
 
     describe('Webpack manifest file cache', () => {
