@@ -28,7 +28,9 @@ export function catchAll (request, h) {
   // Preserve any existing headers from the boom response
   const originalHeaders = response.headers || response.output?.headers || {}
   for (const [key, value] of Object.entries(originalHeaders)) {
-    if (key.toLowerCase() === 'content-type') continue
+    if (key.toLowerCase() === 'content-type') {
+      continue
+    }
     viewResponse.header(key, value)
   }
 
