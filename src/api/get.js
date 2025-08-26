@@ -9,8 +9,8 @@ export async function get (url) {
 
   try {
     return await Wreck.get(backendUrl)
-  } catch (error) {
-    logger.error(`Encountered error while calling the backend with url: ${backendUrl}`, error)
-    throw error
+  } catch (err) {
+    logger.error(`Encountered error while calling the backend with url: ${backendUrl}`, err)
+    throw err
   }
 }

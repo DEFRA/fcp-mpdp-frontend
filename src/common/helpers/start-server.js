@@ -13,10 +13,10 @@ async function startServer () {
     server.logger.info(
       `Access your frontend on http://localhost:${config.get('port')}`
     )
-  } catch (error) {
+  } catch (err) {
     const logger = createLogger()
     logger.info('Server failed to start')
-    logger.error(error)
+    logger.error(err)
   }
 
   return server
