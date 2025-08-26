@@ -12,7 +12,8 @@ const manifestPath = path.join(
 
 let webpackManifest
 
-export function context (_request) {
+export function context (request) {
+  const ctx = request.response.source?.context || {}
   if (!webpackManifest) {
     try {
       webpackManifest = JSON.parse(readFileSync(manifestPath, 'utf-8'))
@@ -22,6 +23,7 @@ export function context (_request) {
   }
 
   return {
+    ...ctx,
     assetPath: `${assetPath}/assets/rebrand`,
     serviceName: config.get('serviceName'),
     serviceUrl: '/',

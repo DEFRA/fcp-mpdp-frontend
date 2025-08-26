@@ -11,13 +11,28 @@ export function catchAll (request, h) {
 
   const statusCode = response.output.statusCode
 
+  let template = 'errors/500'
+  let pageTitle = 'Sorry, there is a problem with the service'
+
+  if (statusCode === httpConstants.HTTP_STATUS_NOT_FOUND) {
+    template = 'errors/404'
+    pageTitle = 'Page not found'
+  }
+
   if (statusCode >= httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR) {
     request.logger.error(response?.stack)
   }
 
-  if (statusCode === httpConstants.HTTP_STATUS_NOT_FOUND) {
-    return h.view('errors/404', { pageTitle: 'Page not found' }).code(statusCode)
+  const viewResponse = h.view(template, { pageTitle }).code(statusCode)
+
+  // Preserve any existing headers from the boom response
+  const originalHeaders = response.headers || response.output?.headers || {}
+  for (const [key, value] of Object.entries(originalHeaders)) {
+    if (key.toLowerCase() === 'content-type') {
+      continue
+    }
+    viewResponse.header(key, value)
   }
 
-  return h.view('errors/500', { pageTitle: 'Sorry, there is a problem with the service' }).code(statusCode)
+  return viewResponse
 }

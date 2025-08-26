@@ -1,5 +1,8 @@
-import path from 'path'
-import hapi from '@hapi/hapi'
+import path from 'node:path'
+import Hapi from '@hapi/hapi'
+import Scooter from '@hapi/scooter'
+import { contentSecurityPolicy } from './plugins/content-security-policy.js'
+import { headers } from './plugins/headers.js'
 import { router } from './plugins/router.js'
 import { config } from './config/config.js'
 import { pulse } from './common/helpers/pulse.js'
@@ -12,7 +15,7 @@ import { secureContext } from './common/helpers/secure-context/secure-context.js
 
 export async function createServer () {
   setupProxy()
-  const server = hapi.server({
+  const server = Hapi.server({
     host: config.get('host'),
     port: config.get('port'),
     routes: {
@@ -28,7 +31,7 @@ export async function createServer () {
         hsts: {
           maxAge: 31536000,
           includeSubDomains: true,
-          preload: false
+          preload: true
         },
         xss: 'enabled',
         noSniff: true,
@@ -43,12 +46,15 @@ export async function createServer () {
     }
   })
   await server.register([
+    Scooter,
     requestLogger,
     requestTracing,
     secureContext,
     pulse,
     nunjucksConfig,
-    router
+    contentSecurityPolicy,
+    headers,
+    router,
   ])
 
   server.ext('onPreResponse', catchAll)
