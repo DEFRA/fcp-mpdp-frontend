@@ -20,5 +20,5 @@ const relatedContentLinks = [
 ]
 
 export function getRelatedContentLinks (page) {
-    return relatedContentLinks.filter(relatedContent => relatedContent.pages.includes(page))
+  return relatedContentLinks.filter(relatedContent => relatedContent.pages.includes(page))
 }
