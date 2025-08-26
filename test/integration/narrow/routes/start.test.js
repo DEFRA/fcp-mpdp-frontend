@@ -29,6 +29,7 @@ describe('Start route', () => {
 
     const $ = cheerio.load(response.payload)
     const button = $('.govuk-main-wrapper .govuk-button')
+    const viewYearlyTotalsLink = $('#view-yearly-totals')
 
     expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
 
@@ -37,6 +38,9 @@ describe('Start route', () => {
     expectPhaseBanner($)
     expect($('h1').text()).toEqual('Find farm and land payment data')
     expect($('#published-data')).toBeDefined()
+    expect(viewYearlyTotalsLink).toBeDefined()
+    expect(viewYearlyTotalsLink.attr('href')).toMatch('/scheme-payments-by-year')
+    expect(viewYearlyTotalsLink.text().trim()).toMatch('view yearly totals')
     expect(button.text()).toMatch('Start now')
     expect(button.attr('href')).toMatch('#')
     expectRelatedContent($)
