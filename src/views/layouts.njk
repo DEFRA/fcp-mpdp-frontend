@@ -20,10 +20,7 @@
 {% endblock %}
 
 {% block pageTitle %}
-  {%if pageTitle and pageTitle != serviceName %} 
-    {{pageTitle}} - 
-  {%endif%} 
-  {{serviceName }} - GOV.UK
+  {% if pageTitle and pageTitle != serviceName %}{{ pageTitle }} - {% endif %}{{ serviceName }} - GOV.UK
 {% endblock %}
 
 {% block beforeContent %}
@@ -52,7 +49,7 @@
           text: "Cookies"
         },
         {
-          href: "https://www.gov.uk/help/accessibility-statement",
+          href: "/accessibility",
           text: "Accessibility statement"
         }
       ],
