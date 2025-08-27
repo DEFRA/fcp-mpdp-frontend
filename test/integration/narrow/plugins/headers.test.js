@@ -71,7 +71,7 @@ describe('headers', () => {
     const response = await server.inject({
       url: '/'
     })
-    expect(response.headers['referrer-policy']).toBe('no-referrer')
+    expect(response.headers['referrer-policy']).toBe('same-origin')
   })
 
   test('should restrict permissions for sensitive features', async () => {
@@ -138,12 +138,12 @@ describe('headers', () => {
       expect(response.headers['cross-origin-resource-policy']).toBe('same-site')
     })
 
-    test('should ensure no referrer information is leaked from 404 pages', async () => {
+    test('should ensure 404 pages only send referrer information to the same origin', async () => {
       const response = await server.inject({
         url: '/non-existent-path'
       })
       expect(response.statusCode).toBe(404)
-      expect(response.headers['referrer-policy']).toBe('no-referrer')
+      expect(response.headers['referrer-policy']).toBe('same-origin')
     })
 
     test('should restrict permissions for sensitive features on 404 pages', async () => {
