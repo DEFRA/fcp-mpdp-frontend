@@ -1,7 +1,7 @@
 import { getUrlParams } from './get-url-params.js'
 import { get } from './get.js'
 
-export async function getSearchSuggestions(searchString) {
+export async function getSearchSuggestions (searchString) {
   const url = getUrlParams('search', {
     searchString
   })
