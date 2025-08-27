@@ -1,11 +1,10 @@
 {% extends "layouts.njk" %}
 
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
-{% from "macros/search-form.njk" import searchForm %}
+{% from "macros/search/search-form.njk" import searchForm %}
 
 {% block pageTitle %}
-  {% if errorList %}Error: {% endif %}
-  {{ pageTitle }} - {{ serviceName }} - GOV.UK
+  {% if errorList %}Error: {% endif %}{{ pageTitle }} - {{ serviceName }} - GOV.UK
 {% endblock %}
 
 {% block beforeContent %}
@@ -31,14 +30,14 @@
       {{ searchForm({
         inputClass: "govuk-input",
         id: "search-input",
-        name: "search-string",
+        name: "searchString",
         inputmode: "string",
         buttonText: "Search",
-        href: '/results',
+        href: "/results",
         errorList: errorList,
         hiddenInputs: [{
           id: "page-id",
-          name: "page-id",
+          name: "pageId",
           value: "index"
         },
         {
