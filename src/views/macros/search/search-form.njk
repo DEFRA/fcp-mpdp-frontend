@@ -36,7 +36,10 @@
           data-module="govuk-button" 
           type="submit" 
           aria-label="{{ model.buttonText }}"
-          onClick="document.getElementById('search-form').querySelectorAll('input[type=&quot;checkbox&quot;]').forEach(x => x.checked=false);">{{ model.buttonText }}</button>
+          onClick="document.getElementById('search-form').querySelectorAll('input[type=&quot;checkbox&quot;]').forEach(x => x.checked=false);"
+        >
+        {{ model.buttonText }}
+        </button>
       </div>
     </div>
   </form>

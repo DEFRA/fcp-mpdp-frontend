@@ -130,7 +130,7 @@ export default {
                 this.unsetActive()
               }
             },
-            'option-container mpdp-break-word'
+            'mpdp-option-container mpdp-break-word'
           ))
         })
 
