@@ -28,32 +28,32 @@ describe('GET /suggestions route', () => {
   })
 
   test('GET /suggestions returns status 200', async () => {
-    const res = await server.inject(getOptions('suggestions', 'GET', { searchString: 'Test String' }))
-    expect(res.statusCode).toBe(200)
+    response = await server.inject(getOptions('suggestions', 'GET', { searchString: 'Test String' }))
+    expect(response.statusCode).toBe(200)
   })
 
   test('GET /suggestions returns 400 error when searchString is not in the query params', async () => {
-    const res = await server.inject(getOptions('suggestions'))
-    expect(res.statusCode).toBe(400)
+    response = await server.inject(getOptions('suggestions'))
+    expect(response.statusCode).toBe(400)
   })
 
   test('GET /suggestions returns 200 ok when searchString contains % special characters', async () => {
-    const res = await server.inject(getOptions('suggestions', 'GET', { searchString: ('%Test String') }))
-    expect(res.statusCode).toBe(200)
+    response = await server.inject(getOptions('suggestions', 'GET', { searchString: ('%Test String') }))
+    expect(response.statusCode).toBe(200)
   })
 
   test('GET /suggestions returns 200 ok when searchString contains special character like \', -, !, @, £, $, ^, &, *, (, )', async () => {
-    const res = await server.inject(getOptions('suggestions', 'GET', { searchString: ("special character like ' , -, !, @, £, $, ^, &, *, (, )") }))
-    expect(res.statusCode).toBe(200)
+    response = await server.inject(getOptions('suggestions', 'GET', { searchString: ("special character like ' , -, !, @, £, $, ^, &, *, (, )") }))
+    expect(response.statusCode).toBe(200)
   })
 
   test('GET /suggestions returns status 200 when searchString contains a single quote or hyphen', async () => {
-    const res = await server.inject(getOptions('suggestions', 'GET', { searchString: "Test String ' -" }))
-    expect(res.statusCode).toBe(200)
+    response = await server.inject(getOptions('suggestions', 'GET', { searchString: "Test String ' -" }))
+    expect(response.statusCode).toBe(200)
   })
 
   test('GET /suggestions returns mocked data', async () => {
-    const res = await server.inject(getOptions('suggestions', 'GET', { searchString: 'Test String' }))
-    expect(res.payload).toEqual(JSON.stringify(mockSuggestions))
+    response = await server.inject(getOptions('suggestions', 'GET', { searchString: 'Test String' }))
+    expect(response.payload).toEqual(JSON.stringify(mockSuggestions))
   })
 })
