@@ -9,7 +9,7 @@ export const search = {
       {
         referer: request.headers.referer,
         pageTitle: 'Search for an agreement holder',
-        relatedContent: getRelatedContentLinks('search')
+        relatedContentLinks: getRelatedContentLinks('search')
       }
     )
   }
