@@ -67,7 +67,7 @@ describe('headers', () => {
     expect(response.headers['cross-origin-resource-policy']).toBe('same-site')
   })
 
-  test('should ensure only same-origin referrer information is sent', async () => {
+  test('should ensure no referrer information is leaked', async () => {
     const response = await server.inject({
       url: '/'
     })
@@ -140,7 +140,7 @@ describe('headers', () => {
 
     test('should ensure 404 pages only send referrer information to the same origin', async () => {
       const response = await server.inject({
-      url: '/non-existent-path'
+        url: '/non-existent-path'
       })
       expect(response.statusCode).toBe(404)
       expect(response.headers['referrer-policy']).toBe('same-origin')
