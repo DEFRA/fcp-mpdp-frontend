@@ -12,7 +12,7 @@ export const headers = {
           headerLocation['Cross-Origin-Opener-Policy'] = 'same-origin'
           headerLocation['Cross-Origin-Embedder-Policy'] = 'require-corp'
           headerLocation['Cross-Origin-Resource-Policy'] = 'same-site'
-          headerLocation['Referrer-Policy'] = 'no-referrer'
+          headerLocation['Referrer-Policy'] = 'same-origin'
           headerLocation['Permissions-Policy'] = 'camera=(), geolocation=(), magnetometer=(), microphone=(), payment=(), usb=()'
         }
 
