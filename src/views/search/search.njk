@@ -3,8 +3,9 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "macros/search-form.njk" import searchForm %}
 
-{% block pageTitle %} 
-  {% if errorList %}Error: {% endif %} {{ pageTitle }} - {{ serviceName }} - GOV.UK
+{% block pageTitle %}
+  {% if errorList %}Error: {% endif %}
+  {{ pageTitle }} - {{ serviceName }} - GOV.UK
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,36 +16,46 @@
 {% endblock %}
 
 {% block content %}
+  {% if errorList %}
+    {{ govukErrorSummary ({
+      "titleText": "There is a problem",
+      "errorList": errorList,
+      "classes": "govuk-!-margin-bottom-7"
+    }) }}
+  {% endif %}
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l govuk-!-margin-bottom-3">{{ pageTitle }}</h1>
+      <h1 class="govuk-heading-l">{{ pageTitle }}</h1>
 
       {{ searchForm({
-        inputClass: 'govuk-input',
-        id: 'search-input',
-        name: 'search-string',
-        inputmode: 'string',
-        buttonText: 'Search',
-        href: '#',
+        inputClass: "govuk-input",
+        id: "search-input",
+        name: "search-string",
+        inputmode: "string",
+        buttonText: "Search",
+        href: '/results',
+        errorList: errorList,
         hiddenInputs: [{
-          id: 'page-dd',
-          name: 'page-id',
-          value: 'index'
+          id: "page-id",
+          name: "page-id",
+          value: "index"
         },
         {
-          id: 'referer',
-          name: 'referer',
+          id: "referer",
+          name: "referer",
           value: referer
         }],
-        labelHTML: '<p>You can search by name and location.</p>',
-        hintHTML: '<span class="subtitle" id="subtitle">Example: Alex Smith or Gloucestershire or GL55</span>',
+        labelHTML: "<p>You can search by name and location.</p>",
+        hintHTML: "<span class='subtitle' id='subtitle'>Example: Alex Smith or Gloucestershire or GL55</span>",
         inputAttributes: "aria-describedby='search-hint'"
       }) }}
 
-      <p>You can <a id='download-all-link' href="/download-all-data">download all scheme data (.CSV, 10.9MB)</a></p>
-    </div> 
+      <p>You can <a id='download-all-link' href="#">download all scheme data (.CSV, 10.9MB)</a>
+      </p>
+    </div>
     <div class="govuk-grid-column-one-third">
       {% include "related-content.njk" %}
-    </div> 
-  </div>  
+    </div>
+  </div>
 {% endblock %}

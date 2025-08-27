@@ -1,5 +1,5 @@
 {% macro searchForm(model) %}
-  <form id='search-form' action="{{ model.href }}" method="get">
+  <form id="search-form" action="{{ model.href }}" method="get">
     <div class="govuk-form-group {% if model.errorList %}govuk-form-group--error{% endif %}">
       {% for input in model.hiddenInputs %}
         <input type="hidden" id="{{ input.id }}" name="{{ input.name }}" value="{{ input.value }}"/>
@@ -8,6 +8,7 @@
       <label class="govuk-label {{ 'govuk-visually-hidden' if model.labelHTML === undefined }}" for="{{ model.id }}">{{ model.labelHTML|safe if model.labelHTML else 'Search' }}</label>
       
       <p class="{{ 'govuk-visually-hidden' if model.hintHTML === undefined }}">{{ model.hintHTML|safe }}</p>
+      
       {% if model.errorList %}
         <span id="error-message" class="govuk-error-message">{{ model.errorMessage.text }}</span>
         <p id="search-input-error" class="govuk-error-message govuk-!-font-weight-regular">
