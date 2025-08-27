@@ -2,10 +2,13 @@ import { vi, describe, beforeAll, afterAll, test, expect } from 'vitest'
 import http2 from 'node:http2'
 import * as cheerio from 'cheerio'
 import { createServer } from '../../../../src/server.js'
+import { getOptions } from '../../../utils/helpers.js'
+import { expectPageTitle } from '../../../utils/page-title-expect.js'
 import { expectHeader } from '../../../utils/header-expect.js'
 import { expectPhaseBanner } from '../../../utils/phase-banner-expect.js'
+import { expectPageHeading } from '../../../utils/page-heading-expect.js'
+import { expectRelatedContent } from '../../../utils/related-content-expect.js'
 import { expectFooter } from '../../../utils/footer-expect.js'
-import { getOptions } from '../../../utils/helpers.js'
 
 const { constants: httpConstants } = http2
 
@@ -66,12 +69,11 @@ describe('Scheme Payments by year route', () => {
     '#payments-by-year-summary-toggle',
     '#show-all-year-payments-button',
     '#more-actions'
-  ])('Check for common elements to be present', (id) => {
+  ])('Check for expected content to be defined', (id) => {
     expect($(id)).toBeDefined()
   })
 
-  test('Check for common elements content', () => {
-    expect($('h1').text()).toMatch('Scheme payments by year')
+  test('Check for page specific content', () => {
     expect($('#date-range').text()).toMatch('1 April 2021 to 31 March 2023')
     expect($('#total-schemes').text()).toMatch('Payments from 2 schemes')
     expect($('#total-years').text()).toMatch('Over 2 financial years')
@@ -83,18 +85,21 @@ describe('Scheme Payments by year route', () => {
     { id: '#back-link', href: '/', text: 'Back' },
     { id: '#call-charges', href: 'https://www.gov.uk/call-charges', text: 'Find out about call charges' },
     { id: '#sfi-query-form', href: 'https://www.gov.uk/government/publications/sustainable-farming-incentive-pilot-query-form', text: 'SFI pilot query form' },
-    { id: '#new-search-link', href: '#', text: 'start a new search' },
+    { id: '#new-search-link', href: '/search', text: 'start a new search' },
     { id: '#print-link', href: 'window.print()', text: 'print this page' }
-  ])('All links are present', async ({ id, href, text }) => {
+  ])('All expected links are present', async ({ id, href, text }) => {
     const linkElement = $(id)
     expect(linkElement).toBeDefined()
     expect(linkElement.attr('href')).toContain(href)
     expect(linkElement.text()).toMatch(text)
   })
 
-  test('Check for other common elements', () => {
+  test('Check for common elements', () => {
+    expectPageTitle($, 'Scheme payments by year')
     expectHeader($)
     expectPhaseBanner($)
+    expectPageHeading($, 'Scheme payments by year')
+    expectRelatedContent($, 'scheme-payments-by-year')
     expectFooter($)
   })
 })

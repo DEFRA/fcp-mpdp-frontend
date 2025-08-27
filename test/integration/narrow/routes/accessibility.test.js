@@ -3,50 +3,58 @@ import http2 from 'node:http2'
 import * as cheerio from 'cheerio'
 import { createServer } from '../../../../src/server.js'
 import { getOptions } from '../../../utils/helpers.js'
-import { expectTitle } from '../../../utils/title-expect.js'
+import { expectPageTitle } from '../../../utils/page-title-expect.js'
 import { expectHeader } from '../../../utils/header-expect.js'
 import { expectPhaseBanner } from '../../../utils/phase-banner-expect.js'
-import { expectFooter } from '../../../utils/footer-expect.js'
+import { expectPageHeading } from '../../../utils/page-heading-expect.js'
 import { expectRelatedContent } from '../../../utils/related-content-expect.js'
+import { expectFooter } from '../../../utils/footer-expect.js'
 
 const { constants: httpConstants } = http2
 
 describe('Accessibility route', () => {
   let server
+  let response
+  let options
+  let $
 
   beforeAll(async () => {
     server = await createServer()
     await server.initialize()
+
+    if (response) { return }
+
+    options = getOptions('accessibility', 'GET')
+
+    response = await server.inject(options)
+    $ = cheerio.load(response.payload)
   })
 
   afterAll(async () => {
     await server.stop({ timeout: 0 })
   })
 
-  test('Should return status code 200 and render expected content when hitting /accessibility', async () => {
-    const options = getOptions('accessibility', 'GET')
-    const response = await server.inject(options)
-
-    const $ = cheerio.load(response.payload)
-
+  test('Should return status code 200  when hitting /accessibility', async () => {
     expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
+  })
 
-    expectTitle($, 'Accessibility statement for Find Farm and Land Payment Data')
+  test('Check for common elements', () => {
+    expectPageTitle($, 'Accessibility statement for Find Farm and Land Payment Data')
     expectHeader($)
     expectPhaseBanner($)
-    expectFooter($)
+    expectPageHeading($, 'Accessibility statement for Find Farm and Land Payment Data')
     expectRelatedContent($, 'accessibility')
+    expectFooter($)
   })
 
   test('Should render a back link with referer', async () => {
-    const options = getOptions('accessibility', 'GET')
-
     options.headers = {
       referer: '/previous-page'
     }
 
-    const response = await server.inject(options)
-    const $ = cheerio.load(response.payload)
+    response = await server.inject(options)
+    $ = cheerio.load(response.payload)
+
     const backLink = $('.govuk-back-link')
 
     expect(backLink).toBeDefined()
@@ -54,23 +62,13 @@ describe('Accessibility route', () => {
     expect(backLink.text()).toBe('Back')
   })
 
-  test('Should have a link to the equality advisory and support service with correct attributes', async () => {
-    const options = getOptions('accessibility', 'GET')
-    const response = await server.inject(options)
-    const $ = cheerio.load(response.payload)
-    const eassLink = $('#eass-link')
+  test.each([
+    { reference: 'equality advisory and support service', id: '#eass-link', url: 'https://www.equalityadvisoryservice.com/' },
+    { reference: 'web content accessibility guidelines', id: '#wcag-link', url: 'https://www.w3.org/TR/WCAG21/' }
+  ])('%s link should be present with the correct attributes', (_reference, id, url) => {
+    const link = $(id)
 
-    expect(eassLink).toBeDefined()
-    expect(eassLink.attr('href')).toBe('https://www.equalityadvisoryservice.com/')
-  })
-
-  test('Should have a link to the web content accessibility guidelines with correct attributes', async () => {
-    const options = getOptions('accessibility', 'GET')
-    const response = await server.inject(options)
-    const $ = cheerio.load(response.payload)
-    const wcagLink = $('#wcag-link')
-
-    expect(wcagLink).toBeDefined()
-    expect(wcagLink.attr('href')).toBe('https://www.w3.org/TR/WCAG21/')
+    expect(link).toBeDefined()
+    expect(link.attr('href')).toBe(url)
   })
 })

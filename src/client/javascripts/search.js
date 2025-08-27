@@ -92,7 +92,7 @@ export default {
     return this.getOption(
       text,
       text,
-      () => document.getElementById('searchButton')?.click(),
+      () => document.getElementById('search-button')?.click(),
       null,
       'mpdp-text-align-center mpdp-align-items-center mpdp-option-container mpdp-break-word')
   },
@@ -205,7 +205,7 @@ export default {
         this.hideSuggestions()
       } else if (e.key === 'Enter') {
         if (this.focusIndex === -1 || !this.domSuggestions.children.length) {
-          document.getElementById('searchButton')?.click()
+          document.getElementById('search-button')?.click()
           return
         }
 
