@@ -1,7 +1,9 @@
 import { describe, afterAll, beforeAll, beforeEach, test, vi, expect } from 'vitest'
+import http2 from 'node:http2'
 import search from '../../../src/client/javascripts/search.js'
 import { JSDOM } from 'jsdom'
 
+const { constants: httpConstants } = http2
 const dom = new JSDOM()
 
 describe('Search', () => {
@@ -19,6 +21,7 @@ describe('Search', () => {
       <div id="suggestions"></div>
       <button id="search-button">Search</button>
     `
+
     search.init()
     searchInput = document.getElementById('search-input')
     domSuggestions = document.getElementById('suggestions')
@@ -59,13 +62,13 @@ describe('Search', () => {
     test('should reject with an error when unsuccessful', async () => {
       const mockMakeSearchRequest = vi.spyOn(search, 'makeSearchRequest').mockImplementationOnce((searchString, callback) => {
         callback(new Error({
-          status: 500,
+          status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR,
           statusText: 'Search request failed'
         }))
       })
 
       await expect(search.getSearchSuggestions(encodeURIComponent('test'))).rejects.toThrow(Error({
-        status: 500,
+        status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR,
         statusText: 'Search request failed'
       }))
 
@@ -111,7 +114,7 @@ describe('Search', () => {
         open: vi.fn(),
         setRequestHeader: vi.fn(),
         send: vi.fn(function () { this.onload() }),
-        status: 200,
+        status: httpConstants.HTTP_STATUS_OK,
         response: JSON.stringify(response)
       }
 
@@ -130,7 +133,7 @@ describe('Search', () => {
         open: vi.fn(),
         setRequestHeader: vi.fn(),
         send: vi.fn(function () { this.onload() }),
-        status: 500,
+        status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR,
         statusText: 'error'
       }
 
@@ -141,7 +144,7 @@ describe('Search', () => {
 
       search.makeSearchRequest(searchString, callback)
 
-      expect(callback).toHaveBeenCalledWith(new Error({ status: 500, statusText: 'error' }))
+      expect(callback).toHaveBeenCalledWith(new Error({ status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR, statusText: 'error' }))
     })
 
     test('should callback with an error with error code if there was an error', async () => {
@@ -149,7 +152,7 @@ describe('Search', () => {
         open: vi.fn(),
         setRequestHeader: vi.fn(),
         send: vi.fn(function () { this.onerror() }),
-        status: 500,
+        status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR,
         statusText: 'error'
       }
 
@@ -160,7 +163,7 @@ describe('Search', () => {
 
       search.makeSearchRequest(searchString, callback)
 
-      expect(callback).toHaveBeenCalledWith(new Error({ status: 500, statusText: 'error' }))
+      expect(callback).toHaveBeenCalledWith(new Error({ status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR, statusText: 'error' }))
     })
   })
 
@@ -206,6 +209,7 @@ describe('Search', () => {
   describe('noResultsOption', () => {
     test('should return a DIV with the expect text and value', () => {
       const noResultsOption = search.noResultsOption()
+
       expect(noResultsOption.value).toBe(search.noResultsText)
     })
   })
@@ -263,6 +267,7 @@ describe('Search', () => {
           }
         ]
       }
+
       search.getSearchSuggestions = vi
         .fn()
         .mockResolvedValueOnce(mockSuggestions)
@@ -272,6 +277,7 @@ describe('Search', () => {
       expect(domSuggestions.innerHTML).toContain(
         'Payee 1 (Town1, Council1, P1)'
       )
+
       expect(domSuggestions.innerHTML).toContain(
         'Payee 2 (Town2, Council2, P2)'
       )
@@ -305,12 +311,14 @@ describe('Search', () => {
     test('should set the focusIndex to 1 if it goes below 0', () => {
       search.focusIndex = -1
       search.setActive()
+
       expect(search.focusIndex).toBe(1)
     })
 
     test('should set the focusIndex to 0 if it goes above the number of DOM children', () => {
       search.focusIndex = 2
       search.setActive()
+
       expect(search.focusIndex).toBe(0)
     })
 
@@ -318,6 +326,7 @@ describe('Search', () => {
       domSuggestions.innerHTML = `
         <div class="mpdp-text-color-dark-grey" value="${search.loadingText}">${search.loadingText}</div>
       `
+
       search.focusIndex = 0
       search.setActive()
 
@@ -330,6 +339,7 @@ describe('Search', () => {
       domSuggestions.innerHTML = `
         <div class="mpdp-text-color-dark-grey" value="${search.noResultsText}">${search.noResultsText}</div>
       `
+
       search.focusIndex = 0
       search.setActive()
 
