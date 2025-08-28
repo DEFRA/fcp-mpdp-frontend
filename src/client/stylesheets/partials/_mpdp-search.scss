@@ -94,20 +94,3 @@ input[type="search"]::-webkit-search-cancel-button {
   }
   
 }
-
-.form-inline #suggestions {
-  position: absolute;
-  background: white;
-  border: 1px solid black;
-  border-radius: 0 0 5px 5px;
-  border-top: none;
-  font-family: sans-serif;
-  left: 0;
-  right: 0;
-  z-index: 1;
-}
-
-.form-inline .mpdp-option-container:hover, .active {
-  background-color: govuk-colour("blue");
-  color: govuk-colour('white');
-}

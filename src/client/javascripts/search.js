@@ -68,7 +68,10 @@ export default {
     option.textContent = text
     option.onmousedown = onClick
     option.onmouseover = onMouseOver
-    option.classList += ` ${classList}`
+
+    if (classList) {
+      classList.split(/\s+/).forEach(cls => option.classList.add(cls))
+    }
 
     return option
   },
