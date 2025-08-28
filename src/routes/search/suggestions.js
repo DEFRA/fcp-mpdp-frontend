@@ -1,5 +1,5 @@
 import Joi from 'joi'
-import { getSearchSuggestions } from '../../api/get-search-suggestions.js'
+import { fetchSearchSuggestions } from '../../services/fetch-search-suggestions.js'
 
 export const suggestions = {
   method: 'GET',
@@ -14,7 +14,7 @@ export const suggestions = {
       }
     },
     handler: async function (request, h) {
-      return h.response(await getSearchSuggestions(request.query.searchString))
+      return h.response(await fetchSearchSuggestions(request.query.searchString))
     }
   }
 }

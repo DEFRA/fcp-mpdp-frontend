@@ -3,8 +3,8 @@ import { createServer } from '../../../../../src/server.js'
 import { getOptions } from '../../../../utils/helpers.js'
 import mockSuggestions from '../../../../data/mock-suggestions.js'
 
-vi.mock('../../../../../src/api/get-search-suggestions.js', () => ({
-  getSearchSuggestions: () => mockSuggestions
+vi.mock('../../../../../src/services/fetch-search-suggestions.js', () => ({
+  fetchSearchSuggestions: () => mockSuggestions
 }))
 
 describe('GET /suggestions route', () => {
