@@ -4,7 +4,7 @@ import { JSDOM } from 'jsdom'
 
 const dom = new JSDOM()
 
-describe('search', () => {
+describe('Scheme payments by year', () => {
   beforeAll(() => {
     global.document = dom.window.document
     global.window = dom.window
