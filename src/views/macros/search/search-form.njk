@@ -7,7 +7,7 @@
         <input type="hidden" id="{{ input.id }}" name="{{ input.name }}" value="{{ input.value }}"/>
       {% endfor %}
 
-      <label class="govuk-label {{ 'govuk-visually-hidden' if model.labelHTML === undefined }}" for="{{ model.id }}">{{ model.labelHTML|safe if model.labelHTML else 'Search' }}</label>
+      <label class="govuk-label {{ 'govuk-visually-hidden' if model.labelHTML === undefined }}" for="{{ model.id }}">{{ model.labelHTML|safe if model.labelHTML else "Search" }}</label>
       
       <p class="{{ 'govuk-visually-hidden' if model.hintHTML === undefined }}">{{ model.hintHTML|safe }}</p>
       
@@ -38,7 +38,7 @@
           data-module="govuk-button" 
           type="submit" 
           aria-label="{{ model.buttonText }}"
-          onClick="document.getElementById('search-form').querySelectorAll('input[type=&quot;checkbox&quot;]').forEach(x => x.checked=false);"
+          onClick="document.getElementById('search-form').querySelectorAll('input[type=&quot;checkbox&quot;]').forEach(box => box.checked=false);"
         >
         {{ model.buttonText }}
         </button>

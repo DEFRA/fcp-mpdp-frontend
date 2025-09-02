@@ -92,5 +92,17 @@ input[type="search"]::-webkit-search-cancel-button {
   .mpdp-details-padding-top {
     padding-top: 0;
   }
-  
+}
+
+.mpdp-tag-filter-cross {
+  margin: -3px 3px;
+  position: absolute;
+}
+
+.mpdp-label-inline {
+  display: contents;
+}
+
+.mpdp-select-min-width {
+  min-width: 8em;
 }

@@ -11,7 +11,8 @@ const nunjucksEnvironment = nunjucks.configure(
   [
     'node_modules/govuk-frontend/dist/',
     path.resolve(dirname, '../../views/'),
-    path.resolve(dirname, '../../views/partials')
+    path.resolve(dirname, '../../views/partials'),
+    path.resolve(dirname, '../../views/macros')
   ],
   {
     autoescape: true,

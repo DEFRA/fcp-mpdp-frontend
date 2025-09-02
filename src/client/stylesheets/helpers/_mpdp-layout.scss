@@ -26,6 +26,10 @@
   float: left;
 }
 
+.mpdp-float-right {
+  float: right;
+}
+
 .mpdp-right-0 {
   right: 0;
 }
@@ -69,3 +73,12 @@
   @extend .mpdp-section-break-heading;
   background-color: lightgray;
 }
+
+.mpdp-display-inline-block {
+  display: inline-block;
+}
+
+.mpdp-height-10 { 
+  height: 10px; 
+}
+

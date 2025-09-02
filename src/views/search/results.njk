@@ -1,10 +1,11 @@
 {% extends "layouts.njk" %}
 
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
-{% from "macros/search-form.njk" import searchForm %}
-{% from "macros/search-results.njk" import searchResults %}
 {% from "govuk/components/pagination/macro.njk" import govukPagination %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "macros/search/search-form.njk" import searchForm %}
+{% from "macros/search/search-results.njk" import searchResults %}
 
 {% block pageTitle %}
   {%if errorList %}Error: {%endif%}{{ headingTitle }} - {{ serviceName }} - GOV.UK
@@ -28,7 +29,12 @@
 {% set mainClasses = "govuk-!-padding-top-2 mpdp-overflow-wrap" %}
 
 {% block content %}
-  {% set resultsText = ("Results for" if total > 0 or errorList else "We found no results for") %}
+  {% if total > 0 or errorList %}
+    {% set resultsText = "Results for" %}
+  {% else %}
+    {% set resultsText = "We found no results for" %}
+  {% endif %}
+
   <h1 class="govuk-heading-l govuk-!-margin-bottom-3">{{ resultsText }} ‘{{ searchString }}’</h1>
 
   <p>You can search by name and location.</p>

@@ -80,14 +80,14 @@ export default {
     return this.getOption(this.loadingText, this.loadingText,
       () => { this.searchInput.focus() },
       null,
-      'mpdp-text-color-dark-grey')
+      'mpdp-text-colour-dark-grey')
   },
 
   noResultsOption () {
     return this.getOption(this.noResultsText, this.noResultsText,
       () => { this.searchInput.focus() },
       null,
-      'mpdp-text-color-dark-grey')
+      'mpdp-text-colour-dark-grey')
   },
 
   viewAllOption (count) {
