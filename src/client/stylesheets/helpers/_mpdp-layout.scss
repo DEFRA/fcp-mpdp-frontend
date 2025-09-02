@@ -66,6 +66,6 @@
 }
 
 .mpdp-section-break-heading--lightgray {
-  @extend .section-break-heading;
+  @extend .mpdp-section-break-heading;
   background-color: lightgray;
 }
