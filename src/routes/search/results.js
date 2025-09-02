@@ -13,14 +13,17 @@ export const results = {
         if (!(searchString?.trim())) {
           return h.view(
             `search/${pageId || 'search'}`,
-            await resultsModel(request, error)
+            {
+              pageTitle: 'Search for an agreement holder',
+              ...await resultsModel(request, error)
+            }
           ).code(400).takeover()
         }
 
         return h.view(
-          'search/index', 
-          { 
-            ...request.query, 
+          'search/index',
+          {
+            ...request.query,
             errorList: [{ text: error.details[0].message }]
           }).code(400).takeover()
       }
