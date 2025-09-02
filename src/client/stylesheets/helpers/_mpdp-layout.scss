@@ -49,3 +49,23 @@
 .mpdp-align-items-center {
   align-items: center;
 }
+
+.mpdp-overflow-wrap {
+  overflow-wrap: anywhere;
+}
+
+.mpdp-justify-content-flex-end {
+  display: flex;
+  justify-content: flex-end
+}
+
+.mpdp-section-break-heading {
+  height: 2px;
+  border-width: 0;
+  background-color: gray
+}
+
+.mpdp-section-break-heading--lightgray {
+  @extend .section-break-heading;
+  background-color: lightgray;
+}

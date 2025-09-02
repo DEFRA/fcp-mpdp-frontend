@@ -1,8 +1,8 @@
-{% extends './layouts/layout.njk' %}
+{% extends "layouts.njk" %}
 
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
-{% from "./macros/search-form.njk" import searchForm %}
-{% from "./macros/search-results.njk" import searchResults %}
+{% from "macros/search-form.njk" import searchForm %}
+{% from "macros/search-results.njk" import searchResults %}
 {% from "govuk/components/pagination/macro.njk" import govukPagination %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
@@ -15,7 +15,7 @@
     {{govukErrorSummary ({
       "titleText": "There is a problem",
       "errorList": errorList,
-      "classes": 'govuk-!-margin-top-4 govuk-!-margin-bottom-2'
+      "classes": "govuk-!-margin-top-4 govuk-!-margin-bottom-2"
     }) }}
   {% endif %}
 
@@ -28,7 +28,7 @@
 {% set mainClasses = "govuk-!-padding-top-2 mpdp-overflow-wrap" %}
 
 {% block content %}
-  {% set resultsText = ('Results for' if total > 0 or errorList else 'We found no results for') %}
+  {% set resultsText = ("Results for" if total > 0 or errorList else "We found no results for") %}
   <h1 class="govuk-heading-l govuk-!-margin-bottom-3">{{ resultsText }} ‘{{ searchString }}’</h1>
 
   <p>You can search by name and location.</p>
@@ -36,13 +36,13 @@
   <div class="govuk-grid-row">    
     <div class="govuk-grid-column-one-third">
       {{ searchForm({
-        inputClass: 'govuk-input',
-        id: 'results-search-input',
-        name: 'searchString',
-        inputmode: 'string',
-        buttonText: 'Search',
-        href: '/results',
-        labelHTML: 'Search',
+        inputClass: "govuk-input",
+        id: "results-search-input",
+        name: "searchString",
+        inputmode: "string",
+        buttonText: "Search",
+        href: "/results",
+        labelHTML: "Search",
         value: searchString,
         errorList: errorList,
         hiddenInputs: hiddenInputs,

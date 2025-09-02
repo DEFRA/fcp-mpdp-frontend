@@ -108,7 +108,7 @@ function getSortByModel (query) {
 
 function getPaginationAttributes (totalResults, requestedPage, searchString, filterBy, sortBy) {
   const encodedSearchString = encodeURIComponent(searchString)
-  const totalPages = Math.ceil(totalResults / config.search.limit)
+  const totalPages = Math.ceil(totalResults / config.get('search.limit'))
 
   let prevHref = `/results?searchString=${encodedSearchString}&page=${requestedPage - 1}`
   let nextHref = `/results?searchString=${encodedSearchString}&page=${requestedPage + 1}`
@@ -153,7 +153,7 @@ function getPaginationAttributes (totalResults, requestedPage, searchString, fil
 }
 
 async function performSearch (searchString, requestedPage, filterBy, sortBy) {
-  const offset = (requestedPage - 1) * config.search.limit
+  const offset = (requestedPage - 1) * config.get('search.limit')
   const paymentData = await fetchPaymentData(searchString, offset, filterBy, sortBy)
   const results = paymentData.results?.map(({ total_amount, ...x }) => x) // eslint-disable-line camelcase
   return {

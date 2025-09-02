@@ -1,3 +1,5 @@
+{% from "./search-filters.njk" import searchFilters %}
+
 {% macro searchForm(model) %}
   <form id="search-form" action="{{ model.href }}" method="get">
     <div class="govuk-form-group {% if model.errorList %}govuk-form-group--error{% endif %}">

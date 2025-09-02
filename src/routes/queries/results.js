@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-export const resultsQueryObj = {
+const resultsQueryObj = {
   searchString: Joi.string().trim().min(1).required(),
   page: Joi.number().default(1),
   pageId: Joi.string().default(''),
@@ -11,3 +11,5 @@ export const resultsQueryObj = {
   sortBy: Joi.string().trim().optional().default('score'),
   referer: Joi.string().trim().optional().allow('').default('')
 }
+
+export const resultsQuery = Joi.object(resultsQueryObj)
