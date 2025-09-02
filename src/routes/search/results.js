@@ -17,7 +17,12 @@ export const results = {
           ).code(400).takeover()
         }
 
-        return h.view('search/search', { ...request.query, errorList: [{ text: error.details[0].message }] }).code(400).takeover()
+        return h.view(
+          'search/index', 
+          { 
+            ...request.query, 
+            errorList: [{ text: error.details[0].message }]
+          }).code(400).takeover()
       }
     },
     handler: async function (request, h) {

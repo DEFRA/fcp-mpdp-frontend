@@ -1,8 +1,8 @@
 import path from 'node:path'
 import Hapi from '@hapi/hapi'
 import Scooter from '@hapi/scooter'
-// import { contentSecurityPolicy } from './plugins/content-security-policy.js'
-// import { headers } from './plugins/headers.js'
+import { contentSecurityPolicy } from './plugins/content-security-policy.js'
+import { headers } from './plugins/headers.js'
 import { router } from './plugins/router.js'
 import { config } from './config/config.js'
 import { pulse } from './common/helpers/pulse.js'
@@ -52,8 +52,8 @@ export async function createServer () {
     secureContext,
     pulse,
     nunjucksConfig,
-    // contentSecurityPolicy,
-    // headers,
+    contentSecurityPolicy,
+    headers,
     router,
   ])
 

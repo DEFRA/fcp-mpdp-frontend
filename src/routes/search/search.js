@@ -5,7 +5,7 @@ export const search = {
   path: '/search',
   handler: function (request, h) {
     return h.view(
-      'search/search',
+      'search/index',
       {
         referer: request.headers.referer,
         pageTitle: 'Search for an agreement holder',
