@@ -45,4 +45,31 @@ describe('Search for an agreement holder', () => {
     expectRelatedContent($)
     expectFooter($)
   })
+
+  describe('Search error', () => {
+    beforeAll(async () => {
+      const options = getOptions('results', 'GET', { searchString: '' })
+      response = await server.inject(options)
+      $ = cheerio.load(response.payload)
+    })
+
+    test('Invalid query triggers error on /results', async () => {
+      const errorSummary = $('.govuk-error-summary__title')
+
+      expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
+
+      expect(errorSummary).toBeDefined()
+      expect(errorSummary.text()).toMatch('There is a problem')
+
+      expect($('#results-search-input')).toBeDefined()
+      expect($('.govuk-form-group.govuk-form-group--error')).toBeDefined()
+      expect($('#search-input-error').text()).toContain('Enter a name or location')
+    })
+
+    test('Should render common elements on invalid query submission', () => {
+      expectPageTitle($, 'Error: Search for an agreement holder')
+      expectPageHeading($, 'Search for an agreement holder')
+      expectRelatedContent($)
+    })
+  })
 })
