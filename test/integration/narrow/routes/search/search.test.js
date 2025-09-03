@@ -1,4 +1,4 @@
-import { describe, beforeAll, afterAll, test, expect } from 'vitest'
+import { describe, beforeAll, afterAll, test, expect, vi } from 'vitest'
 import http2 from 'node:http2'
 import * as cheerio from 'cheerio'
 import { createServer } from '../../../../../src/server.js'
@@ -6,11 +6,20 @@ import { getOptions } from '../../../../utils/helpers.js'
 import { expectPageTitle } from '../../../../utils/page-title-expect.js'
 import { expectHeader } from '../../../../utils/header-expect.js'
 import { expectPhaseBanner } from '../../../../utils/phase-banner-expect.js'
+import { expectBackLink } from '../../../../utils/back-link-expect.js'
 import { expectPageHeading } from '../../../../utils/page-heading-expect.js'
 import { expectRelatedContent } from '../../../../utils/related-content-expect.js'
 import { expectFooter } from '../../../../utils/footer-expect.js'
 
 const { constants: httpConstants } = http2
+
+vi.mock('../../../../../src/services/fetch-payment-data.js', () => ({
+  fetchPaymentData: () => ({
+    results: [],
+    total: 0,
+    filterOptions: { schemes: [], amounts: [], counties: [] }
+  })
+}))
 
 describe('Search route', () => {
   let server
@@ -41,9 +50,45 @@ describe('Search route', () => {
     expectPageTitle($, 'Search for an agreement holder')
     expectHeader($)
     expectPhaseBanner($)
+    expectBackLink($)
     expectPageHeading($, 'Search for an agreement holder')
-    expectRelatedContent($)
+    expectRelatedContent($, 'search')
     expectFooter($)
+  })
+
+  test('Check for search page specific elements', () => {
+    const searchBox = $('#search-input')
+    const button = $('.govuk-button')
+    const form = $('#search-form')
+    const downloadAllLink = $('#download-all-link')
+
+    expect(searchBox).toBeDefined()
+
+    expect(button).toBeDefined()
+    expect(button.text()).toMatch('Search')
+
+    expect(form.attr('action')).toMatch('/results')
+    expect(form.attr('method')).toMatch('get')
+
+    expect(downloadAllLink.attr('href')).toMatch('#')
+    expect(downloadAllLink.text()).toMatch('download all scheme data (.CSV, 10.9MB)')
+  })
+
+  test('Should GET /results route returning results page after query submission', async () => {
+    const searchString = '__TEST_STRING__'
+    const options = getOptions('results', 'GET', { searchString })
+
+    response = await server.inject(options)
+    $ = cheerio.load(response.payload)
+
+    expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
+    expectPageHeading($, `We found no results for ‘${searchString}’`)
+
+    const searchBox = $('#results-search-input')
+
+    expect(searchBox).toBeDefined()
+    expect(searchBox.val()).toMatch(searchString)
+    expect($('#total-results').text()).toMatch('0 results')
   })
 
   describe('Search error', () => {
