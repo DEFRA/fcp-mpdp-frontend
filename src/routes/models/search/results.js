@@ -50,9 +50,21 @@ function getTags (query, { counties }) {
 }
 
 function getFilters (query, filterOptions) {
-  const schemesLength = !query.schemes ? 0 : (typeof query.schemes === 'string' ? 1 : query.schemes?.length)
-  const yearsLength = !query.years ? 0 : (typeof query.years === 'string' ? 1 : query.years?.length)
-  const countiesLength = !query.counties ? 0 : (typeof query.counties === 'string' ? 1 : query.counties?.length)
+  let schemesLength = 0
+  if (query.schemes) {
+    schemesLength = typeof query.schemes === 'string' ? 1 : query.schemes?.length
+  }
+
+  let yearsLength = 0
+  if (query.years) {
+    yearsLength = typeof query.years === 'string' ? 1 : query.years?.length
+  }
+
+  let countiesLength = 0
+  if (query.counties) {
+    countiesLength = typeof query.counties === 'string' ? 1 : query.counties?.length
+  }
+
   const attributes = {
     onchange: 'this?.form?.submit()'
   }
@@ -174,6 +186,7 @@ async function performSearch (searchString, requestedPage, filterBy, sortBy) {
   const offset = (requestedPage - 1) * config.get('search.limit')
   const paymentData = await fetchPaymentData(searchString, offset, filterBy, sortBy)
   const results = paymentData.results?.map(({ total_amount, ...x }) => x) // eslint-disable-line camelcase
+
   return {
     ...paymentData,
     results
