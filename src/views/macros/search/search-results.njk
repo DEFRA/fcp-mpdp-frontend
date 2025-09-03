@@ -9,10 +9,10 @@
         <h2 class="govuk-heading-s govuk-!-margin-bottom-0" id="total-results">{{ resultsText }}</h2>
       </div>
 
-      <div class="govuk-grid-column-two-thirds govuk-!-margin-3">
+      <div class="govuk-grid-column-two-thirds govuk-!-text-align-right">
         {% if(model.total) %}
           <a id="download-results-link"
-            class="govuk-!-margin-bottom-0 govuk-!-margin-right-3"
+            class="govuk-!-margin-bottom-0"
             href="#">
             Download {{ resultsText }} (.CSV)
           </a>
@@ -24,7 +24,7 @@
     <hr class="govuk-section-break govuk-section-break--visible section-break-heading" role="presentation">
     
     {% if (model.total) %}
-      <div>
+      <div class="govuk-!-margin-top-2">
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-one-half">
             <p></p>
