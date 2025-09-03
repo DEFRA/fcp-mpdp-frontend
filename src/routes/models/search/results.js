@@ -184,7 +184,7 @@ export async function resultsModel (request, error) {
   const { query } = request
   const searchString = decodeURIComponent(query.searchString)
   const referer = query.referer || request.headers.referer
-  
+
   const defaultReturn = {
     hiddenInputs: [
       { id: 'page-id', name: 'pageId', value: 'results' },
