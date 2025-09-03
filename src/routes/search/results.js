@@ -1,5 +1,8 @@
+import http2 from 'node:http2'
 import { resultsModel } from '../models/search/results.js'
 import { resultsQuery as query } from '../queries/results.js'
+
+const { constants: httpConstants } = http2
 
 export const results = {
   method: 'GET',
@@ -12,12 +15,12 @@ export const results = {
 
         if (!(searchString?.trim())) {
           return h.view(
-            `search/${pageId || 'search'}`,
+            `search/${pageId || 'index'}`,
             {
               pageTitle: 'Search for an agreement holder',
               ...await resultsModel(request, error)
             }
-          ).code(400).takeover()
+          ).code(httpConstants.HTTP_STATUS_BAD_REQUEST).takeover()
         }
 
         return h.view(
@@ -25,7 +28,7 @@ export const results = {
           {
             ...request.query,
             errorList: [{ text: error.details[0].message }]
-          }).code(400).takeover()
+          }).code(httpConstants.HTTP_STATUS_BAD_REQUEST).takeover()
       }
     },
     handler: async function (request, h) {

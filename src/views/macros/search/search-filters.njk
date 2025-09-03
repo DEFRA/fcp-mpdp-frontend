@@ -6,14 +6,16 @@
       <div class="govuk-grid-column-one-half govuk-!-padding-left-0">
         <span>Filters</span>
       </div>
+
       <div class="govuk-grid-column-one-half govuk-!-padding-right-0">
         <button 
           id="clear-all-filters" 
           class="govuk-link govuk-!-font-size-16 govuk-!-padding-top-1 mpdp-link-btn mpdp-float-right nojs-hidden" 
           aria-live="polite"
-          onClick="this.form.querySelectorAll('input[type=&quot;checkbox&quot;]').forEach(box => box.checked=false); this.form.submit();">
-            Clear all filters
-          </button>
+          onClick="this.form.querySelectorAll('input[type=&quot;checkbox&quot;]').forEach(box => box.checked=false); this.form.submit();"
+        >
+          Clear all filters
+        </button>
       </div>
     </div>
 
@@ -26,7 +28,7 @@
               <span class="govuk-!-font-size-19">Financial year (1 April to 31 March)</span>
             {% endif %}
             {% if object.selected %}
-              <div id="{{ key | lower }}Selected" class="govuk-!-font-size-14 govuk-!-margin-1 govuk-!-margin-left-4 nojs-hidden">{{ object.selected }} Selected</div>
+              <div id="{{ key | lower }}Selected" class="govuk-!-font-size-14 govuk-!-margin-1 govuk-!-margin-left-4 nojs-hidden">{{ object.selected }} selected</div>
             {% endif %}
             {{ govukCheckboxes({
                 name: key,
@@ -42,7 +44,7 @@
       </div>
 
       {% if not loop.last %}
-        <hr class="govubk-section-break govuk-section-reak--visible section-break-heading--lightgray" role="presentation">
+        <hr class="govubk-section-break govuk-section-break--visible section-break-heading--lightgray" role="presentation">
       {% endif %}
     {% endfor %}
   </div>

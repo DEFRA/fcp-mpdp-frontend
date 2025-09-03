@@ -178,7 +178,7 @@ export async function resultsModel (request, error) {
   if (error) {
     return {
       ...defaultReturn,
-      relatedContentData: getRelatedContentLinks('search'),
+      relatedContentLinks: getRelatedContentLinks('search'),
       referer,
       filters: getFilters(query, {
         schemes: getAllSchemeNames(),
