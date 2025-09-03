@@ -185,7 +185,7 @@ function getDownloadResultsLink (searchString, filterBy, sortBy) {
 async function performSearch (searchString, requestedPage, filterBy, sortBy) {
   const offset = (requestedPage - 1) * config.get('search.limit')
   const paymentData = await fetchPaymentData(searchString, offset, filterBy, sortBy)
-  const results = paymentData.results?.map(({ total_amount: _total_amount, ...x }) => x) // eslint-disable-line camelcase
+  const results = paymentData.results?.map(({ total_amount, ...x }) => x) // eslint-disable-line camelcase
 
   return {
     ...paymentData,
