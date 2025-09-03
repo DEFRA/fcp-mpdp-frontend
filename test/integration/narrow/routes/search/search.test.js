@@ -12,7 +12,7 @@ import { expectFooter } from '../../../../utils/footer-expect.js'
 
 const { constants: httpConstants } = http2
 
-describe('Search for an agreement holder', () => {
+describe('Search route', () => {
   let server
   let response
   let $
