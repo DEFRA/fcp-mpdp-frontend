@@ -33,7 +33,14 @@ describe('resultsModel', () => {
     getRelatedContentLinks.mockReturnValue(['Mock related content link'])
 
     const request = {
-      query: { searchString: 'test', sortBy: 'score' },
+      query: {
+        searchString: 'test',
+        sortBy: 'score',
+        schemes: [],
+        amounts: [],
+        years: [],
+        counties: []
+      },
       headers: { referer: '/previous-page' }
     }
 
@@ -70,7 +77,8 @@ describe('resultsModel', () => {
         page: 1,
         schemes: 'Mock scheme A',
         years: '21/22',
-        counties: 'Bedfordshire'
+        counties: 'Bedfordshire',
+        amounts: []
       },
       headers: { referer: '/previous-page' }
     }
@@ -114,7 +122,11 @@ describe('resultsModel', () => {
       query: {
         searchString: 'farms',
         sortBy: 'score',
-        page: 2
+        page: 2,
+        schemes: [],
+        amounts: [],
+        years: [],
+        counties: []
       },
       headers: { referer: '/previous-page' }
     }
