@@ -152,6 +152,24 @@ function getPaginationAttributes (totalResults, requestedPage, searchString, fil
   return { previous, next }
 }
 
+function getDownloadResultsLink (searchString, filterBy, sortBy) {
+  const encodedSearchString = encodeURIComponent(searchString)
+  let downloadResultsLink = `/downloadresults?searchString=${encodedSearchString}`
+  for (const key in filterBy) {
+    if (filterBy[key].length) {
+      const urlParam = `&${key}=`
+      const urlPart = `${urlParam}${filterBy[key].map(x => encodeURIComponent(x)).join(urlParam)}`
+      downloadResultsLink += urlPart
+    }
+  }
+  if (sortBy) {
+    const encodedSortBy = encodeURIComponent(sortBy)
+    downloadResultsLink += `&sortBy=${encodedSortBy}`
+  }
+
+  return { downloadResultsLink }
+}
+
 async function performSearch (searchString, requestedPage, filterBy, sortBy) {
   const offset = (requestedPage - 1) * config.get('search.limit')
   const paymentData = await fetchPaymentData(searchString, offset, filterBy, sortBy)
@@ -166,10 +184,11 @@ export async function resultsModel (request, error) {
   const { query } = request
   const searchString = decodeURIComponent(query.searchString)
   const referer = query.referer || request.headers.referer
+  
   const defaultReturn = {
     hiddenInputs: [
-      { id: 'pageId', name: 'pageId', value: 'results' },
-      { id: 'sortBy', name: 'sortBy', value: 'score' },
+      { id: 'page-id', name: 'pageId', value: 'results' },
+      { id: 'sort-by', name: 'sortBy', value: 'score' },
       { id: 'referer', name: 'referer', value: referer }
     ],
     sortBy: getSortByModel(query)
@@ -215,6 +234,7 @@ export async function resultsModel (request, error) {
     results,
     total,
     currentPage: requestedPage,
-    headingTitle: `${total ? 'Results for' : 'We found no results for'} ‘${searchString}’`
+    headingTitle: `${total ? 'Results for' : 'We found no results for'} ‘${searchString}’`,
+    ...getDownloadResultsLink(searchString, filterBy, sortBy)
   }
 }
