@@ -14,10 +14,10 @@ describe('fetchSearchSuggestions', () => {
     config.load({})
     config.validate({ allowed: 'strict' })
 
-    vi.spyOn(config, 'get').mockImplementation(value => {
-      if (value === 'backend.endpoint') return endpoint
-      if (value === 'backend.path') return path
-      return config[value]
+    vi.spyOn(config, 'get').mockImplementation(key => {
+      if (key === 'backend.endpoint') return endpoint
+      if (key === 'backend.path') return path
+      return config[key]
     })
   })
 
