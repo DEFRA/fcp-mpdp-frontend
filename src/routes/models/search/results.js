@@ -217,10 +217,10 @@ export async function resultsModel (request, error) {
   const sortBy = decodeURIComponent(query.sortBy)
   const requestedPage = query.page
   const filterBy = {
-    schemes: typeof query.schemes === 'string' ? [query.schemes] : query.schemes,
-    amounts: typeof query.amounts === 'string' ? [query.amounts] : query.amounts,
-    years: typeof query.years === 'string' ? [query.years] : query.years,
-    counties: typeof query.counties === 'string' ? [query.counties] : query.counties
+    schemes: typeof query.schemes === 'string' ? [query.schemes] : (query.schemes || []),
+    amounts: typeof query.amounts === 'string' ? [query.amounts] : (query.amounts || []),
+    years: typeof query.years === 'string' ? [query.years] : (query.years || []),
+    counties: typeof query.counties === 'string' ? [query.counties] : (query.counties || [])
   }
 
   const { results, total, filterOptions } = await performSearch(searchString, requestedPage, filterBy, sortBy)
