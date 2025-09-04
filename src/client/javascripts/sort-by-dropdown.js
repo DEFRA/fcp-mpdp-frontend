@@ -1,6 +1,5 @@
-
 export default {
-  init() {
+  init () {
     const dropdown = document.querySelector('[data-module="sort-by-dropdown"]')
     if (!dropdown) return
 
@@ -12,5 +11,3 @@ export default {
     })
   }
 }
-
-
