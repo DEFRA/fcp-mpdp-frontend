@@ -24,6 +24,7 @@ vi.mock('../../../../../src/services/fetch-payment-data.js', () => ({
 describe('Search route', () => {
   let server
   let response
+  let options
   let $
 
   beforeAll(async () => {
@@ -32,7 +33,7 @@ describe('Search route', () => {
 
     if (response) { return }
 
-    const options = getOptions('search', 'GET')
+    options = getOptions('search', 'GET')
 
     response = await server.inject(options)
     $ = cheerio.load(response.payload)
@@ -50,10 +51,21 @@ describe('Search route', () => {
     expectPageTitle($, 'Search for an agreement holder')
     expectHeader($)
     expectPhaseBanner($)
-    expectBackLink($)
     expectPageHeading($, 'Search for an agreement holder')
     expectRelatedContent($, 'search')
     expectFooter($)
+  })
+
+  test('Should render a back link with referer', async () => {
+    options = getOptions('search', 'GET')
+    options.headers = {
+      referer: '/previous-page'
+    }
+
+    response = await server.inject(options)
+    $ = cheerio.load(response.payload)
+
+    expectBackLink($, '/previous-page')
   })
 
   test('Check for search page specific elements', () => {

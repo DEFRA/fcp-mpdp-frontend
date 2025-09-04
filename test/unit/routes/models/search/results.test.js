@@ -49,7 +49,7 @@ describe('resultsModel', () => {
     expect(result.errorList).toEqual([
       { text: 'Enter a name or location', href: '#results-search-input' }
     ])
-    
+
     expect(result.headingTitle).toBe('Results for ‘test’')
     expect(result.relatedContentLinks).toEqual(['Mock related content link'])
     expect(result.total).toBe(0)

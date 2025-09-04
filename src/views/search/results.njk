@@ -12,6 +12,7 @@
 {% endblock %}
 
 {% block beforeContent %}
+  {{ super() }}
   {% if errorList %}
     {{govukErrorSummary ({
       "titleText": "There is a problem",

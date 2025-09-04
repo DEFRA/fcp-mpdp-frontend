@@ -156,7 +156,7 @@ function getPaginationAttributes (totalResults, requestedPage, searchString, fil
         href: nextHref,
         labelText: `${requestedPage + 1} of ${totalPages} `,
         attributes: {
-          id: 'nextOption',
+          id: 'next-option',
           'aria-label': 'Go to next page of results: ' + `${requestedPage + 1} of ${totalPages} `
         }
       }
