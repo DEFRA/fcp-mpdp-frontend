@@ -1,7 +1,8 @@
 export default {
   init () {
     const filtersContainer = document.querySelector('[data-module="search-filters"]')
-    if (!filtersContainer) return
+
+    if (!filtersContainer) { return }
 
     const form = filtersContainer.closest('form')
 
