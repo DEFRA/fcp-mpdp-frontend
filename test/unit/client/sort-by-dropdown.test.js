@@ -25,6 +25,7 @@ describe('sortByDropdown', () => {
 
     form = document.getElementById('search-form')
     dropdown = document.querySelector('[data-module="sort-by-dropdown"]')
+
     sortByDropdown.init()
   })
 
@@ -40,8 +41,12 @@ describe('sortByDropdown', () => {
   })
 
   test('changing dropdown updates form value and submits the form', () => {
-    const submitSpy = vi.spyOn(form, 'submit')
     const sortSelect = form.elements['sortBy']
+    const submitSpy = vi.spyOn(form, 'submit').mockImplementation(() => { })
+
+    console.log('form.sortBy:', form.sortBy)
+    console.log('form.elements.sortBy:', form.elements.sortBy)
+    console.log('form.elements["sortBy"]:', form.elements['sortBy'])
 
     dropdown.value = 'date'
     dropdown.dispatchEvent(new window.Event('change', { bubbles: true }))
@@ -57,6 +62,7 @@ describe('sortByDropdown', () => {
         <option value="date">Date</option>
       </select>
     `
+
     const newDropdown = document.querySelector('[data-module="sort-by-dropdown"]')
     sortByDropdown.init()
 

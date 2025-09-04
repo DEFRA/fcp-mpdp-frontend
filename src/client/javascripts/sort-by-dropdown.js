@@ -7,7 +7,7 @@ export default {
     dropdown.addEventListener('change', (event) => {
       const searchForm = document.getElementById('search-form')
       if (!searchForm) { return }
-      searchForm.sortBy.value = event.target.value
+      searchForm.elements.sortBy.value = event.target.value
       searchForm.submit()
     })
   }
