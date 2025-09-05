@@ -1,5 +1,5 @@
 export default {
-  init() {
+  init () {
     const buttons = document.querySelectorAll('[data-module="search-filter-tags"]')
     if (!buttons.length) { return }
 
