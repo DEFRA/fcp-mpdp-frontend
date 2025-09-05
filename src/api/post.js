@@ -5,7 +5,7 @@ import { handleBackendRequest } from './handle-backend-request.js'
 export async function post (url, payload) {
   const backendUrl = buildBackendUrl(url)
 
-  return await handleBackendRequest(
+  return handleBackendRequest(
     backendUrl,
     Wreck.post(backendUrl, { payload })
   )

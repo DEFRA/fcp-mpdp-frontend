@@ -5,7 +5,7 @@ import { handleBackendRequest } from './handle-backend-request.js'
 export async function get (url) {
   const backendUrl = buildBackendUrl(url)
 
-  return await handleBackendRequest(
+  return handleBackendRequest(
     backendUrl,
     Wreck.get(backendUrl)
   )
