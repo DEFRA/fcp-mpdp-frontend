@@ -6,6 +6,7 @@ import { getOptions } from '../../../utils/helpers.js'
 import { expectPageTitle } from '../../../utils/page-title-expect.js'
 import { expectHeader } from '../../../utils/header-expect.js'
 import { expectPhaseBanner } from '../../../utils/phase-banner-expect.js'
+import { expectBackLink } from '../../../utils/back-link-expect.js'
 import { expectPageHeading } from '../../../utils/page-heading-expect.js'
 import { expectRelatedContent } from '../../../utils/related-content-expect.js'
 import { expectFooter } from '../../../utils/footer-expect.js'
@@ -55,11 +56,7 @@ describe('Accessibility route', () => {
     response = await server.inject(options)
     $ = cheerio.load(response.payload)
 
-    const backLink = $('.govuk-back-link')
-
-    expect(backLink).toBeDefined()
-    expect(backLink.attr('href')).toBe('/previous-page')
-    expect(backLink.text()).toBe('Back')
+    expectBackLink($, '/previous-page')
   })
 
   test.each([

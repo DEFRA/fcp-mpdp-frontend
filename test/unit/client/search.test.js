@@ -324,7 +324,7 @@ describe('Search', () => {
 
     test('should return without making any children active if the current child has loading text', () => {
       domSuggestions.innerHTML = `
-        <div class="mpdp-text-color-dark-grey" value="${search.loadingText}">${search.loadingText}</div>
+        <div class="mpdp-text-colour-dark-grey" value="${search.loadingText}">${search.loadingText}</div>
       `
 
       search.focusIndex = 0
@@ -337,7 +337,7 @@ describe('Search', () => {
 
     test('should return without making any children active if the current child has no results text', () => {
       domSuggestions.innerHTML = `
-        <div class="mpdp-text-color-dark-grey" value="${search.noResultsText}">${search.noResultsText}</div>
+        <div class="mpdp-text-colour-dark-grey" value="${search.noResultsText}">${search.noResultsText}</div>
       `
 
       search.focusIndex = 0
@@ -437,7 +437,7 @@ describe('Search', () => {
 
     test('should do nothing if the the option has Loading text', () => {
       domSuggestions.innerHTML = `
-        <div class="mpdp-text-color-dark-grey" value="test">${search.loadingText}</div>
+        <div class="mpdp-text-colour-dark-grey" value="test">${search.loadingText}</div>
       `
       search.focusIndex = 0
       const spy = vi.spyOn(domSuggestions.children[0], 'click')

@@ -6,6 +6,7 @@ import { getOptions } from '../../../utils/helpers.js'
 import { expectPageTitle } from '../../../utils/page-title-expect.js'
 import { expectHeader } from '../../../utils/header-expect.js'
 import { expectPhaseBanner } from '../../../utils/phase-banner-expect.js'
+import { expectBackLink } from '../../../utils/back-link-expect.js'
 import { expectPageHeading } from '../../../utils/page-heading-expect.js'
 import { expectRelatedContent } from '../../../utils/related-content-expect.js'
 import { expectFooter } from '../../../utils/footer-expect.js'
@@ -82,7 +83,6 @@ describe('Scheme Payments by year route', () => {
   })
 
   test.each([
-    { id: '#back-link', href: '/', text: 'Back' },
     { id: '#call-charges', href: 'https://www.gov.uk/call-charges', text: 'Find out about call charges' },
     { id: '#sfi-query-form', href: 'https://www.gov.uk/government/publications/sustainable-farming-incentive-pilot-query-form', text: 'SFI pilot query form' },
     { id: '#new-search-link', href: '/search', text: 'start a new search' },
@@ -98,6 +98,7 @@ describe('Scheme Payments by year route', () => {
     expectPageTitle($, 'Scheme payments by year')
     expectHeader($)
     expectPhaseBanner($)
+    expectBackLink($, '/')
     expectPageHeading($, 'Scheme payments by year')
     expectRelatedContent($, 'scheme-payments-by-year')
     expectFooter($)

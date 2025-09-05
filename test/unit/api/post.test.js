@@ -1,7 +1,7 @@
 import { vi, describe, beforeEach, afterEach, test, expect } from 'vitest'
 import Wreck from '@hapi/wreck'
 import { config } from '../../../src/config/config.js'
-import { get } from '../../../src/api/get.js'
+import { post } from '../../../src/api/post.js'
 
 const endpoint = 'https://__TEST_ENDPOINT__'
 process.env.MPDP_BACKEND_ENDPOINT = endpoint
@@ -16,7 +16,7 @@ vi.mock('../../../src/common/helpers/logging/logging.js', () => ({
 const { createLogger } = await import('../../../src/common/helpers/logging/logger.js')
 const mockLogger = createLogger()
 
-describe('Backend API: get', () => {
+describe('Backend API: post', () => {
   const route = '/__TEST_ROUTE__'
 
   beforeEach(() => {
@@ -35,24 +35,24 @@ describe('Backend API: get', () => {
   })
 
   test('service uses the env variable to connect to backend service', async () => {
-    const mockGet = vi.fn()
-    vi.spyOn(Wreck, 'get').mockImplementation(mockGet)
+    const mockPost = vi.fn()
+    vi.spyOn(Wreck, 'post').mockImplementation(mockPost)
 
-    await get(route)
+    await post(route, {})
 
-    expect(mockGet).toHaveBeenCalledWith(`${endpoint}${path}${route}`)
+    expect(mockPost).toHaveBeenCalledWith(`${endpoint}${path}${route}`, { payload: {} })
   })
 
-  test('get function handles error', async () => {
+  test('post function handles error', async () => {
     const mockLoggerError = vi.fn()
     mockLogger.error = mockLoggerError
 
-    const mockGet = vi.fn().mockRejectedValue(null)
-    vi.spyOn(Wreck, 'get').mockImplementation(mockGet)
+    const mockPost = vi.fn().mockRejectedValue(new Error('Test error'))
+    vi.spyOn(Wreck, 'post').mockImplementation(mockPost)
 
-    await expect(get(route)).rejects.toThrow()
+    await expect(post(route, {})).rejects.toThrow('Test error')
 
-    expect(mockGet).toHaveBeenCalledWith(`${endpoint}${path}${route}`)
+    expect(mockPost).toHaveBeenCalledWith(`${endpoint}${path}${route}`, { payload: {} })
     expect(mockLoggerError).toHaveBeenCalled()
   })
 })

@@ -149,6 +149,13 @@ export const config = convict({
       default: '/v1/payments',
       env: 'MPDP_BACKEND_PATH'
     }
+  },
+  search: {
+    limit: {
+      doc: 'Maximum number of search results that can be shown on the results page',
+      format: 'nat',
+      default: 20
+    }
   }
 })
 

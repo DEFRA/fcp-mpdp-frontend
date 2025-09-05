@@ -10,7 +10,7 @@ vi.mock('../../../../../src/services/fetch-search-suggestions.js', () => ({
   fetchSearchSuggestions: () => mockSuggestions
 }))
 
-describe('GET /suggestions route', () => {
+describe('Suggestions route', () => {
   let server
   let response
 

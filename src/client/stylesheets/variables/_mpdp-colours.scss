@@ -4,18 +4,22 @@
   color: govuk-colour('white') !important;
 }
 
-.mpdp-border-color-light-grey {
+.mpdp-border-colour-light-grey {
   border-color: govuk-colour('light-grey');
 }
 
-.mpdp-text-link-color {
+.mpdp-text-link-colour {
   color: govuk-colour('blue');
 }
 
-.mpdp-text-color-dark-grey {
+.mpdp-text-colour-dark-grey {
   color: govuk-colour('dark-grey');
 }
 
 .mpdp-hr-colour-blue {
   border-color: govuk-colour('blue')
+}
+
+.mpdp-bg-colour-light-grey {
+  background-color: govuk-colour('light-grey');
 }
