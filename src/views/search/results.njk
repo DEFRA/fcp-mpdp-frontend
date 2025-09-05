@@ -21,10 +21,12 @@
     }) }}
   {% endif %}
 
-  {{ govukBackLink({
-    text: "Back",
-    href: "/search"
-  }) }}
+  <nav>
+    {{ govukBackLink({
+      text: "Back",
+      href: "/search"
+    }) }}
+  </nav>
 {% endblock %}
 
 {% set mainClasses = "govuk-!-padding-top-2 mpdp-overflow-wrap" %}
