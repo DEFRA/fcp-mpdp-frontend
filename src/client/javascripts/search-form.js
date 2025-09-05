@@ -5,7 +5,7 @@ export default {
 
     if (!form || !searchButton) { return }
 
-    searchButton.addEventListener('click', (event) => {
+    searchButton.addEventListener('click', () => {
       form.querySelectorAll('input[type="checkbox"]').forEach(box => {
         box.checked = false
       })

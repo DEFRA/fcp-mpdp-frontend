@@ -1,11 +1,11 @@
 import Wreck from '@hapi/wreck'
 import { buildBackendUrl } from './build-backend-url.js'
-import { handleBackendRequest } from './handle-backend-request.js'
+import { requestPromise } from './request-promise.js'
 
-export async function get (url) {
-  const backendUrl = buildBackendUrl(url)
+export async function get (path) {
+  const backendUrl = buildBackendUrl(path)
 
-  return handleBackendRequest(
+  return requestPromise(
     backendUrl,
     Wreck.get(backendUrl)
   )

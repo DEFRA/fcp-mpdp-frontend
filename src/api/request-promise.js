@@ -1,6 +1,6 @@
 import { logBackendError } from './log-backend-error.js'
 
-export async function handleBackendRequest (backendUrl, promise) {
+export async function requestPromise (backendUrl, promise) {
   try {
     return await promise
   } catch (err) {
