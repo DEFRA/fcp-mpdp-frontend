@@ -14,7 +14,8 @@
               <button 
                 type="button" 
                 class="govuk-button govuk-button--secondary mpdp-button" 
-                onClick="const searchForm=document.getElementById('search-form');searchForm.querySelectorAll('input[type=&quot;checkbox&quot;][value=&quot;{{ item.value }}&quot;]')[0].checked=false;searchForm.submit()"
+                data-filter-value="{{ item.value }}"
+                data-module="filter-tag-button"
               >
                 <span class="govuk-!-font-size-24 mpdp-tag-filter-cross">&times;</span>
                 <span class="govuk-!-margin-left-5">{{ item.text }}</span>
