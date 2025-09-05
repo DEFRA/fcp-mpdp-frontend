@@ -1,6 +1,5 @@
 {% extends "layouts.njk" %}
 
-{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/pagination/macro.njk" import govukPagination %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
@@ -22,10 +21,7 @@
   {% endif %}
 
   <nav>
-    {{ govukBackLink({
-      text: "Back",
-      href: "/search"
-    }) }}
+    <a id="back-link" href="/search" class="govuk-back-link">Back</a>
   </nav>
 {% endblock %}
 
