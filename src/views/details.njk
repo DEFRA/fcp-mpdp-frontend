@@ -6,6 +6,7 @@
 
 {% block beforeContent %}
   {{ super() }}
+
   <nav>
     <a id="back-link" href="/results?searchString={{ searchString }}&page={{ page }}" class="govuk-back-link">Back to results</a>
   </nav>
@@ -98,9 +99,9 @@
                 <hr class="govuk-section-break govuk-section-break--visible mpdp-border-colour-light-grey mpdp-grid-column-1-span-2 mpdp-hr" role="presentation">
                 {% for financialYear, activityDetails in scheme.activity %}
                   <dt>
-                    <details class="schemeActivity" close>
+                    <details class="schemeActivity">
                       <summary class="detailsSummary">
-                          <div class="mpdp-text-link-color mpdp-text-underline">{{ financialYear }}</div>
+                          <div class="mpdp-text-link-colour mpdp-text-underline">{{ financialYear }}</div>
                           <div class="mpdp-text-align-right govuk-!-font-weight-bold">£{{ activityDetails.readableTotal }}</div>
                       </summary>
                       <div>
@@ -117,7 +118,7 @@
                     </details>
                   </dt>
                   
-                  <hr class="govuk-section-break govuk-section-break--visible mpdp-border-color-light-grey mpdp-grid-column-1-span-2 mpdp-hr" role="presentation">
+                  <hr class="govuk-section-break govuk-section-break--visible mpdp-border-colour-light-grey mpdp-grid-column-1-span-2 mpdp-hr" role="presentation">
                   
                 {% endfor %}
               </dl>

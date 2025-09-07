@@ -5,7 +5,6 @@ import { getRelatedContentLinks } from '../../common/utils/related-content.js'
 
 export async function detailsModel ({ payeeName, partPostcode, searchString, page }) {
   const paymentDetails = await fetchPaymentDetails(payeeName, partPostcode)
-  console.log('paymentDetails:', JSON.stringify(paymentDetails, null, 2))
 
   if (!paymentDetails) {
     return {
