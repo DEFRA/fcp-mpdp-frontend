@@ -7,4 +7,3 @@ export async function fetchPaymentDetails (payeeName, partPostcode) {
 
   return JSON.parse(response.payload)
 }
-

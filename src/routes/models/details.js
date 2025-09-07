@@ -3,9 +3,7 @@ import { getReadableAmount } from '../../common/utils/get-readable-amount.js'
 import { getSchemeStaticData } from '../../common/utils/get-scheme-static-data.js'
 import { getRelatedContentLinks } from '../../common/utils/related-content.js'
 
-
-
-export async function detailsModel({ payeeName, partPostcode, searchString, page }) {
+export async function detailsModel ({ payeeName, partPostcode, searchString, page }) {
   const paymentDetails = await fetchPaymentDetails(payeeName, partPostcode)
 
   if (!paymentDetails) {
