@@ -47,8 +47,14 @@ function createPaymentDetailsSummary (paymentDetails) {
     return parseInt(endYearA) - parseInt(endYearB)
   })
 
-  summary.startYear = `20${summary.financial_years[0].split('/')[0]}`
-  summary.endYear = `20${summary.financial_years[summary.financial_years.length - 1].split('/')[1]}`
+  if (summary.financial_years.length > 0) {
+    summary.startYear = `20${summary.financial_years[0].split('/')[0]}`
+    summary.endYear = `20${summary.financial_years[summary.financial_years.length - 1].split('/')[1]}`
+  } else {
+    summary.startYear = ''
+    summary.endYear = ''
+  }
+  
   summary.downloadLink = `/downloaddetails?payeeName=${encodeURIComponent(summary.payee_name)}&partPostcode=${summary.part_postcode}`
 
   return summary
