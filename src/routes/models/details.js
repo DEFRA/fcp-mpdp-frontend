@@ -5,6 +5,7 @@ import { getRelatedContentLinks } from '../../common/utils/related-content.js'
 
 export async function detailsModel ({ payeeName, partPostcode, searchString, page }) {
   const paymentDetails = await fetchPaymentDetails(payeeName, partPostcode)
+  console.log('paymentDetails:', JSON.stringify(paymentDetails, null, 2))
 
   if (!paymentDetails) {
     return {
@@ -26,14 +27,14 @@ function createPaymentDetailsSummary (paymentDetails) {
 
   let farmerTotal = 0
 
-  if (paymentDetails.scheme) {
-    paymentDetails.scheme.forEach(scheme => {
+  if (paymentDetails.schemes) {
+    paymentDetails.schemes.forEach(scheme => {
       const amount = parseFloat(scheme.amount)
       farmerTotal += amount
 
       addSchemeToSummary(summary, scheme)
 
-      if (!scheme.financial_years.includes(scheme.financial_year)) {
+      if (!summary.financial_years.includes(scheme.financial_year)) {
         summary.financial_years.push(scheme.financial_year)
       }
     })
