@@ -1,10 +1,10 @@
 import { vi, describe, beforeAll, beforeEach, test, expect } from 'vitest'
-import schemePaymentsByYear from '../../../src/client/javascripts/scheme-payments-by-year.js'
+import schemePaymentsByYear from '../../../../src/client/javascripts/scheme-payments-by-year.js'
 import { JSDOM } from 'jsdom'
 
 const dom = new JSDOM()
 
-describe('Scheme payments by year', () => {
+describe('schemePaymentsByYear', () => {
   beforeAll(() => {
     global.document = dom.window.document
     global.window = dom.window
