@@ -47,7 +47,7 @@ describe('resultsModel', () => {
     const result = await resultsModel(request, true)
 
     expect(result.errorList).toEqual([
-      { text: 'Enter a name or location', href: '#results-search-input' }
+      { text: 'Enter a name or location', href: '#search-input' }
     ])
 
     expect(result.headingTitle).toBe('Results for ‘test’')
