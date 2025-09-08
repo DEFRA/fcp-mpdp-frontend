@@ -103,7 +103,12 @@ function addSchemeToSummary (summary, scheme) {
 function addSchemeActivity (scheme, schemeData) {
   const [startYear, endYear] = scheme.financial_year.split('/')
   const financialYear = `20${startYear} to 20${endYear}`
-  if (!(financialYear in schemeData?.activity)) {
+
+  if (!schemeData.activity) {
+    schemeData.activity = {}
+  }
+
+  if (!(financialYear in schemeData.activity)) {
     schemeData.activity[financialYear] = {
       total: 0,
       readableTotal: '',
