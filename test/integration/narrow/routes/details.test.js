@@ -109,4 +109,25 @@ describe('Details route', () => {
     expectRelatedContent($, 'details')
     expectFooter($)
   })
+
+  test('Should show validation error when query params are invalid', async () => {
+    const invalidOptions = getOptions(
+      'details',
+      'GET',
+      {
+        searchString: ''
+      }
+    )
+
+    const invalidResponse = await server.inject(invalidOptions)
+    const invalidPayload = cheerio.load(invalidResponse.payload)
+    const errorText = invalidPayload('.govuk-error-summary__list li a').text()
+    const errorHref = invalidPayload('.govuk-error-summary__list li a').attr('href')
+
+    expect(invalidResponse.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
+    expect(errorText).toMatch('Enter a name or location')
+    expect(errorHref).toBe('#search-input')
+    expectPageTitle(invalidPayload, 'Error: Search for an agreement holder')
+    expectRelatedContent(invalidPayload, 'details')
+  })
 })

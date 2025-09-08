@@ -1,6 +1,7 @@
 import Joi from 'joi'
 import http2 from 'node:http2'
 import { detailsModel } from './models/details.js'
+import { getRelatedContentLinks } from '../common/utils/related-content.js'
 
 const { constants: httpConstants } = http2
 
@@ -16,7 +17,20 @@ export const details = {
         page: Joi.number().default(1)
       }),
       failAction: async (request, h, error) => {
-        return h.view('search/index', { ...request.query, errorList: [{ text: error.details[0].message }] }).code(httpConstants.HTTP_STATUS_BAD_REQUEST).takeover()
+        return h.view(
+          'search/index',
+          {
+            ...request.query,
+            errorList: [
+              {
+                text: 'Enter a name or location',
+                href: '#search-input'
+              }
+            ],
+            pageTitle: 'Search for an agreement holder',
+            relatedContentLinks: getRelatedContentLinks('details')
+          }
+        ).code(httpConstants.HTTP_STATUS_BAD_REQUEST).takeover()
       }
     },
     handler: async (request, h) => {
