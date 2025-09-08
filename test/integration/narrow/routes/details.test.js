@@ -34,8 +34,6 @@ describe('Details route', () => {
 
   const searchString = 'Carter'
   const page = '1'
-  const payeeNameResult = 'T R Carter & Sons 1'
-  const partPostcodeResult = 'RG1'
 
   beforeAll(async () => {
     server = await createServer()
@@ -102,12 +100,12 @@ describe('Details route', () => {
   })
 
   test('Should render all common elements', () => {
-    expectPageTitle($, `${payeeNameResult}`)
+    expectPageTitle($, 'T R Carter & Sons 1')
     expectHeader($)
     expectPhaseBanner($)
-    expectPageHeading($, `${payeeNameResult}`)
+    expectPageHeading($, 'T R Carter & Sons 1')
     expectBackLink($, `/results?searchString=${searchString}&page=${page}`, 'Back to results')
-    expectPageHeading($, `${payeeNameResult}`)
+    expectPageHeading($, 'T R Carter & Sons 1')
     expectRelatedContent($, 'details')
     expectFooter($)
   })
