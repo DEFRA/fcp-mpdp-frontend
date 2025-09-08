@@ -55,7 +55,7 @@ describe('Results route', () => {
       expectPageTitle($, `Results for ‘${searchString}’`)
       expectHeader($)
       expectPhaseBanner($)
-      expectBackLink($, '/search')
+      expectBackLink($, '/search', 'Back')
       expectPageHeading($, `Results for ‘${searchString}’`)
       expectFooter($)
     })
