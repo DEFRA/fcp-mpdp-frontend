@@ -3,7 +3,7 @@ const relatedContentLinks = [
     id: 'fflm-link',
     text: 'Funding for farmers, growers and land managers',
     url: 'https://www.gov.uk/guidance/funding-for-farmers',
-    pages: ['start', 'scheme-payments-by-year', 'details', 'search']
+    pages: ['start', 'scheme-payments-by-year', 'search', 'details']
   },
   {
     id: 'tc-link',
