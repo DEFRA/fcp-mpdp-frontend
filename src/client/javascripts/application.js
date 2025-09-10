@@ -5,6 +5,7 @@ import sortByDropdown from './sort-by-dropdown.js'
 import searchFilters from './search-filters.js'
 import searchForm from './search-form.js'
 import searchFilterTags from './search-filter-tags.js'
+import details from './details.js'
 
 schemePaymentsByYear.init()
 search.init()
@@ -12,5 +13,6 @@ sortByDropdown.init()
 searchFilters.init()
 searchForm.init()
 searchFilterTags.init()
+details.init()
 
 initAll()

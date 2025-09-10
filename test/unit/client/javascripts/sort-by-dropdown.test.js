@@ -1,6 +1,6 @@
 import { describe, beforeAll, beforeEach, afterEach, test, vi, expect } from 'vitest'
 import { JSDOM } from 'jsdom'
-import sortByDropdown from '../../../src/client/javascripts/sort-by-dropdown.js'
+import sortByDropdown from '../../../../src/client/javascripts/sort-by-dropdown.js'
 
 const dom = new JSDOM()
 

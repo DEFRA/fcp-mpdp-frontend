@@ -55,7 +55,7 @@ describe('Results route', () => {
       expectPageTitle($, `Results for ‘${searchString}’`)
       expectHeader($)
       expectPhaseBanner($)
-      expectBackLink($, '/search')
+      expectBackLink($, '/search', 'Back')
       expectPageHeading($, `Results for ‘${searchString}’`)
       expectFooter($)
     })
@@ -151,7 +151,7 @@ describe('Results route', () => {
     })
 
     test('renders the search/index view with error when query object is empty', async () => {
-      expect(response.statusCode).toBe(400)
+      expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
       expect($('.govuk-error-summary__title').text()).toContain('There is a problem')
       expect($('.govuk-heading-l').text()).toContain('Search for an agreement holder')
       expect($('#search-input-error').text()).toContain('Error: Enter a name or location')
@@ -162,7 +162,7 @@ describe('Results route', () => {
       response = await server.inject(options)
       $ = cheerio.load(response.payload)
 
-      expect(response.statusCode).toBe(400)
+      expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
       expect($('.govuk-error-summary__title').text()).toContain('There is a problem')
       expect($('.govuk-error-summary__list').text()).toMatch(/"page" must be a number/)
     })

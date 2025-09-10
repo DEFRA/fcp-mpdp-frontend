@@ -1,12 +1,12 @@
 import { describe, afterAll, beforeAll, beforeEach, test, vi, expect } from 'vitest'
 import http2 from 'node:http2'
-import search from '../../../src/client/javascripts/search.js'
+import search from '../../../../src/client/javascripts/search.js'
 import { JSDOM } from 'jsdom'
 
 const { constants: httpConstants } = http2
 const dom = new JSDOM()
 
-describe('Search', () => {
+describe('search', () => {
   let searchInput
   let domSuggestions
 

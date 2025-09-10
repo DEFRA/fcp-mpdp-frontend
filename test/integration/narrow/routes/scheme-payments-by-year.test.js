@@ -98,7 +98,7 @@ describe('Scheme Payments by year route', () => {
     expectPageTitle($, 'Scheme payments by year')
     expectHeader($)
     expectPhaseBanner($)
-    expectBackLink($, '/')
+    expectBackLink($, '/', 'Back')
     expectPageHeading($, 'Scheme payments by year')
     expectRelatedContent($, 'scheme-payments-by-year')
     expectFooter($)

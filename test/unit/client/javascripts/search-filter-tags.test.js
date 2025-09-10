@@ -1,6 +1,6 @@
 import { describe, beforeAll, beforeEach, afterEach, test, vi, expect } from 'vitest'
 import { JSDOM } from 'jsdom'
-import searchFilterTags from '../../../src/client/javascripts/search-filter-tags.js'
+import searchFilterTags from '../../../../src/client/javascripts/search-filter-tags.js'
 
 const dom = new JSDOM()
 

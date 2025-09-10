@@ -1,6 +1,6 @@
 import { describe, beforeAll, beforeEach, afterEach, test, vi, expect } from 'vitest'
 import { JSDOM } from 'jsdom'
-import searchForm from '../../../src/client/javascripts/search-form.js'
+import searchForm from '../../../../src/client/javascripts/search-form.js'
 
 const dom = new JSDOM()
 

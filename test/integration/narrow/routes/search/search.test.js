@@ -65,7 +65,7 @@ describe('Search route', () => {
     response = await server.inject(options)
     $ = cheerio.load(response.payload)
 
-    expectBackLink($, '/previous-page')
+    expectBackLink($, '/previous-page', 'Back')
   })
 
   test('Check for search page specific elements', () => {

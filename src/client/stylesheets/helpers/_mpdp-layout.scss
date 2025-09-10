@@ -82,3 +82,19 @@
   height: 10px; 
 }
 
+.mpdp-whitespace-nowrap {
+  white-space: nowrap;
+}
+
+.mpdp-bottom-0 {
+  bottom: 0;
+}
+
+.mpdp-grid-row-three-auto {
+  display: grid; 
+  grid-template-rows: 3fr auto;
+}
+
+.mpdp-grid-column-1 {
+  grid-column: 1
+}
