@@ -45,17 +45,17 @@ export default {
       if (xhr.status >= this.responseCodes.success && xhr.status < this.responseCodes.multipleChoices) {
         callback(null, xhr.response ? JSON.parse(xhr.response) : null)
       } else {
-        callback(new Error({
-          status: xhr.status,
-          statusText: xhr.statusText
-        }))
+        const error = new Error(`Request failed with status ${xhr.status}: ${xhr.statusText}`)
+        error.status = xhr.status
+        error.statusText = xhr.statusText
+        callback(error)
       }
     }
     xhr.onerror = function () {
-      callback(new Error({
-        status: xhr.status,
-        statusText: xhr.statusText
-      }))
+      const error = new Error(`Request failed with status ${xhr.status}: ${xhr.statusText}`)
+      error.status = xhr.status
+      error.statusText = xhr.statusText
+      callback(error)
     }
     xhr.send(JSON.stringify({
       searchString
