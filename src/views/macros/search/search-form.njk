@@ -42,6 +42,9 @@
         {{ model.buttonText }}
         </button>
       </div>
+      {%if model.filters %}
+        {{ searchFilters(model) }}
+      {% endif %}
     </div>
   </form>
 {% endmacro %}
