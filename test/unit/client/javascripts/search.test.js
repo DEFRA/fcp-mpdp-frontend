@@ -60,17 +60,15 @@ describe('search', () => {
     })
 
     test('should reject with an error when unsuccessful', async () => {
+      const error = new Error(`Request failed with status ${httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR}: Search request failed`)
+      error.status = httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR
+      error.statusText = 'Search request failed'
+
       const mockMakeSearchRequest = vi.spyOn(search, 'makeSearchRequest').mockImplementationOnce((searchString, callback) => {
-        callback(new Error({
-          status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR,
-          statusText: 'Search request failed'
-        }))
+        callback(error)
       })
 
-      await expect(search.getSearchSuggestions(encodeURIComponent('test'))).rejects.toThrow(Error({
-        status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR,
-        statusText: 'Search request failed'
-      }))
+      await expect(search.getSearchSuggestions(encodeURIComponent('test'))).rejects.toThrow('Request failed with status 500: Search request failed')
 
       expect(mockMakeSearchRequest).toHaveBeenCalledWith('test', expect.any(Function))
     })
@@ -144,7 +142,12 @@ describe('search', () => {
 
       search.makeSearchRequest(searchString, callback)
 
-      expect(callback).toHaveBeenCalledWith(new Error({ status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR, statusText: 'error' }))
+      // Expect the callback to be called with a proper Error object
+      expect(callback).toHaveBeenCalledWith(expect.objectContaining({
+        message: `Request failed with status ${httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR}: error`,
+        status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR,
+        statusText: 'error'
+      }))
     })
 
     test('should callback with an error with error code if there was an error', async () => {
@@ -163,7 +166,12 @@ describe('search', () => {
 
       search.makeSearchRequest(searchString, callback)
 
-      expect(callback).toHaveBeenCalledWith(new Error({ status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR, statusText: 'error' }))
+      // Expect the callback to be called with a proper Error object
+      expect(callback).toHaveBeenCalledWith(expect.objectContaining({
+        message: `Request failed with status ${httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR}: error`,
+        status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR,
+        statusText: 'error'
+      }))
     })
   })
 
