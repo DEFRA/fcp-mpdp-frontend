@@ -34,4 +34,3 @@ export function getMatchingStaticAmount (amounts) {
 
   return returnAmounts
 }
-
