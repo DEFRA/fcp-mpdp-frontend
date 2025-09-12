@@ -7,7 +7,7 @@
           {% for item in items %}
             <div class="mpdp-display-inline-block">
               {% if loop.first === false %}
-                <div class="mpdp-float-left govuk-!-padding-2">
+                <div class="mpdp-float-left govuk-!-margin-1">
                   <span>or</span>
                 </div>
               {% endif %} 
@@ -17,7 +17,7 @@
                 data-filter-value="{{ item.value }}"
                 data-module="search-filter-tags"
               >
-                <span class="govuk-!-font-size-19 mpdp-tag-filter-cross">&times;</span>
+                <span class="govuk-!-font-size-19 mpdp-filter-tag-cross">&times;</span>
                 <span class="govuk-!-margin-left-4">{{ item.text }}</span>
               </button>
             </div>
