@@ -402,6 +402,7 @@ describe('Results route', () => {
       })
 
       expect($('#total-results').text()).toMatch(`${filteredResults.length} results`)
+      expectTags($, [schemes])
     })
 
     test('Results are filtered with multiple schemes in query params', async () => {
@@ -580,5 +581,45 @@ describe('Results route', () => {
       expect($('.govuk-error-summary__title').text()).toContain('There is a problem')
       expect($('.govuk-error-summary__list').text()).toMatch(/"page" must be a number/)
     })
+  })
+
+  describe('GET /results with single result shows "1 result" (not plural)', () => {
+    test('"1 result" is displayed in total and download text', async () => {
+      const searchString = 'T R Carter & Sons 22'
+
+      options = getOptions(
+        'results',
+        'GET',
+        {
+          searchString
+        }
+      )
+
+      response = await server.inject(options)
+      $ = cheerio.load(response.payload)
+
+      mockResults.filter(result => result.payee_name.includes(searchString))
+
+      expect($('#total-results').text()).toMatch('1 result')
+      expect($('#download-results-link').text()).toMatch('Download 1 result (.CSV)')
+    })
+  })
+
+  test('Download all link is present on the results when there are no results to download', async () => {
+    const searchString = 'Daughter'
+
+    options = getOptions(
+      'results',
+      'GET',
+      {
+        searchString
+      }
+    )
+
+    response = await server.inject(options)
+    $ = cheerio.load(response.payload)
+
+    const downloadAllLink = $('#download-all-link')
+    expect(downloadAllLink).toBeDefined()
   })
 })
