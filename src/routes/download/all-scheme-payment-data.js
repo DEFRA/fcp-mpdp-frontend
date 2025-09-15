@@ -1,13 +1,15 @@
-import { get } from '../../api/get.js'
+import Wreck from '@hapi/wreck'
+import { buildBackendUrl } from '../../api/build-backend-url.js'
 
 export const downloadAllSchemePaymentData = {
   method: 'GET',
   path: '/all-scheme-payment-data/file',
   handler: async function (_request, h) {
-    const content = await get('/file')
+    const backendUrl = buildBackendUrl('/file')
+    const stream = await Wreck.request('get', backendUrl)
 
     return h
-      .response(content?.payload)
+      .response(stream)
       .type('application/csv')
       .header(
         'Content-Disposition',
