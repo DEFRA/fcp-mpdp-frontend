@@ -21,7 +21,7 @@ describe('Download scheme payments by year CSV link', () => {
 
     if (response) { return }
 
-    options = getOptions('download-scheme-payments-by-year-summary', 'GET')
+    options = getOptions('scheme-payments-by-year/file', 'GET')
   })
 
   afterAll(async () => {
@@ -34,14 +34,14 @@ describe('Download scheme payments by year CSV link', () => {
     payload: 'Sample data in CSV'
   }
 
-  test('GET /download-scheme-payments-by-year-summary returns status code 200', async () => {
+  test('GET /scheme-payments-by-year/file returns status code 200', async () => {
     get.mockResolvedValue(content)
     response = await server.inject(options)
 
     expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
   })
 
-  test('GET /download-scheme-payments-by-year-summary returns attachment', async () => {
+  test('GET /scheme-payments-by-year/file returns attachment', async () => {
     get.mockResolvedValue(content)
     response = await server.inject(options)
 
@@ -49,14 +49,14 @@ describe('Download scheme payments by year CSV link', () => {
     expect(response.headers).toHaveProperty('content-disposition', 'attachment; filename="ffc-payments-by-year.csv"')
   })
 
-  test('GET /download-scheme-payments-by-year-summary returns expected content', async () => {
+  test('GET /scheme-payments-by-year/file returns expected content', async () => {
     get.mockResolvedValue(content)
     response = await server.inject(options)
 
     expect(response.result).toBe(content.payload)
   })
 
-  test('GET /download-scheme-payments-by-year returns status code 500 on underlying error', async () => {
+  test('GET /scheme-payments-by-year/file returns status code 500 on underlying error', async () => {
     get.mockRejectedValue('Internal server error')
     response = await server.inject(options)
 
