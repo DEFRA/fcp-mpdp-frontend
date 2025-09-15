@@ -54,6 +54,7 @@ describe('Start route', () => {
     expect(button.text()).toMatch('Start now')
     expect(button.attr('href')).toMatch('/search')
     expect(downloadLink).toBeDefined()
+    expect(downloadLink.text()).toMatch('download all scheme payment data')
     expect(downloadLink.attr('href')).toMatch('/all-scheme-payment-data/file')
     expect(capLink).toBeDefined()
     expect(capLink.attr('href')).toMatch('https://cap-payments.defra.gov.uk/Default.aspx')

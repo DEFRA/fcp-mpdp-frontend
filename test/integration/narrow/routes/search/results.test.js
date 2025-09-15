@@ -620,6 +620,8 @@ describe('Results route', () => {
     $ = cheerio.load(response.payload)
 
     const downloadAllLink = $('#download-all-scheme-payment-data-link')
+
     expect(downloadAllLink).toBeDefined()
+    expect(downloadAllLink.text()).toMatch('download all scheme payment data')
   })
 })

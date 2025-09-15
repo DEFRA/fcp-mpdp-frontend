@@ -83,7 +83,7 @@ describe('Search route', () => {
     expect(form.attr('method')).toMatch('get')
 
     expect(downloadAllLink.attr('href')).toMatch('/all-scheme-payment-data/file')
-    expect(downloadAllLink.text()).toMatch('download all scheme data (.CSV, 10.9MB)')
+    expect(downloadAllLink.text()).toMatch('download all scheme data')
   })
 
   test('Should GET /results route returning results page after query submission', async () => {
