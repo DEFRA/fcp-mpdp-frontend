@@ -83,7 +83,7 @@ describe('Scheme Payments by year route', () => {
   })
 
   test.each([
-    { id: '#download-details-link', href: '/download-scheme-payments-by-year-summary', text: 'Download this data (.CSV)' },
+    { id: '#download-scheme-payments-by-year-summary-link', href: '/download-scheme-payments-by-year-summary', text: 'Download this data (.CSV)' },
     { id: '#call-charges', href: 'https://www.gov.uk/call-charges', text: 'Find out about call charges' },
     { id: '#sfi-query-form', href: 'https://www.gov.uk/government/publications/sustainable-farming-incentive-pilot-query-form', text: 'SFI pilot query form' },
     { id: '#new-search-link', href: '/search', text: 'start a new search' },
