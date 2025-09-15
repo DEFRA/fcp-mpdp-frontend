@@ -72,7 +72,7 @@ describe('Search route', () => {
     const searchBox = $('#search-input')
     const button = $('.govuk-button')
     const form = $('#search-form')
-    const downloadAllLink = $('#download-all-link')
+    const downloadAllLink = $('#download-all-scheme-payment-data-link')
 
     expect(searchBox).toBeDefined()
 
@@ -82,7 +82,7 @@ describe('Search route', () => {
     expect(form.attr('action')).toMatch('/results')
     expect(form.attr('method')).toMatch('get')
 
-    expect(downloadAllLink.attr('href')).toMatch('#')
+    expect(downloadAllLink.attr('href')).toMatch('/all-scheme-payment-data/file')
     expect(downloadAllLink.text()).toMatch('download all scheme data (.CSV, 10.9MB)')
   })
 
