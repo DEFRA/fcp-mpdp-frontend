@@ -16,7 +16,7 @@ export const details = {
         searchString: Joi.string().trim().min(1).required(),
         page: Joi.number().default(1)
       }),
-      failAction: async (request, h, _error) => {
+      failAction: async function (request, h, _error) {
         return h.view(
           'search/index',
           {
@@ -33,7 +33,7 @@ export const details = {
         ).code(httpConstants.HTTP_STATUS_BAD_REQUEST).takeover()
       }
     },
-    handler: async (request, h) => {
+    handler: async function (request, h) {
       request.query.searchString = encodeURIComponent(request.query.searchString)
       return h.view('details', await detailsModel(request.query))
     }
