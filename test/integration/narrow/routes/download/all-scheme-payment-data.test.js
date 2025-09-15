@@ -56,7 +56,7 @@ describe('Download all scheme payment data CSV link', () => {
   })
 
   test('GET /all-scheme-payment-data/file returns status code 500 on underlying error', async () => {
-    Wreck.request.mockRejectedValue('Internal server error') 
+    Wreck.request.mockRejectedValue('Internal server error')
     response = await server.inject(options)
 
     expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
