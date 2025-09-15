@@ -40,6 +40,8 @@ describe('Start route', () => {
   test('Should render expected content', () => {
     const button = $('.govuk-main-wrapper .govuk-button')
     const viewYearlyTotalsLink = $('#view-yearly-totals')
+    const downloadLink = $('#download-all-scheme-payment-data-link')
+    const capLink = $('#cap-link')
 
     expectPageTitle($, '')
     expectHeader($)
@@ -51,6 +53,10 @@ describe('Start route', () => {
     expect(viewYearlyTotalsLink.text().trim()).toMatch('view yearly totals')
     expect(button.text()).toMatch('Start now')
     expect(button.attr('href')).toMatch('/search')
+    expect(downloadLink).toBeDefined()
+    expect(downloadLink.attr('href')).toMatch('/all-scheme-payment-data/file')
+    expect(capLink).toBeDefined()
+    expect(capLink.attr('href')).toMatch('https://cap-payments.defra.gov.uk/Default.aspx')
     expectRelatedContent($, 'start')
     expectFooter($)
   })
