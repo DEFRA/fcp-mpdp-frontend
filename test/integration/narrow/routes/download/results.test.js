@@ -61,4 +61,16 @@ describe('Download search results data CSV link', () => {
 
     expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
   })
+
+  test('GET /results/file triggers failAction on invalid query', async () => {
+    const invalidOptions = getOptions(
+      'results/file',
+      'GET'
+    )
+
+    response = await server.inject(invalidOptions)
+
+    expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
+    expect(response.result).toContain('Error')
+  })
 })
