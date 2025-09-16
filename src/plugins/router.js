@@ -1,6 +1,7 @@
 import Inert from '@hapi/inert'
 import { health } from '../routes/health.js'
 import { start } from '../routes/start.js'
+import { downloadAllSchemePaymentData } from '../routes/download/all-scheme-payment-data.js'
 import { schemePaymentsByYear } from '../routes/scheme-payments-by-year.js'
 import { downloadSchemePaymentsByYear } from '../routes/download/scheme-payments-by-year.js'
 import { search } from '../routes/search/search.js'
@@ -17,6 +18,7 @@ export const router = {
       await server.register([Inert])
       await server.route(health)
       await server.route(start)
+      await server.route(downloadAllSchemePaymentData)
       await server.route(schemePaymentsByYear)
       await server.route(downloadSchemePaymentsByYear)
       await server.route(search)
