@@ -12,7 +12,7 @@
         {% if(model.total) %}
           <a id="download-results-link"
             class="govuk-!-margin-bottom-0 govuk-!-margin-right-3"
-            href="/results/file">
+            href="{{ model.downloadResultsLink }}">
             Download {{ resultsText }} (.CSV)
           </a>
         {% endif %}

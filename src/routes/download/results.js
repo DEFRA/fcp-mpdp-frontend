@@ -18,12 +18,11 @@ export const downloadResults = {
       }
     },
     handler: async function (request, h) {
-      const { searchString, schemes, amounts, counties, years } = request.query
+      const { searchString, schemes, counties, years } = request.query
       const sortBy = decodeURIComponent(request.query.sortBy)
 
       const filterBy = {
         schemes: typeof schemes === 'string' ? [schemes] : schemes,
-        amounts: typeof amounts === 'string' ? [amounts] : amounts,
         counties: typeof counties === 'string' ? [counties] : counties,
         years: typeof years === 'string' ? [years] : years
       }
