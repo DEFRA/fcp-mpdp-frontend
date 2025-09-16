@@ -8,7 +8,7 @@ export const downloadSchemePaymentsByYear = {
 
     return h
       .response(content?.payload)
-      .type('application/csv')
+      .type('text/csv')
       .header(
         'Content-Disposition',
         'attachment; filename="ffc-payments-by-year.csv"'

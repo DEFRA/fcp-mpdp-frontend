@@ -619,7 +619,9 @@ describe('Results route', () => {
     response = await server.inject(options)
     $ = cheerio.load(response.payload)
 
-    const downloadAllLink = $('#download-all-link')
+    const downloadAllLink = $('#download-all-scheme-payment-data-link')
+
     expect(downloadAllLink).toBeDefined()
+    expect(downloadAllLink.text()).toMatch('download all scheme payment data')
   })
 })
