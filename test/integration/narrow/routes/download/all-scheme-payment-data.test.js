@@ -1,15 +1,13 @@
 import { describe, beforeAll, afterAll, test, expect, vi } from 'vitest'
-import Wreck from '@hapi/wreck'
 import http2 from 'node:http2'
 import { createServer } from '../../../../../src/server.js'
 import { getOptions } from '../../../../utils/helpers.js'
+import { getStream } from '../../../../../src/api/get-stream.js'
 
 const { constants: httpConstants } = http2
 
-vi.mock('@hapi/wreck', () => ({
-  default: {
-    request: vi.fn()
-  }
+vi.mock('../../../../../src/api/get-stream.js', () => ({
+  getStream: vi.fn()
 }))
 
 describe('Download all scheme payment data CSV link', () => {
@@ -31,32 +29,34 @@ describe('Download all scheme payment data CSV link', () => {
     vi.clearAllMocks()
   })
 
-  const content = 'Sample data in CSV'
+  const content = {
+    response: {},
+    payload: 'Sample data in CSV'
+  }
+
+  getStream.mockResolvedValue(content)
 
   test('GET /all-scheme-payment-data/file returns status code 200', async () => {
-    Wreck.request.mockResolvedValue(content)
     response = await server.inject(options)
 
     expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
   })
 
   test('GET /all-scheme-payment-data/file returns attachment', async () => {
-    Wreck.request.mockResolvedValue(content)
     response = await server.inject(options)
 
-    expect(response.headers).toHaveProperty('content-type', 'application/csv')
+    expect(response.headers).toHaveProperty('content-type', 'text/csv; charset=utf-8')
     expect(response.headers).toHaveProperty('content-disposition', 'attachment; filename="ffc-payment-data.csv"')
   })
 
   test('GET /all-scheme-payment-data/file returns expected content', async () => {
-    Wreck.request.mockResolvedValue(content)
     response = await server.inject(options)
 
     expect(response.result).toBe(content)
   })
 
   test('GET /all-scheme-payment-data/file returns status code 500 on underlying error', async () => {
-    Wreck.request.mockRejectedValue('Internal server error')
+    getStream.mockRejectedValue('Internal server error')
     response = await server.inject(options)
 
     expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR)

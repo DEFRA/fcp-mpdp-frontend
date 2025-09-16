@@ -45,7 +45,7 @@ describe('Download scheme payments by year CSV link', () => {
     get.mockResolvedValue(content)
     response = await server.inject(options)
 
-    expect(response.headers).toHaveProperty('content-type', 'application/csv')
+    expect(response.headers).toHaveProperty('content-type', 'text/csv; charset=utf-8')
     expect(response.headers).toHaveProperty('content-disposition', 'attachment; filename="ffc-payments-by-year.csv"')
   })
 
