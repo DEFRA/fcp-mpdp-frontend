@@ -1,5 +1,5 @@
 import http2 from 'node:http2'
-import { post } from '../../api/post.js'
+import { postStream } from '../../api/post-stream.js'
 import { resultsQuery as query } from '../../routes/queries/results.js'
 
 const { constants: httpConstants } = http2
@@ -27,11 +27,11 @@ export const downloadResults = {
         years: typeof years === 'string' ? [years] : years
       }
 
-      const content = await post('/file', { searchString, filterBy, sortBy })
+      const stream = await postStream('/file', { searchString, filterBy, sortBy })
 
       return h
-        .response(content?.payload)
-        .type('application/csv')
+        .response(stream)
+        .type('text/csv')
         .header(
           'Content-Disposition',
           'attachment; filename="ffc-payment-results.csv"'
