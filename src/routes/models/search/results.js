@@ -166,7 +166,7 @@ function getPaginationAttributes (totalResults, requestedPage, searchString, fil
 
 function getDownloadResultsLink (searchString, filterBy, sortBy) {
   const encodedSearchString = encodeURIComponent(searchString)
-  let downloadResultsLink = `/downloadresults?searchString=${encodedSearchString}`
+  let downloadResultsLink = `/results/file?searchString=${encodedSearchString}`
   for (const key in filterBy) {
     if (filterBy[key].length) {
       const urlParam = `&${key}=`
@@ -231,7 +231,6 @@ export async function resultsModel (request, error) {
   const requestedPage = query.page
   const filterBy = {
     schemes: typeof query.schemes === 'string' ? [query.schemes] : query.schemes,
-    amounts: typeof query.amounts === 'string' ? [query.amounts] : query.amounts,
     years: typeof query.years === 'string' ? [query.years] : query.years,
     counties: typeof query.counties === 'string' ? [query.counties] : query.counties
   }

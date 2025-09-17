@@ -48,12 +48,6 @@ describe('search results schema', () => {
     expect(value.schemes).toEqual([])
   })
 
-  test('defaults amounts to empty array if not present', () => {
-    const { value } = resultsQuery.validate({ searchString: 'test' })
-
-    expect(value.amounts).toEqual([])
-  })
-
   test('defaults years to empty array if not present', () => {
     const { value } = resultsQuery.validate({ searchString: 'test' })
 
@@ -141,7 +135,6 @@ describe('graceful redirect of /results route to /search', () => {
           searchString: 'test',
           page: 1,
           schemes: [],
-          amounts: [],
           years: [],
           counties: []
         },
