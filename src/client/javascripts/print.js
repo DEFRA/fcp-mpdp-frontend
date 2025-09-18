@@ -4,7 +4,6 @@ export default {
 
     printLink?.addEventListener('click', (e) => {
       e.preventDefault()
-      console.log('---------------- print link was clicked')
       window.print()
     })
   }
