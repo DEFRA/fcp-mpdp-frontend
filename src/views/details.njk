@@ -85,7 +85,7 @@
                   </dd>
                 </dl>
                 <p id="scheme-more-info{{ loop.index }}" class="govuk-!-padding-left-3 govuk-!-padding-right-3"> 
-                  <a href="{{ scheme.link }}" target="_blank">Read more about the {{ scheme.name }} </a>
+                  <a href="{{ scheme.link }}">Read more about the {{ scheme.name }}</a>
                 </p>
               </div>
 
@@ -122,38 +122,8 @@
           </div>
         </div>
 
-        <details class="govuk-details mpdp-margin-top-negative-3">
-          <summary class="govuk-details__summary" id="report-problem">
-            <span class="govuk-details__summary-text">
-              Report a problem
-            </span>
-          </summary>
-          <div class="govuk-details__text">
-            <b>Rural Payments Agency</b><br>
-            Email: <a id="rpa-email" href="mailto:ruralpayments@defra.gov.uk">ruralpayments@defra.gov.uk</a><br>
-            Telephone: 03000 200 301<br>
-            Monday to Friday, 8.30am to 5pm<br>
-            <br>
-            <p>
-              <b>Sustainable Farming Incentive</b><br>
-              Fill in the <a id="sfi-query-form" href="https://www.gov.uk/government/publications/sustainable-farming-incentive-pilot-query-form" target="_blank">SFI pilot query form</a>
-            </p>
-            <p>
-              <a id="call-charges" target="_blank" href="https://www.gov.uk/call-charges">Find out about call charges</a>
-            </p>
-          </div>
-        </details>
-
-      <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-7" id="mpdp-more-actions">
-        <h2 class="govuk-heading-m govuk-!-margin-bottom-1">More actions:</h2>
-        <div class="govuk-body">
-          You can:
-          <ul class="govuk-!-padding-left-5">
-            <li><a id="new-search-link" class="govuk-link" href="/search">start a new search</a></li>
-            <li><a id="print-link" class="govuk-link" href="javascript:window.print()">print this page</a></li>
-          </ul>
-        </div>
-      </div>
+        {% include "report-a-problem.njk" %}
+        {% include "more-actions.njk" %}
       </div>
     </div>
     <div class="govuk-grid-column-one-third">
