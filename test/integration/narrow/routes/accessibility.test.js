@@ -40,10 +40,10 @@ describe('Accessibility route', () => {
   })
 
   test('Check for common elements', () => {
-    expectPageTitle($, 'Accessibility statement for Find Farm and Land Payment Data')
+    expectPageTitle($, 'Accessibility statement for Find farm and land payment data')
     expectHeader($)
     expectPhaseBanner($)
-    expectPageHeading($, 'Accessibility statement for Find Farm and Land Payment Data')
+    expectPageHeading($, 'Accessibility statement for Find farm and land payment data')
     expectRelatedContent($, 'accessibility')
     expectFooter($)
   })
@@ -61,7 +61,8 @@ describe('Accessibility route', () => {
 
   test.each([
     { reference: 'equality advisory and support service', id: '#eass-link', url: 'https://www.equalityadvisoryservice.com/' },
-    { reference: 'web content accessibility guidelines', id: '#wcag-link', url: 'https://www.w3.org/TR/WCAG21/' }
+    { reference: 'web content accessibility guidelines', id: '#wcag-link', url: 'https://www.w3.org/TR/WCAG21/' },
+    { reference: 'accessibility contact email', id: '#accessibility-contact-email', url: 'mailto:morgan.dirodi@defra.gov.uk' }
   ])('%s link should be present with the correct attributes', (_reference, id, url) => {
     const link = $(id)
 

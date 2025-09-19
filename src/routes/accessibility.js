@@ -8,7 +8,7 @@ export const accessibility = {
       'accessibility',
       {
         referer: request.headers.referer,
-        pageTitle: 'Accessibility statement for Find Farm and Land Payment Data',
+        pageTitle: 'Accessibility statement for Find farm and land payment data',
         relatedContentLinks: getRelatedContentLinks('accessibility')
       }
     )
