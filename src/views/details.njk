@@ -28,7 +28,7 @@
           <p></p>
         </div>
         <div class="govuk-!-font-size-16 govuk-!-margin-right-3 mpdp-float-right">
-          <a id="download-details-link" class="mpdp-link-btn nojs-hidden" href="#">Download this data (.CSV)</a>
+          <a id="download-details-link" class="mpdp-link-btn nojs-hidden" href="{{ summary.downloadLink }}">Download this data (.CSV)</a>
         </div>
       </div>
 
@@ -89,35 +89,35 @@
                 </p>
               </div>
 
-              <dl id="scheme-details{{ loop.index }}" class="schemeDetails govuk-caption-s">
-                <dt class="govuk-heading-s govuk-!-padding-left-3 govuk-!-margin-0 mpdp-position-relative mpdp-float-left">Activity</dt>
-                <dd class="govuk-heading-s govuk-!-text-align-right govuk-!-padding-right-3 govuk-!-margin-0">Payment</dd>
+              <div id="scheme-details{{ loop.index }}" class="schemeDetails govuk-caption-s">
+                <div class="govuk-heading-s govuk-!-padding-left-3 govuk-!-margin-0 mpdp-position-relative mpdp-float-left">Activity</div>
+                <div class="govuk-heading-s govuk-!-text-align-right govuk-!-padding-right-3 govuk-!-margin-0">Payment</div>
                 <hr class="govuk-section-break govuk-section-break--visible mpdp-border-colour-light-grey mpdp-grid-column-1-span-2 mpdp-hr" role="presentation">
                 {% for financialYear, activityDetails in scheme.activity %}
-                  <dt>
+                  <div>
                     <details class="schemeActivity">
                       <summary class="detailsSummary">
                           <div class="mpdp-text-link-colour mpdp-text-underline">{{ financialYear }}</div>
                           <div class="mpdp-text-align-right govuk-!-font-weight-bold">£{{ activityDetails.readableTotal }}</div>
                       </summary>
                       <div>
-                        <dl class="mpdp-grid-column-three-one mpdp-grid-column-1-span-2 mpdp-text-colour-dark-grey mpdp-details-text">
+                        <div class="mpdp-grid-column-three-one mpdp-grid-column-1-span-2 mpdp-text-colour-dark-grey mpdp-details-text">
                           {% for schemeDetail in activityDetails.schemeDetails %}
-                            <dt class="govuk-!-padding-left-3"><span>{{ schemeDetail.name }}</span></dt>
-                            <dd class="govuk-!-text-align-right govuk-!-margin-right-2">£{{ schemeDetail.amount }}</dd>
+                            <div class="govuk-!-padding-left-3"><span>{{ schemeDetail.name }}</span></div>
+                            <div class="govuk-!-text-align-right govuk-!-margin-right-2">£{{ schemeDetail.amount }}</div>
                             {% if not loop.last %}
-                              <hr class="govuk-section-break govuk-section-break--visible mpdp-border-color-light-grey mpdp-grid-column-1-span-2 govuk-!-margin-2 govuk-!-margin-right-3" role="presentation">
+                              <hr class="govuk-section-break govuk-section-break--visible mpdp-border-colour-light-grey mpdp-grid-column-1-span-2 govuk-!-margin-2 govuk-!-margin-right-3" role="presentation">
                             {% endif %}
                           {% endfor %}
-                        </dl>
+                        </div>
                       </div>
                     </details>
-                  </dt>
+                  </div>
                   
                   <hr class="govuk-section-break govuk-section-break--visible mpdp-border-colour-light-grey mpdp-grid-column-1-span-2 mpdp-hr" role="presentation">
                   
                 {% endfor %}
-              </dl>
+              </div>
             {% endfor %}
           </div>
         </div>
