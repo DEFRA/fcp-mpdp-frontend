@@ -17,7 +17,7 @@ vi.mock('../../../../../src/services/fetch-payment-data.js', () => ({
   fetchPaymentData: () => ({
     results: [],
     total: 0,
-    filterOptions: { schemes: [], amounts: [], counties: [] }
+    filterOptions: { schemes: [], years: [], counties: [] }
   })
 }))
 

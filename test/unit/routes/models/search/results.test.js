@@ -37,7 +37,6 @@ describe('resultsModel', () => {
         searchString: 'test',
         sortBy: 'score',
         schemes: [],
-        amounts: [],
         years: [],
         counties: []
       },
@@ -78,8 +77,7 @@ describe('resultsModel', () => {
         page: 1,
         schemes: 'Mock scheme A',
         years: '21/22',
-        counties: 'Bedfordshire',
-        amounts: []
+        counties: 'Bedfordshire'
       },
       headers: { referer: '/previous-page' }
     }
@@ -104,7 +102,7 @@ describe('resultsModel', () => {
 
     expect(result.tags.Scheme[0]).toEqual({ text: 'Mock scheme A', value: 'Mock scheme A' })
 
-    expect(result.downloadResultsLink).toContain('/downloadresults?searchString=farms')
+    expect(result.downloadResultsLink).toContain('/results/file?searchString=farms')
     expect(result.downloadResultsLink).toContain('&schemes=Mock%20scheme%20A')
     expect(result.downloadResultsLink).toContain('&years=21%2F22')
     expect(result.downloadResultsLink).toContain('&counties=Bedfordshire')
@@ -125,7 +123,6 @@ describe('resultsModel', () => {
         sortBy: 'score',
         page: 2,
         schemes: [],
-        amounts: [],
         years: [],
         counties: []
       },

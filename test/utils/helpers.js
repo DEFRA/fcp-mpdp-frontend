@@ -18,13 +18,12 @@ function getUniqueFields (searchResults, field) {
 
 function getFilterOptions (searchResults) {
   if (!searchResults?.length) {
-    return { schemes: [], amounts: [], counties: [], years: [] }
+    return { schemes: [], counties: [], years: [] }
   }
 
   return {
     schemes: getUniqueFields(searchResults, 'scheme'),
     counties: getUniqueFields(searchResults, 'county_council'),
-    amounts: getUniqueFields(searchResults, 'amount'),
     years: getUniqueFields(searchResults, 'year')
   }
 }

@@ -7,7 +7,9 @@ import { downloadSchemePaymentsByYear } from '../routes/download/scheme-payments
 import { search } from '../routes/search/search.js'
 import { suggestions } from '../routes/search/suggestions.js'
 import { results } from '../routes/search/results.js'
+import { downloadResults } from '../routes/download/results.js'
 import { details } from '../routes/details.js'
+import { downloadDetails } from '../routes/download/details.js'
 import { accessibility } from '../routes/accessibility.js'
 import { serveStaticFiles } from '../common/helpers/serve-static-files.js'
 
@@ -24,7 +26,9 @@ export const router = {
       await server.route(search)
       await server.route(suggestions)
       await server.route(results)
+      await server.route(downloadResults)
       await server.route(details)
+      await server.route(downloadDetails)
       await server.route(accessibility)
       await server.register([serveStaticFiles])
     }
