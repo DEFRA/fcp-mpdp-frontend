@@ -28,7 +28,7 @@
           <p></p>
         </div>
         <div class="govuk-!-font-size-16 govuk-!-margin-right-3 mpdp-float-right">
-          <a id="download-details-link" class="mpdp-link-btn nojs-hidden" href="#">Download this data (.CSV)</a>
+          <a id="download-details-link" class="mpdp-link-btn nojs-hidden" href="{{ summary.downloadLink }}">Download this data (.CSV)</a>
         </div>
       </div>
 
@@ -85,75 +85,45 @@
                   </dd>
                 </dl>
                 <p id="scheme-more-info{{ loop.index }}" class="govuk-!-padding-left-3 govuk-!-padding-right-3"> 
-                  <a href="{{ scheme.link }}" target="_blank">Read more about the {{ scheme.name }} </a>
+                  <a href="{{ scheme.link }}">Read more about the {{ scheme.name }}</a>
                 </p>
               </div>
 
-              <dl id="scheme-details{{ loop.index }}" class="schemeDetails govuk-caption-s">
-                <dt class="govuk-heading-s govuk-!-padding-left-3 govuk-!-margin-0 mpdp-position-relative mpdp-float-left">Activity</dt>
-                <dd class="govuk-heading-s govuk-!-text-align-right govuk-!-padding-right-3 govuk-!-margin-0">Payment</dd>
+              <div id="scheme-details{{ loop.index }}" class="schemeDetails govuk-caption-s">
+                <div class="govuk-heading-s govuk-!-padding-left-3 govuk-!-margin-0 mpdp-position-relative mpdp-float-left">Activity</div>
+                <div class="govuk-heading-s govuk-!-text-align-right govuk-!-padding-right-3 govuk-!-margin-0">Payment</div>
                 <hr class="govuk-section-break govuk-section-break--visible mpdp-border-colour-light-grey mpdp-grid-column-1-span-2 mpdp-hr" role="presentation">
                 {% for financialYear, activityDetails in scheme.activity %}
-                  <dt>
+                  <div>
                     <details class="schemeActivity">
                       <summary class="detailsSummary">
                           <div class="mpdp-text-link-colour mpdp-text-underline">{{ financialYear }}</div>
                           <div class="mpdp-text-align-right govuk-!-font-weight-bold">£{{ activityDetails.readableTotal }}</div>
                       </summary>
                       <div>
-                        <dl class="mpdp-grid-column-three-one mpdp-grid-column-1-span-2 mpdp-text-colour-dark-grey mpdp-details-text">
+                        <div class="mpdp-grid-column-three-one mpdp-grid-column-1-span-2 mpdp-text-colour-dark-grey mpdp-details-text">
                           {% for schemeDetail in activityDetails.schemeDetails %}
-                            <dt class="govuk-!-padding-left-3"><span>{{ schemeDetail.name }}</span></dt>
-                            <dd class="govuk-!-text-align-right govuk-!-margin-right-2">£{{ schemeDetail.amount }}</dd>
+                            <div class="govuk-!-padding-left-3"><span>{{ schemeDetail.name }}</span></div>
+                            <div class="govuk-!-text-align-right govuk-!-margin-right-2">£{{ schemeDetail.amount }}</div>
                             {% if not loop.last %}
-                              <hr class="govuk-section-break govuk-section-break--visible mpdp-border-color-light-grey mpdp-grid-column-1-span-2 govuk-!-margin-2 govuk-!-margin-right-3" role="presentation">
+                              <hr class="govuk-section-break govuk-section-break--visible mpdp-border-colour-light-grey mpdp-grid-column-1-span-2 govuk-!-margin-2 govuk-!-margin-right-3" role="presentation">
                             {% endif %}
                           {% endfor %}
-                        </dl>
+                        </div>
                       </div>
                     </details>
-                  </dt>
+                  </div>
                   
                   <hr class="govuk-section-break govuk-section-break--visible mpdp-border-colour-light-grey mpdp-grid-column-1-span-2 mpdp-hr" role="presentation">
                   
                 {% endfor %}
-              </dl>
+              </div>
             {% endfor %}
           </div>
         </div>
 
-        <details class="govuk-details mpdp-margin-top-negative-3">
-          <summary class="govuk-details__summary" id="report-problem">
-            <span class="govuk-details__summary-text">
-              Report a problem
-            </span>
-          </summary>
-          <div class="govuk-details__text">
-            <b>Rural Payments Agency</b><br>
-            Email: <a id="rpa-email" href="mailto:ruralpayments@defra.gov.uk">ruralpayments@defra.gov.uk</a><br>
-            Telephone: 03000 200 301<br>
-            Monday to Friday, 8.30am to 5pm<br>
-            <br>
-            <p>
-              <b>Sustainable Farming Incentive</b><br>
-              Fill in the <a id="sfi-query-form" href="https://www.gov.uk/government/publications/sustainable-farming-incentive-pilot-query-form" target="_blank">SFI pilot query form</a>
-            </p>
-            <p>
-              <a id="call-charges" target="_blank" href="https://www.gov.uk/call-charges">Find out about call charges</a>
-            </p>
-          </div>
-        </details>
-
-      <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-7" id="mpdp-more-actions">
-        <h2 class="govuk-heading-m govuk-!-margin-bottom-1">More actions:</h2>
-        <div class="govuk-body">
-          You can:
-          <ul class="govuk-!-padding-left-5">
-            <li><a id="new-search-link" class="govuk-link" href="/search">start a new search</a></li>
-            <li><a id="print-link" class="govuk-link" href="#">print this page</a></li>
-          </ul>
-        </div>
-      </div>
+        {% include "report-a-problem.njk" %}
+        {% include "more-actions.njk" %}
       </div>
     </div>
     <div class="govuk-grid-column-one-third">

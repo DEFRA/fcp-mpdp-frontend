@@ -6,7 +6,7 @@
   <ul id="related-content-list" class="govuk-list">
     {% for link in relatedContentLinks %}
       <li>
-        <a class="govuk-link govuk-!-font-size-16" href="{{ link.url }}" id="{{ link.id }}" target="_blank" rel="noopener noreferrer">{{ link.text }}</a><br>
+        <a class="govuk-link govuk-!-font-size-16" href="{{ link.url }}" id="{{ link.id }}">{{ link.text }}</a><br>
       </li>
     {% endfor %}
   </ul>

@@ -55,7 +55,7 @@ function createPaymentDetailsSummary (paymentDetails) {
     summary.endYear = ''
   }
 
-  summary.downloadLink = `/downloaddetails?payeeName=${encodeURIComponent(summary.payee_name)}&partPostcode=${summary.part_postcode}`
+  summary.downloadLink = `/details/file?payeeName=${encodeURIComponent(summary.payee_name)}&partPostcode=${summary.part_postcode}`
 
   return summary
 }

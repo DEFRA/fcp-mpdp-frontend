@@ -91,7 +91,7 @@ describe('Details route', () => {
     { id: '#sfi-query-form', href: 'https://www.gov.uk/government/publications/sustainable-farming-incentive-pilot-query-form', text: 'SFI pilot query form' },
     { id: '#new-search-link', href: '/search', text: 'start a new search' },
     { id: '#print-link', href: '#', text: 'print this page' },
-    { id: '#download-details-link', href: '#', text: 'Download this data (.CSV)' }
+    { id: '#download-details-link', href: '/details/file?payeeName=T%20R%20Carter%20%26%20Sons%201&partPostcode=RG1', text: 'Download this data (.CSV)' }
   ])('Check all expected links are present', ({ id, href, text }) => {
     const link = $(id)
     expect(link).toBeDefined()

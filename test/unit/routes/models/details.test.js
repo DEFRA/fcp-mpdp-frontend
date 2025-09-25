@@ -85,7 +85,7 @@ describe('detailsModel', () => {
         town: 'town',
         county_council: 'county_council',
         parliamentary_constituency: 'parliamentary_constituency',
-        downloadLink: '/downloaddetails?payeeName=payee%20%26%20name&partPostcode=RG1',
+        downloadLink: '/details/file?payeeName=payee%20%26%20name&partPostcode=RG1',
         total: '22,926.00',
         schemes: [
           {
