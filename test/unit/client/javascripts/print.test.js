@@ -7,8 +7,8 @@ describe('print', () => {
 
   beforeAll(() => {
     const dom = new JSDOM()
-    global.document = dom.window.document
-    global.window = dom.window
+    globalThis.document = dom.window.document
+    globalThis.window = dom.window
   })
 
   beforeEach(() => {
@@ -29,18 +29,24 @@ describe('print', () => {
     )
   })
 
-  test('should call window.print and prevent default on click', () => {
-    const preventDefault = vi.fn()
-    const printSpy = vi.spyOn(window, 'print').mockImplementation(() => { })
+  test('should call globalThis.print and prevent default on click', () => {
+    const preventDefaultSpy = vi.fn()
+
+    if (!globalThis.print) {
+      globalThis.print = () => { }
+    }
+
+    const printSpy = vi.spyOn(globalThis, 'print').mockImplementation(() => { })
 
     print.init()
 
     const event = new window.Event('click', { bubbles: true, cancelable: true })
-    event.preventDefault = preventDefault
+
+    vi.spyOn(event, 'preventDefault').mockImplementation(preventDefaultSpy)
 
     printLink.dispatchEvent(event)
 
-    expect(preventDefault).toHaveBeenCalled()
+    expect(preventDefaultSpy).toHaveBeenCalled()
     expect(printSpy).toHaveBeenCalled()
 
     printSpy.mockRestore()

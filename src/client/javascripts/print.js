@@ -4,7 +4,7 @@ export default {
 
     printLink?.addEventListener('click', (e) => {
       e.preventDefault()
-      window.print()
+      globalThis.print()
     })
   }
 }
