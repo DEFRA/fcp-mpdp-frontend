@@ -6,6 +6,7 @@ import searchFilters from './search-filters.js'
 import searchForm from './search-form.js'
 import searchFilterTags from './search-filter-tags.js'
 import details from './details.js'
+import print from './print.js'
 
 schemePaymentsByYear.init()
 search.init()
@@ -14,5 +15,6 @@ searchFilters.init()
 searchForm.init()
 searchFilterTags.init()
 details.init()
+print.init()
 
 initAll()
