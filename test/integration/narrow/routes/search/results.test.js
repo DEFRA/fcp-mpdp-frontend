@@ -395,10 +395,13 @@ describe('Results route', () => {
 
       response = await server.inject(options)
       const $ = cheerio.load(response.payload)
-      const filteredResults = mockResults.filter(result => result.scheme === schemes)
+      const filteredResults = mockResults
+        .filter(result => result.payee_name.toLowerCase().includes(searchString.toLowerCase()))
+        .filter(result => result.scheme === schemes)
 
       $('a.govuk-link.govuk-link--no-visited-state').each((_i, element) => {
-        expect(filteredResults.find(result => result.payee_name === $(element).text()))
+        const elementText = $(element).text().trim()
+        expect(filteredResults.find(result => result.payee_name === elementText)).toBeDefined()
       })
 
       expect($('#total-results').text()).toMatch(`${filteredResults.length} results`)
@@ -421,10 +424,12 @@ describe('Results route', () => {
       response = await server.inject(options)
       const $ = cheerio.load(response.payload)
 
-      const dataMatchingSchemes = mockResults.filter(result => schemes.includes(result.scheme))
+      const dataMatchingSchemes = mockResults
+        .filter(result => result.payee_name.toLowerCase().includes(searchString.toLowerCase()))
+        .filter(result => schemes.includes(result.scheme))
 
       $('a.govuk-link.govuk-link--no-visited-state').each((_i, element) => {
-        expect(dataMatchingSchemes.find(result => result.payee_name === $(element).text()))
+        expect(dataMatchingSchemes.find(result => result.payee_name === $(element).text().trim())).toBeDefined()
       })
 
       expect($('#total-results').text()).toMatch(`${dataMatchingSchemes.length} results`)
@@ -449,13 +454,15 @@ describe('Results route', () => {
 
       response = await server.inject(options)
 
-      let filteredResults = filterBySchemes(mockResults, [schemes])
+      let filteredResults = mockResults.filter(result =>
+        result.payee_name.toLowerCase().includes(searchString.toLowerCase()))
+      filteredResults = filterBySchemes(filteredResults, [schemes])
       filteredResults = filterByYears(filteredResults, [years])
 
       $ = cheerio.load(response.payload)
 
       $('a.govuk-link.govuk-link--no-visited-state').each((_i, element) => {
-        expect(filteredResults.find(result => result.payee_name === $(element).text()))
+        expect(filteredResults.find(result => result.payee_name === $(element).text().trim())).toBeDefined()
       })
 
       expect($('#total-results').text()).toMatch(`${filteredResults.length} results`)
@@ -478,13 +485,15 @@ describe('Results route', () => {
 
       response = await server.inject(options)
 
-      let filteredResults = filterBySchemes(mockResults, schemes)
+      let filteredResults = mockResults.filter(result =>
+        result.payee_name.toLowerCase().includes(searchString.toLowerCase()))
+      filteredResults = filterBySchemes(filteredResults, schemes)
       filteredResults = filterByYears(filteredResults, years)
 
       $ = cheerio.load(response.payload)
 
       $('a.govuk-link.govuk-link--no-visited-state').each((_i, element) => {
-        expect(filteredResults.find(result => result.payee_name === $(element).text()))
+        expect(filteredResults.find(result => result.payee_name === $(element).text().trim())).toBeDefined()
       })
 
       expect($('#total-results').text()).toMatch(`${filteredResults.length} results`)
@@ -508,13 +517,15 @@ describe('Results route', () => {
 
       response = await server.inject(options)
 
-      let filteredResults = filterBySchemes(mockResults, [schemes])
+      let filteredResults = mockResults.filter(result =>
+        result.payee_name.toLowerCase().includes(searchString.toLowerCase()))
+      filteredResults = filterBySchemes(filteredResults, [schemes])
       filteredResults = filterByCounties(filteredResults, [counties])
 
       $ = cheerio.load(response.payload)
 
       $('a.govuk-link.govuk-link--no-visited-state').each((_i, element) => {
-        expect(filteredResults.find(result => result.payee_name === $(element).text()))
+        expect(filteredResults.find(result => result.payee_name === $(element).text().trim())).toBeDefined()
       })
 
       expect($('#total-results').text()).toMatch(`${filteredResults.length} results`)
@@ -537,13 +548,15 @@ describe('Results route', () => {
 
       response = await server.inject(options)
 
-      let resultsMatchingSchemesAndCounties = filterBySchemes(mockResults, schemes)
+      let resultsMatchingSchemesAndCounties = mockResults.filter(result =>
+        result.payee_name.toLowerCase().includes(searchString.toLowerCase()))
+      resultsMatchingSchemesAndCounties = filterBySchemes(resultsMatchingSchemesAndCounties, schemes)
       resultsMatchingSchemesAndCounties = filterByCounties(resultsMatchingSchemesAndCounties, counties)
 
       $ = cheerio.load(response.payload)
 
       $('a.govuk-link.govuk-link--no-visited-state').each((_i, element) => {
-        expect(resultsMatchingSchemesAndCounties.find(result => result.payee_name === $(element).text()))
+        expect(resultsMatchingSchemesAndCounties.find(result => result.payee_name === $(element).text().trim())).toBeDefined()
       })
 
       expect($('#total-results').text()).toMatch(`${resultsMatchingSchemesAndCounties.length} results`)
