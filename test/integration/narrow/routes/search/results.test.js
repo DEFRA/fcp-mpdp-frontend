@@ -398,7 +398,7 @@ describe('Results route', () => {
       const filteredResults = mockResults.filter(result => result.scheme === schemes)
 
       $('a.govuk-link.govuk-link--no-visited-state').each((_i, element) => {
-        expect(filteredResults.find(result => result.payee_name === $(element).text()))
+        expect(filteredResults.find(result => result.payee_name === $(element).text())).toBeDefined()
       })
 
       expect($('#total-results').text()).toMatch(`${filteredResults.length} results`)
@@ -424,7 +424,7 @@ describe('Results route', () => {
       const dataMatchingSchemes = mockResults.filter(result => schemes.includes(result.scheme))
 
       $('a.govuk-link.govuk-link--no-visited-state').each((_i, element) => {
-        expect(dataMatchingSchemes.find(result => result.payee_name === $(element).text()))
+        expect(dataMatchingSchemes.find(result => result.payee_name === $(element).text())).toBeDefined()
       })
 
       expect($('#total-results').text()).toMatch(`${dataMatchingSchemes.length} results`)
@@ -455,7 +455,7 @@ describe('Results route', () => {
       $ = cheerio.load(response.payload)
 
       $('a.govuk-link.govuk-link--no-visited-state').each((_i, element) => {
-        expect(filteredResults.find(result => result.payee_name === $(element).text()))
+        expect(filteredResults.find(result => result.payee_name === $(element).text())).toBeDefined()
       })
 
       expect($('#total-results').text()).toMatch(`${filteredResults.length} results`)
@@ -484,7 +484,7 @@ describe('Results route', () => {
       $ = cheerio.load(response.payload)
 
       $('a.govuk-link.govuk-link--no-visited-state').each((_i, element) => {
-        expect(filteredResults.find(result => result.payee_name === $(element).text()))
+        expect(filteredResults.find(result => result.payee_name === $(element).text())).toBeDefined()
       })
 
       expect($('#total-results').text()).toMatch(`${filteredResults.length} results`)
@@ -514,7 +514,7 @@ describe('Results route', () => {
       $ = cheerio.load(response.payload)
 
       $('a.govuk-link.govuk-link--no-visited-state').each((_i, element) => {
-        expect(filteredResults.find(result => result.payee_name === $(element).text()))
+        expect(filteredResults.find(result => result.payee_name === $(element).text())).toBeDefined()
       })
 
       expect($('#total-results').text()).toMatch(`${filteredResults.length} results`)
@@ -543,7 +543,7 @@ describe('Results route', () => {
       $ = cheerio.load(response.payload)
 
       $('a.govuk-link.govuk-link--no-visited-state').each((_i, element) => {
-        expect(resultsMatchingSchemesAndCounties.find(result => result.payee_name === $(element).text()))
+        expect(resultsMatchingSchemesAndCounties.find(result => result.payee_name === $(element).text())).toBeDefined()
       })
 
       expect($('#total-results').text()).toMatch(`${resultsMatchingSchemesAndCounties.length} results`)
