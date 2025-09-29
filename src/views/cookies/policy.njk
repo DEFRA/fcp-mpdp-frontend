@@ -1,0 +1,41 @@
+{% extends "layouts.njk" %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set mainClasses = "govuk-!-padding-top-2" %}
+{% block content %}
+
+  {% if updated %}
+    {% set html %}
+      <p class="govuk-notification-banner__heading">You’ve set your cookie preferences.</p>
+    {% endset %}
+
+    {{ govukNotificationBanner({
+      type: "success",
+      html: html
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <form action="/cookies" method="post" novalidate>
+            <input type="hidden" name="async" value="false"/>
+            <input type="hidden" name="referer" value={{ referer }}/>
+            {{ govukRadios(analytics) }}
+            {{ govukButton({
+                text: "Save cookie settings",
+                attributes: {
+                  id: "submit"
+                }
+              }) 
+            }}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
