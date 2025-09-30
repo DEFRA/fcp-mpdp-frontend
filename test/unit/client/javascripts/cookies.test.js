@@ -1,0 +1,185 @@
+import { describe, test, beforeEach, beforeAll, afterEach, expect, vi } from 'vitest'
+import { JSDOM } from 'jsdom'
+import cookies from '../../../../src/client/javascripts/cookies.js'
+
+const dom = new JSDOM()
+
+describe('cookies', () => {
+  beforeAll(() => {
+    global.document = dom.window.document
+    global.window = dom.window
+  })
+
+  beforeEach(() => {
+    document.body.innerHTML = `
+      <div class="js-cookies-container">
+        <button class="js-cookies-button-accept">Accept</button>
+        <button class="js-cookies-button-reject">Reject</button>
+        <div class="js-cookies-accepted" hidden>
+          <button class="js-hide">Hide</button>
+        </div>
+        <div class="js-cookies-rejected" hidden>
+          <button class="js-hide">Hide</button>
+        </div>
+        <div class="js-cookies-banner"></div>
+        <div class="js-question-banner"></div>
+      </div>
+      <a href="/cookies">Cookies</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/accessibility">Accessibility</a>
+    `
+    cookies.init()
+  })
+
+  describe('setupLinkListeners', () => {
+    test('should prevent default if the link is already active', () => {
+      dom.reconfigure({ url: 'http://localhost/cookies' })
+
+      const cookiesLink = document.querySelector("a[href='/cookies']")
+      const event = new window.MouseEvent('click', { bubbles: true, cancelable: true })
+
+      const preventDefault = vi.spyOn(window.MouseEvent.prototype, 'preventDefault')
+
+      cookiesLink.dispatchEvent(event)
+
+      expect(preventDefault).toHaveBeenCalled()
+    })
+
+    test('should not prevent default if the link is not active', () => {
+      dom.reconfigure({ url: 'http://localhost/different-path' })
+
+      const cookiesLink = document.querySelector("a[href='/cookies']")
+      const event = new window.MouseEvent('click', { bubbles: true, cancelable: true })
+
+      const preventDefault = vi.spyOn(window.MouseEvent.prototype, 'preventDefault')
+
+      cookiesLink.dispatchEvent(event)
+
+      expect(preventDefault).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('setupCookieComponentListeners', () => {
+    let xhrMock
+
+    beforeEach(() => {
+      xhrMock = {
+        open: vi.fn(),
+        setRequestHeader: vi.fn(),
+        send: vi.fn()
+      }
+      global.XMLHttpRequest = vi.fn(() => xhrMock)
+    })
+
+    afterEach(() => {
+      vi.clearAllMocks()
+    })
+
+    test('should show accepted banner and send correct data on accept', () => {
+      const acceptButton = document.querySelector('.js-cookies-button-accept')
+      const acceptedBanner = document.querySelector('.js-cookies-accepted')
+
+      const event = new window.MouseEvent('click', { bubbles: true, cancelable: true })
+      const preventDefault = vi.spyOn(window.MouseEvent.prototype, 'preventDefault')
+      acceptedBanner.focus = vi.fn()
+
+      acceptButton.dispatchEvent(event)
+
+      expect(preventDefault).toHaveBeenCalled()
+      expect(acceptedBanner.hasAttribute('hidden')).toBe(false)
+      expect(acceptedBanner.focus).toHaveBeenCalled()
+      expect(xhrMock.open).toHaveBeenCalledWith('POST', '/cookies', true)
+      expect(xhrMock.setRequestHeader).toHaveBeenCalledWith('Content-Type', 'application/json')
+      expect(xhrMock.send).toHaveBeenCalledWith(JSON.stringify({ analytics: true, async: true }))
+    })
+
+    test('should show rejected banner and send correct data on reject', () => {
+      const rejectButton = document.querySelector('.js-cookies-button-reject')
+      const rejectedBanner = document.querySelector('.js-cookies-rejected')
+
+      const event = new window.MouseEvent('click', { bubbles: true, cancelable: true })
+      const preventDefault = vi.spyOn(window.MouseEvent.prototype, 'preventDefault')
+      rejectedBanner.focus = vi.fn()
+
+      rejectButton.dispatchEvent(event)
+
+      expect(preventDefault).toHaveBeenCalled()
+      expect(rejectedBanner.hasAttribute('hidden')).toBe(false)
+      expect(rejectedBanner.focus).toHaveBeenCalled()
+      expect(xhrMock.open).toHaveBeenCalledWith('POST', '/cookies', true)
+      expect(xhrMock.setRequestHeader).toHaveBeenCalledWith('Content-Type', 'application/json')
+      expect(xhrMock.send).toHaveBeenCalledWith(JSON.stringify({ analytics: false, async: true }))
+    })
+  })
+
+  // describe('setupCookieComponentListeners', () => {
+  //   let xhrMock
+
+  //   beforeEach(() => {
+  //     xhrMock = {
+  //       open: vi.fn(),
+  //       setRequestHeader: vi.fn(),
+  //       send: vi.fn()
+  //     }
+  //     global.XMLHttpRequest = vi.fn(() => xhrMock)
+  //   })
+
+  //   afterEach(() => {
+  //     vi.clearAllMocks()
+  //   })
+
+  //   test('should show accepted banner and send correct data on accept', () => {
+  //     const acceptButton = document.querySelector('.js-cookies-button-accept')
+  //     const acceptedBanner = document.querySelector('.js-cookies-accepted')
+
+  //     const event = new window.MouseEvent('click', { bubbles: true, cancelable: true })
+  //     const preventDefault = vi.fn()
+  //     acceptedBanner.focus = vi.fn()
+
+  //     acceptButton.addEventListener('click', e => e.preventDefault = preventDefault)
+  //     acceptButton.dispatchEvent(event)
+
+  //     expect(preventDefault).toHaveBeenCalled()
+  //     expect(acceptedBanner.hasAttribute('hidden')).toBe(false)
+  //     expect(acceptedBanner.focus).toHaveBeenCalled()
+  //     expect(xhrMock.open).toHaveBeenCalledWith('POST', '/cookies', true)
+  //     expect(xhrMock.setRequestHeader).toHaveBeenCalledWith('Content-Type', 'application/json')
+  //     expect(xhrMock.send).toHaveBeenCalledWith(JSON.stringify({ analytics: true, async: true }))
+  //   })
+
+  //   test('should show rejected banner and send correct data on reject', () => {
+  //     const rejectButton = document.querySelector('.js-cookies-button-reject')
+  //     const rejectedBanner = document.querySelector('.js-cookies-rejected')
+
+  //     const event = new window.MouseEvent('click', { bubbles: true, cancelable: true })
+  //     const preventDefault = vi.fn()
+  //     rejectedBanner.focus = vi.fn()
+
+  //     rejectButton.addEventListener('click', e => e.preventDefault = preventDefault)
+  //     rejectButton.dispatchEvent(event)
+
+  //     expect(preventDefault).toHaveBeenCalled()
+  //     expect(rejectedBanner.hasAttribute('hidden')).toBe(false)
+  //     expect(rejectedBanner.focus).toHaveBeenCalled()
+  //     expect(xhrMock.open).toHaveBeenCalledWith('POST', '/cookies', true)
+  //     expect(xhrMock.setRequestHeader).toHaveBeenCalledWith('Content-Type', 'application/json')
+  //     expect(xhrMock.send).toHaveBeenCalledWith(JSON.stringify({ analytics: false, async: true }))
+  //   })
+
+  //   test('should hide cookie banner when hide button is clicked on accepted banner', () => {
+  //     const acceptedBannerHideButton = document.querySelector('.js-cookies-accepted .js-hide')
+  //     const cookieBanner = document.querySelector('.js-cookies-banner')
+
+  //     acceptedBannerHideButton.click()
+  //     expect(cookieBanner.hasAttribute('hidden')).toBe(true)
+  //   })
+
+  //   test('should hide cookie banner when hide button is clicked on rejected banner', () => {
+  //     const rejectedBannerHideButton = document.querySelector('.js-cookies-rejected .js-hide')
+  //     const cookieBanner = document.querySelector('.js-cookies-banner')
+
+  //     rejectedBannerHideButton.click()
+  //     expect(cookieBanner.hasAttribute('hidden')).toBe(true)
+  //   })
+  // })
+})

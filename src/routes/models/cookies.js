@@ -7,7 +7,6 @@ export function cookiesModel (cookiesPolicy = {}, updated, referer = '') {
       fieldset: {
         legend: {
           text: 'Change your cookie settings',
-          isPageHeading: true,
           classes: 'govuk-fieldset__legend--s'
         }
       },

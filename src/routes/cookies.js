@@ -11,7 +11,7 @@ export const cookies = [
       return h.view(
         'cookies/policy',
         {
-          // pageTitle: 'Cookies',
+          pageTitle: 'Cookies',
           ...cookiesModel(
             request.state[config.get('cookie.namePolicy')],
             false,
@@ -47,7 +47,7 @@ export const cookies = [
         return h.view(
           'cookies/policy',
           {
-            // pageTitle: 'Cookies',
+            pageTitle: 'Cookies',
             ...cookiesModel(
               request.state[config.get('cookie.namePolicy')],
               true,

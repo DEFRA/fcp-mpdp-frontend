@@ -8,6 +8,7 @@ import searchFilters from '../../../../src/client/javascripts/search-filters.js'
 import searchFilterTags from '../../../../src/client/javascripts/search-filter-tags.js'
 import details from '../../../../src/client/javascripts/details.js'
 import print from '../../../../src/client/javascripts/print.js'
+import cookies from '../../../../src/client/javascripts/cookies.js'
 
 vi.mock('govuk-frontend', () => ({
   initAll: vi.fn()
@@ -45,6 +46,10 @@ vi.mock('../../../../src/client/javascripts/print.js', () => ({
   default: { init: vi.fn() }
 }))
 
+vi.mock('../../../../src/client/javascripts/cookies.js', () => ({
+  default: { init: vi.fn() }
+}))
+
 describe('Init client-side javascript', () => {
   beforeEach(async () => {
     vi.clearAllMocks()
@@ -60,6 +65,7 @@ describe('Init client-side javascript', () => {
     expect(searchFilterTags.init).toHaveBeenCalled()
     expect(details.init).toHaveBeenCalled()
     expect(print.init).toHaveBeenCalled()
+    expect(cookies.init).toHaveBeenCalled()
     expect(initAll).toHaveBeenCalled()
   })
 })
