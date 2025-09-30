@@ -6,6 +6,7 @@ export default {
 
   setupLinkListeners () {
     const links = ['/cookies', '/privacy', '/accessibility']
+    
     links.forEach((link) => {
       const element = document.querySelector(`a[href='${link}']`)
       element?.addEventListener('click', (event) => {
@@ -50,8 +51,6 @@ export default {
         banner.removeAttribute('tabindex')
       })
     }
-
-    cookieContainer.style.display = 'block'
 
     acceptButton?.addEventListener('click', (event) => {
       showBanner(acceptedBanner)
