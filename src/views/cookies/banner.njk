@@ -1,9 +1,9 @@
-<div class="govuk-cookie-banner" data-nosnippet role="region" aria-label="Cookies on [name of service]">
-  <div class="govuk-cookie-banner__message govuk-width-container">
+<div class="govuk-cookie-banner js-cookies-container js-cookies-banner" data-nosnippet role="region" aria-label="{{ serviceName }}">
+  <div class="govuk-cookie-banner__message govuk-width-container js-question-banner">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-cookie-banner__heading govuk-heading-m">
-          Cookies on Find farm and land payment data
+          Cookies on {{ serviceName }}
         </h2>
         <div class="govuk-cookie-banner__content">
           <p class="govuk-body">We use some essential cookies to make this service work.</p>
@@ -12,13 +12,49 @@
       </div>
     </div>
     <div class="govuk-button-group">
-      <button type="button" class="govuk-button" data-module="govuk-button">
+      <button type="button" class="govuk-button js-cookies-button-accept" data-module="govuk-button">
         Accept analytics cookies
       </button>
-      <button type="button" class="govuk-button" data-module="govuk-button">
+      <button type="button" class="govuk-button js-cookies-button-reject" data-module="govuk-button">
         Reject analytics cookies
       </button>
       <a class="govuk-link" href="/cookies">View cookies</a>
+    </div>
+  </div>
+
+  <!-- Accepted cookies message -->
+  <div class="govuk-cookie-banner__message govuk-width-container js-cookies-accepted" role="alert" hidden>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">
+          You’ve accepted analytics cookies. You can
+          <a class="govuk-link" href="/cookies">change your cookie settings</a>
+          at any time.
+        </p>
+      </div>
+    </div>
+    <div class="govuk-button-group">
+      <button type="button" class="govuk-button js-hide" data-module="govuk-button">
+        Hide this message
+      </button>
+    </div>
+  </div>
+
+  <!-- Rejected cookies message -->
+  <div class="govuk-cookie-banner__message govuk-width-container js-cookies-rejected" role="alert" hidden>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">
+          You’ve rejected analytics cookies. You can
+          <a class="govuk-link" href="/cookies">change your cookie settings</a>
+          at any time.
+        </p>
+      </div>
+    </div>
+    <div class="govuk-button-group">
+      <button type="button" class="govuk-button js-hide" data-module="govuk-button">
+        Hide this message
+      </button>
     </div>
   </div>
 </div>

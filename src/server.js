@@ -4,6 +4,7 @@ import Scooter from '@hapi/scooter'
 import { contentSecurityPolicy } from './plugins/content-security-policy.js'
 import { headers } from './plugins/headers.js'
 import { router } from './plugins/router.js'
+import { cookies } from './plugins/cookies.js'
 import { config } from './config/config.js'
 import { pulse } from './common/helpers/pulse.js'
 import { catchAll } from './common/helpers/errors.js'
@@ -55,6 +56,7 @@ export async function createServer () {
     contentSecurityPolicy,
     headers,
     router,
+    cookies
   ])
 
   server.ext('onPreResponse', catchAll)

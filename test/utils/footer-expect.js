@@ -2,7 +2,7 @@ import { expect } from 'vitest'
 
 const expectedFooterLinks = [
   'https://www.gov.uk/help/privacy-notice',
-  'https://www.gov.uk/help/cookies',
+  '/cookies',
   '/accessibility',
   'https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs',
   'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/',
