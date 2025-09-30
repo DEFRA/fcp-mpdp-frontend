@@ -6,8 +6,9 @@ const dom = new JSDOM()
 
 describe('cookies', () => {
   beforeAll(() => {
-    global.document = dom.window.document
-    global.window = dom.window
+    globalThis.document = dom.window.document
+    globalThis.window = dom.window
+    globalThis.location = dom.window.location
   })
 
   beforeEach(() => {
@@ -111,75 +112,4 @@ describe('cookies', () => {
       expect(xhrMock.send).toHaveBeenCalledWith(JSON.stringify({ analytics: false, async: true }))
     })
   })
-
-  // describe('setupCookieComponentListeners', () => {
-  //   let xhrMock
-
-  //   beforeEach(() => {
-  //     xhrMock = {
-  //       open: vi.fn(),
-  //       setRequestHeader: vi.fn(),
-  //       send: vi.fn()
-  //     }
-  //     global.XMLHttpRequest = vi.fn(() => xhrMock)
-  //   })
-
-  //   afterEach(() => {
-  //     vi.clearAllMocks()
-  //   })
-
-  //   test('should show accepted banner and send correct data on accept', () => {
-  //     const acceptButton = document.querySelector('.js-cookies-button-accept')
-  //     const acceptedBanner = document.querySelector('.js-cookies-accepted')
-
-  //     const event = new window.MouseEvent('click', { bubbles: true, cancelable: true })
-  //     const preventDefault = vi.fn()
-  //     acceptedBanner.focus = vi.fn()
-
-  //     acceptButton.addEventListener('click', e => e.preventDefault = preventDefault)
-  //     acceptButton.dispatchEvent(event)
-
-  //     expect(preventDefault).toHaveBeenCalled()
-  //     expect(acceptedBanner.hasAttribute('hidden')).toBe(false)
-  //     expect(acceptedBanner.focus).toHaveBeenCalled()
-  //     expect(xhrMock.open).toHaveBeenCalledWith('POST', '/cookies', true)
-  //     expect(xhrMock.setRequestHeader).toHaveBeenCalledWith('Content-Type', 'application/json')
-  //     expect(xhrMock.send).toHaveBeenCalledWith(JSON.stringify({ analytics: true, async: true }))
-  //   })
-
-  //   test('should show rejected banner and send correct data on reject', () => {
-  //     const rejectButton = document.querySelector('.js-cookies-button-reject')
-  //     const rejectedBanner = document.querySelector('.js-cookies-rejected')
-
-  //     const event = new window.MouseEvent('click', { bubbles: true, cancelable: true })
-  //     const preventDefault = vi.fn()
-  //     rejectedBanner.focus = vi.fn()
-
-  //     rejectButton.addEventListener('click', e => e.preventDefault = preventDefault)
-  //     rejectButton.dispatchEvent(event)
-
-  //     expect(preventDefault).toHaveBeenCalled()
-  //     expect(rejectedBanner.hasAttribute('hidden')).toBe(false)
-  //     expect(rejectedBanner.focus).toHaveBeenCalled()
-  //     expect(xhrMock.open).toHaveBeenCalledWith('POST', '/cookies', true)
-  //     expect(xhrMock.setRequestHeader).toHaveBeenCalledWith('Content-Type', 'application/json')
-  //     expect(xhrMock.send).toHaveBeenCalledWith(JSON.stringify({ analytics: false, async: true }))
-  //   })
-
-  //   test('should hide cookie banner when hide button is clicked on accepted banner', () => {
-  //     const acceptedBannerHideButton = document.querySelector('.js-cookies-accepted .js-hide')
-  //     const cookieBanner = document.querySelector('.js-cookies-banner')
-
-  //     acceptedBannerHideButton.click()
-  //     expect(cookieBanner.hasAttribute('hidden')).toBe(true)
-  //   })
-
-  //   test('should hide cookie banner when hide button is clicked on rejected banner', () => {
-  //     const rejectedBannerHideButton = document.querySelector('.js-cookies-rejected .js-hide')
-  //     const cookieBanner = document.querySelector('.js-cookies-banner')
-
-  //     rejectedBannerHideButton.click()
-  //     expect(cookieBanner.hasAttribute('hidden')).toBe(true)
-  //   })
-  // })
 })

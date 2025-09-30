@@ -1,5 +1,8 @@
+import http2 from 'node:http2'
 import { config } from '../config/config.js'
 import { getCurrentPolicy, removeAnalytics } from '../cookies.js'
+
+const { constants: httpConstants } = http2
 
 const cookieNamePolicy = config.get('cookie.namePolicy')
 const cookiePolicy = config.get('cookiePolicy')
@@ -15,9 +18,9 @@ export const cookies = {
 
         if (
           request.response.variety === 'view' &&
-          statusCode !== 403 &&
-          statusCode !== 404 &&
-          statusCode !== 500 &&
+          statusCode !== httpConstants.HTTP_STATUS_FORBIDDEN &&
+          statusCode !== httpConstants.HTTP_STATUS_BAD_REQUEST &&
+          statusCode !== httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR &&
           request.response.source.manager._context
         ) {
           const cookiesPolicy = getCurrentPolicy(request, h)

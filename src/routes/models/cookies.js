@@ -1,4 +1,4 @@
-export function cookiesModel (cookiesPolicy = {}, updated, referer = '') {
+export function cookiesModel (updated, referer = '', cookiesPolicy = {}) {
   return {
     analytics: {
       classes: 'govuk-radios--inline',

@@ -3,7 +3,7 @@ import { cookiesModel } from '../../../../src/routes/models/cookies.js'
 
 describe('cookiesModel', () => {
   test('returns correct model when analytics is true', () => {
-    const model = cookiesModel({ analytics: true }, true, '/some-path')
+    const model = cookiesModel(true, '/some-path', { analytics: true })
 
     expect(model).toEqual({
       analytics: {
@@ -30,7 +30,7 @@ describe('cookiesModel', () => {
   })
 
   test('returns correct model when analytics is false', () => {
-    const model = cookiesModel({ analytics: false }, false, '/another-path')
+    const model = cookiesModel(false, '/another-path', { analytics: false })
 
     expect(model.analytics.items[0].checked).toBe(false)
     expect(model.analytics.items[1].checked).toBe(true)
@@ -39,14 +39,14 @@ describe('cookiesModel', () => {
   })
 
   test('defaults to empty object when no cookiesPolicy is passed', () => {
-    const model = cookiesModel(undefined, false, '')
+    const model = cookiesModel(false, '', undefined)
 
     expect(model.analytics.items[0].checked).toBe(undefined)
     expect(model.analytics.items[1].checked).toBe(true)
   })
 
   test('defaults updated and referer when not provided', () => {
-    const model = cookiesModel({ analytics: true })
+    const model = cookiesModel(undefined, undefined, { analytics: true })
 
     expect(model.updated).toBe(undefined)
     expect(model.referer).toBe('')

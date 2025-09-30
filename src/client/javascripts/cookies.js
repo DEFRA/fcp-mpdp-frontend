@@ -7,14 +7,14 @@ export default {
   setupLinkListeners () {
     const links = ['/cookies', '/privacy', '/accessibility']
 
-    links.forEach((link) => {
+    for (const link of links) {
       const element = document.querySelector(`a[href='${link}']`)
       element?.addEventListener('click', (event) => {
-        if (window.location.pathname.includes(link)) {
+        if (globalThis.location.pathname.includes(link)) {
           event.preventDefault()
         }
       })
-    })
+    }
   },
 
   setupCookieComponentListeners () {
@@ -29,7 +29,7 @@ export default {
     const cookieBanner = document.querySelector('.js-cookies-banner')
 
     const submitPreference = (accepted) => {
-      const xhr = new XMLHttpRequest() // eslint-disable-line
+      const xhr = new XMLHttpRequest() // eslint-disable-line no-undef
 
       xhr.open('POST', '/cookies', true)
       xhr.setRequestHeader('Content-Type', 'application/json')
