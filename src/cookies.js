@@ -38,11 +38,11 @@ function updatePolicy (request, h, analytics) {
 function removeAnalytics (request, h) {
   const googleCookiesRegex = /^_ga$|^_ga_*$|^_gid$|^_ga_.*$|^_gat_.*$/g
 
-  Object.keys(request.state).forEach(cookieName => {
+  for (const cookieName of Object.keys(request.state)) {
     if (cookieName.search(googleCookiesRegex) === 0) {
       h.unstate(cookieName)
     }
-  })
+  }
 }
 
 export {
