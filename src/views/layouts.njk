@@ -9,6 +9,10 @@
 {% endblock %}
 
 {% block header %}
+  {% if not cookiesPolicy.confirmed %}
+    {% include "./cookies/banner.njk" %}
+  {% endif %}
+
   {{ govukHeader({
     homepageUrl: "https://www.gov.uk/",
     classes: "app-header",
@@ -19,11 +23,11 @@
   }) }}
 {% endblock %}
 
-{% block bodyStart %}
+{# {% block bodyStart %}
   {% if not cookiesPolicy.confirmed %}
     {% include "./cookies/banner.njk" %}
   {% endif %}
-{% endblock %}
+{% endblock %} #}
 
 {% block pageTitle %}
   {% if pageTitle and pageTitle != serviceName %}{{ pageTitle }} - {% endif %}{{ serviceName }} - GOV.UK
