@@ -15,7 +15,7 @@ export const cookies = [
           ...cookiesModel(
             false,
             request.headers.referer,
-            request.state[config.get('cookie.namePolicy')]
+            request.state[config.get('cookie.name')]
           )
         }
       )
@@ -51,7 +51,7 @@ export const cookies = [
             ...cookiesModel(
               true,
               payload.referer,
-              request.state[config.get('cookie.namePolicy')]
+              request.state[config.get('cookie.name')]
             )
           }
         )

@@ -159,21 +159,11 @@ export const config = convict({
     }
   },
   cookie: {
-    namePolicy: {
-      doc: 'Name of cookie policy',
+    name: {
+      doc: 'Name of cookie set as part of cookie policy',
       format: String,
       default: 'fcp_mpdp_cookie_policy',
     },
-    nameAuth: {
-      doc: 'Name of cookie authentication',
-      format: String,
-      default: 'fcp_mpdp_auth'
-    },
-    nameSession: {
-      doc: 'Name of cookie session',
-      format: String,
-      default: 'fcp_mpdp_session'
-    },
     isSameSite: {
       doc: 'Check if site is the same',
       format: String,
@@ -183,35 +173,35 @@ export const config = convict({
       doc: 'Check if secure',
       format: Boolean,
       default: isProduction
-    }
-  },
-  cookiePolicy: {
-    clearInvalid: {
-      doc: 'Clear invalid cookie policy',
-      format: Boolean,
-      default: true
     },
-    encoding: {
-      doc: 'Encoding protocol for cookie policy',
-      format: String,
-      default: 'base64json'
+    policy: {
+      clearInvalid: {
+        doc: 'Clear invalid cookie policy',
+        format: Boolean,
+        default: true
+      },
+      encoding: {
+        doc: 'Encoding protocol for cookie policy',
+        format: String,
+        default: 'base64json'
+      },
+      isSameSite: {
+        doc: 'Check if site is the same',
+        format: String,
+        default: 'Lax'
+      },
+      isSecure: {
+        doc: 'Check if secure',
+        format: Boolean,
+        default: isProduction
+      }
     },
-    isSameSite: {
-      doc: 'Check if site is the same',
-      format: String,
-      default: 'Lax'
-    },
-    isSecure: {
-      doc: 'Check if secure',
-      format: Boolean,
-      default: isProduction
-    }
-  },
-  cookieConfig: {
-    ttl: {
-      doc: 'Time to live for cookie policy (ms)',
-      format: 'nat',
-      default: 1000 * 60 * 60 * 24 * 365
+    config: {
+      ttl: {
+        doc: 'Time to live for cookie policy (ms)',
+        format: 'nat',
+        default: 1000 * 60 * 60 * 24 * 365
+      }
     }
   }
 })

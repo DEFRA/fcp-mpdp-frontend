@@ -1,8 +1,8 @@
 import { config } from './config/config.js'
 
-const cookieNamePolicy = config.get('cookie.namePolicy')
-const cookiePolicy = config.get('cookiePolicy')
-const cookieConfig = config.get('cookieConfig')
+const cookieNamePolicy = config.get('cookie.name')
+const cookiePolicy = config.get('cookie.policy')
+const cookieConfig = config.get('cookie.config')
 
 function getCurrentPolicy (request, h) {
   let cookiesPolicy = request.state[cookieNamePolicy]

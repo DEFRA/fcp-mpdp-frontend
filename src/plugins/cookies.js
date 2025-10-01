@@ -4,8 +4,8 @@ import { getCurrentPolicy, removeAnalytics } from '../cookies.js'
 
 const { constants: httpConstants } = http2
 
-const cookieNamePolicy = config.get('cookie.namePolicy')
-const cookiePolicy = config.get('cookiePolicy')
+const cookieNamePolicy = config.get('cookie.name')
+const cookiePolicy = config.get('cookie.policy')
 
 export const cookies = {
   plugin: {
