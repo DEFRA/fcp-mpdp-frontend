@@ -11,7 +11,7 @@
   "scripts": {
     "build:frontend": "NODE_ENV=production webpack",
     "dev": "npm run frontend:watch & npm run server:watch wait",
-    "dev:debug": "npm run frontend:watch & server:debug wait",
+    "dev:debug": "npm run frontend:watch & npm run server:debug wait",
     "docker:build": "docker compose build",
     "docker:dev": "docker compose up",
     "docker:test": "npm run lint && mkdir -p coverage 2>/dev/null || true && docker compose -p fcp-mpdp-frontend-test down -v && docker compose -f compose.yml -f compose.test.yml -p fcp-mpdp-frontend-test run --build --rm fcp-mpdp-frontend",

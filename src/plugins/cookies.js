@@ -25,7 +25,7 @@ export const cookies = {
         ) {
           const cookiesPolicy = getCurrentPolicy(request, h)
 
-          request.response.source.manager._context.cookiesPolicy = cookiePolicy
+          request.response.source.manager._context.cookiesPolicy = cookiesPolicy
 
           if ((!cookiesPolicy.analytics)) {
             removeAnalytics(request, h)
