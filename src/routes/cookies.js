@@ -13,9 +13,9 @@ export const cookies = [
         {
           pageTitle: 'Cookies',
           ...cookiesModel(
-            request.state[config.get('cookie.namePolicy')],
             false,
-            request.headers.referer
+            request.headers.referer,
+            request.state[config.get('cookie.namePolicy')]
           )
         }
       )
@@ -49,9 +49,9 @@ export const cookies = [
           {
             pageTitle: 'Cookies',
             ...cookiesModel(
-              request.state[config.get('cookie.namePolicy')],
               true,
-              payload.referer
+              payload.referer,
+              request.state[config.get('cookie.namePolicy')],
             )
           }
         )
