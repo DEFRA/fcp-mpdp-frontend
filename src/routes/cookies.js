@@ -51,7 +51,7 @@ export const cookies = [
             ...cookiesModel(
               true,
               payload.referer,
-              request.state[config.get('cookie.namePolicy')],
+              request.state[config.get('cookie.namePolicy')]
             )
           }
         )
