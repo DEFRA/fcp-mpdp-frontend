@@ -23,12 +23,6 @@
   }) }}
 {% endblock %}
 
-{# {% block bodyStart %}
-  {% if not cookiesPolicy.confirmed %}
-    {% include "./cookies/banner.njk" %}
-  {% endif %}
-{% endblock %} #}
-
 {% block pageTitle %}
   {% if pageTitle and pageTitle != serviceName %}{{ pageTitle }} - {% endif %}{{ serviceName }} - GOV.UK
 {% endblock %}
