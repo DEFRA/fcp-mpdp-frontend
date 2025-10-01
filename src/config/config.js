@@ -140,7 +140,6 @@ export const config = convict({
     endpoint: {
       doc: 'Endpoint for fcp-mpdp-backend',
       format: String,
-      nullable: true,
       default: null,
       env: 'MPDP_BACKEND_ENDPOINT'
     },
@@ -163,16 +162,6 @@ export const config = convict({
       doc: 'Name of cookie set as part of cookie policy',
       format: String,
       default: 'fcp_mpdp_cookie_policy',
-    },
-    isSameSite: {
-      doc: 'Check if site is the same',
-      format: String,
-      default: 'Lax'
-    },
-    isSecure: {
-      doc: 'Check if secure',
-      format: Boolean,
-      default: isProduction
     },
     policy: {
       clearInvalid: {

@@ -1,20 +1,6 @@
 export default {
   init () {
     this.setupCookieComponentListeners()
-    this.setupLinkListeners()
-  },
-
-  setupLinkListeners () {
-    const links = ['/cookies', '/privacy', '/accessibility']
-
-    for (const link of links) {
-      const element = document.querySelector(`a[href='${link}']`)
-      element?.addEventListener('click', (event) => {
-        if (globalThis.location.pathname.includes(link)) {
-          event.preventDefault()
-        }
-      })
-    }
   },
 
   setupCookieComponentListeners () {
