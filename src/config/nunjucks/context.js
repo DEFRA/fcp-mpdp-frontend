@@ -13,7 +13,7 @@ const manifestPath = path.join(
 let webpackManifest
 
 export function context (request) {
-  const ctx = request.response?.source?.context || {}
+  const ctx = request.response.source?.context || {}
 
   if (!webpackManifest) {
     try {
