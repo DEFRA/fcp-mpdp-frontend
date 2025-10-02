@@ -28,7 +28,7 @@ export default {
       xhr.send(JSON.stringify({
         analytics: accepted,
         async: true,
-        csrfToken: crumb
+        crumb
       }))
     }
 
