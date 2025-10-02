@@ -16,15 +16,19 @@ export default {
     const rejectedBanner = document.querySelector('.js-cookies-rejected')
     const cookieBanner = document.querySelector('.js-cookies-banner')
 
+    const crumb = cookieContainer.dataset.crumb
+
     const submitPreference = (accepted) => {
       const xhr = new XMLHttpRequest() // eslint-disable-line no-undef
 
       xhr.open('POST', '/cookies', true)
+
       xhr.setRequestHeader('Content-Type', 'application/json')
 
       xhr.send(JSON.stringify({
         analytics: accepted,
-        async: true
+        async: true,
+        csrfToken: crumb
       }))
     }
 

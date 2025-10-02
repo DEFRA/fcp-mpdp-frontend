@@ -58,9 +58,9 @@ export async function createServer () {
     nunjucksConfig,
     contentSecurityPolicy,
     headers,
+    crumb,
     router,
-    cookies,
-    crumb
+    cookies
   ])
 
   server.ext('onPreResponse', catchAll)
