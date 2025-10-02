@@ -64,10 +64,22 @@ describe('Cookies route', () => {
   })
 
   test('POST /cookies returns 200 if async', async () => {
+    const getResponse = await server.inject(getOptions('cookies', 'GET'))
+    const $ = cheerio.load(getResponse.payload)
+    const cookies = getResponse.headers['set-cookie']
+    const crumb = $('input[name="crumb"]').val()
+
     const options = {
       method: 'POST',
       url: '/cookies',
-      payload: { analytics: true, async: true }
+      headers: {
+        cookie: cookies ? cookies.join(';') : ''
+      },
+      payload: {
+        analytics: true,
+        async: true,
+        crumb
+      }
     }
 
     const result = await server.inject(options)
@@ -76,10 +88,21 @@ describe('Cookies route', () => {
   })
 
   test('POST /cookies invalid returns 400', async () => {
+    const getResponse = await server.inject(getOptions('cookies', 'GET'))
+    const $ = cheerio.load(getResponse.payload)
+    const cookies = getResponse.headers['set-cookie']
+    const crumb = $('input[name="crumb"]').val()
+
     const options = {
       method: 'POST',
       url: '/cookies',
-      payload: { invalid: 'aaaaaa' }
+      headers: {
+        cookie: cookies ? cookies.join(';') : ''
+      },
+      payload: {
+        invalid: 'aaaaaa',
+        crumb
+      }
     }
 
     const result = await server.inject(options)
