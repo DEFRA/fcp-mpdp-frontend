@@ -12,6 +12,7 @@ export const cookies = [
         'cookies/policy',
         {
           pageTitle: 'Cookies',
+          crumb: request.plugins.crumb,
           ...cookiesModel(
             false,
             request.headers.referer,
@@ -25,14 +26,12 @@ export const cookies = [
     method: 'POST',
     path: '/cookies',
     options: {
-      plugins: {
-        crumb: false
-      },
       validate: {
         payload: Joi.object({
           analytics: Joi.boolean(),
           async: Joi.boolean().default(false),
-          referer: Joi.string().optional()
+          referer: Joi.string().optional(),
+          crumb: Joi.string().required()
         })
       },
       handler: function (request, h) {
@@ -48,6 +47,7 @@ export const cookies = [
           'cookies/policy',
           {
             pageTitle: 'Cookies',
+            crumb: request.plugins.crumb,
             ...cookiesModel(
               true,
               payload.referer,

@@ -6,6 +6,7 @@ import { headers } from './plugins/headers.js'
 import { router } from './plugins/router.js'
 import { userAgentProtection } from './plugins/user-agent-protection.js'
 import { cookies } from './plugins/cookies.js'
+import { crumb } from './plugins/crumb.js'
 import { config } from './config/config.js'
 import { pulse } from './common/helpers/pulse.js'
 import { catchAll } from './common/helpers/errors.js'
@@ -58,7 +59,8 @@ export async function createServer () {
     contentSecurityPolicy,
     headers,
     router,
-    cookies
+    cookies,
+    crumb
   ])
 
   server.ext('onPreResponse', catchAll)
