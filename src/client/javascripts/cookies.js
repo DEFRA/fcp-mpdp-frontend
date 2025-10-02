@@ -6,8 +6,8 @@ export default {
   setupCookieComponentListeners () {
     const cookieContainer = document.querySelector('.js-cookies-container')
 
-    if (!cookieContainer) { 
-      return 
+    if (!cookieContainer) {
+      return
     }
 
     const acceptButton = document.querySelector('.js-cookies-button-accept')
