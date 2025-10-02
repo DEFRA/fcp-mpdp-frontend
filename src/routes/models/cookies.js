@@ -1,17 +1,13 @@
 export function cookiesModel (updated, referer = '', cookiesPolicy = {}) {
   return {
     analytics: {
-      classes: 'govuk-radios--inline',
       idPrefix: 'analytics',
       name: 'analytics',
       fieldset: {
         legend: {
-          text: 'Change your cookie settings',
+          text: 'Do you want to accept analytics cookies?',
           classes: 'govuk-fieldset__legend--s'
         }
-      },
-      hint: {
-        text: 'Do you want to accept analytics cookies?'
       },
       items: [
         {

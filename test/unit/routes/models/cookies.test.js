@@ -7,17 +7,13 @@ describe('cookiesModel', () => {
 
     expect(model).toEqual({
       analytics: {
-        classes: 'govuk-radios--inline',
         idPrefix: 'analytics',
         name: 'analytics',
         fieldset: {
           legend: {
-            text: 'Change your cookie settings',
+            text: 'Do you want to accept analytics cookies?',
             classes: 'govuk-fieldset__legend--s'
           }
-        },
-        hint: {
-          text: 'Do you want to accept analytics cookies?'
         },
         items: [
           { value: true, text: 'Yes', checked: true },
