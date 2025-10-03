@@ -1,6 +1,7 @@
 import path from 'node:path'
 import Hapi from '@hapi/hapi'
 import Scooter from '@hapi/scooter'
+import Joi from 'joi'
 import { contentSecurityPolicy } from './plugins/content-security-policy.js'
 import { headers } from './plugins/headers.js'
 import { router } from './plugins/router.js'
@@ -48,6 +49,9 @@ export async function createServer () {
       strictHeader: false
     }
   })
+
+  server.validator(Joi)
+
   await server.register([
     userAgentProtection, // Must be registered before Scooter to intercept malicious User-Agents
     Scooter,

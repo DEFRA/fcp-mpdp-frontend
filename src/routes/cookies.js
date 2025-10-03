@@ -26,33 +26,33 @@ export const cookies = [
     path: '/cookies',
     options: {
       validate: {
-        payload: Joi.object({
+        payload: {
           analytics: Joi.boolean(),
           async: Joi.boolean().default(false),
-          referer: Joi.string().optional()
-        })
-      },
-      handler: function (request, h) {
-        const payload = request.payload
-
-        updatePolicy(request, h, payload.analytics)
-
-        if (payload.async) {
-          return h.response({ message: 'success' })
+          referer: Joi.string().allow('')
         }
-
-        return h.view(
-          'cookies/policy',
-          {
-            pageTitle: 'Cookies',
-            ...cookiesModel(
-              true,
-              payload.referer,
-              request.state[config.get('cookie.name')]
-            )
-          }
-        )
       }
+    },
+    handler: function (request, h) {
+      const payload = request.payload
+
+      updatePolicy(request, h, payload.analytics)
+
+      if (payload.async) {
+        return h.response({ message: 'success' })
+      }
+
+      return h.view(
+        'cookies/policy',
+        {
+          pageTitle: 'Cookies',
+          ...cookiesModel(
+            true,
+            payload.referer,
+            request.state[config.get('cookie.name')]
+          )
+        }
+      )
     }
   }
 ]
