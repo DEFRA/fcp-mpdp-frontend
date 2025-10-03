@@ -32,6 +32,7 @@ export function context (request) {
     getAssetPath (asset) {
       const webpackAssetPath = webpackManifest?.[asset]
       return `${assetPath}/${webpackAssetPath ?? asset}`
-    }
+    },
+    googleAnalyticsTagManagerKey: config.get('googleAnalyticsTagManagerKey')
   }
 }
