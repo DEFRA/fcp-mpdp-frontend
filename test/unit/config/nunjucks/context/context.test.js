@@ -11,6 +11,7 @@ vi.mock('node:fs', async () => {
     readFileSync: () => mockReadFileSync()
   }
 })
+
 vi.mock('../../../../../src/common/helpers/logging/logger.js', () => ({
   createLogger: () => ({ error: (...args) => mockLoggerError(...args) })
 }))
@@ -57,7 +58,8 @@ describe('Context and cache', () => {
           breadcrumbs: [],
           getAssetPath: expect.any(Function),
           serviceName: 'Find farm and land payment data',
-          serviceUrl: '/'
+          serviceUrl: '/',
+          googleAnalyticsTagManagerKey: 'tbc'
         })
       })
 
@@ -100,7 +102,8 @@ describe('Context and cache', () => {
             breadcrumbs: [],
             getAssetPath: expect.any(Function),
             serviceName: 'Find farm and land payment data',
-            serviceUrl: '/'
+            serviceUrl: '/',
+            googleAnalyticsTagManagerKey: 'tbc'
           })
         })
       })
@@ -171,7 +174,8 @@ describe('Context and cache', () => {
           breadcrumbs: [],
           getAssetPath: expect.any(Function),
           serviceName: 'Find farm and land payment data',
-          serviceUrl: '/'
+          serviceUrl: '/',
+          googleAnalyticsTagManagerKey: 'tbc'
         })
       })
     })

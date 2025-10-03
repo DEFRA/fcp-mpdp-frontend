@@ -196,6 +196,7 @@ export const config = convict({
   googleAnalyticsTagManagerKey: {
     doc: 'Tag manager key for Google Analytics',
     format: String,
+    default: null,
     env: 'GOOGLE_ANALYTICS_TAG_MANAGER_KEY'
   }
 })
