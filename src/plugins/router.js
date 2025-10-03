@@ -10,6 +10,7 @@ import { results } from '../routes/search/results.js'
 import { downloadResults } from '../routes/download/results.js'
 import { details } from '../routes/details.js'
 import { downloadDetails } from '../routes/download/details.js'
+import { cookies } from '../routes/cookies.js'
 import { accessibility } from '../routes/accessibility.js'
 import { serveStaticFiles } from '../common/helpers/serve-static-files.js'
 
@@ -29,6 +30,7 @@ export const router = {
       await server.route(downloadResults)
       await server.route(details)
       await server.route(downloadDetails)
+      await server.route(cookies)
       await server.route(accessibility)
       await server.register([serveStaticFiles])
     }

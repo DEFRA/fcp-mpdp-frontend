@@ -156,6 +156,42 @@ export const config = convict({
       format: 'nat',
       default: 20
     }
+  },
+  cookie: {
+    name: {
+      doc: 'Name of cookie set as part of cookie policy',
+      format: String,
+      default: 'fcp_mpdp_cookie_policy',
+    },
+    policy: {
+      clearInvalid: {
+        doc: 'Clear invalid cookie policy',
+        format: Boolean,
+        default: true
+      },
+      encoding: {
+        doc: 'Encoding protocol for cookie policy',
+        format: String,
+        default: 'base64json'
+      },
+      isSameSite: {
+        doc: 'Check if site is the same',
+        format: String,
+        default: 'Lax'
+      },
+      isSecure: {
+        doc: 'Check if secure',
+        format: Boolean,
+        default: isProduction
+      }
+    },
+    config: {
+      ttl: {
+        doc: 'Time to live for cookie policy (ms)',
+        format: 'nat',
+        default: 1000 * 60 * 60 * 24 * 365
+      }
+    }
   }
 })
 

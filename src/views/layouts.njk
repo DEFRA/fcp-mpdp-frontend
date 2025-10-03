@@ -8,6 +8,16 @@
   <link href="{{ getAssetPath('stylesheets/application.scss') }}" rel="stylesheet">
 {% endblock %}
 
+{% block pageTitle %}
+  {% if pageTitle and pageTitle != serviceName %}{{ pageTitle }} - {% endif %}{{ serviceName }} - GOV.UK
+{% endblock %}
+
+{% block bodyStart %}
+  {% if not cookiesPolicy.confirmed %}
+    {% include "./cookies/banner.njk" %}
+  {% endif %}
+{% endblock %}
+
 {% block header %}
   {{ govukHeader({
     homepageUrl: "https://www.gov.uk/",
@@ -19,9 +29,6 @@
   }) }}
 {% endblock %}
 
-{% block pageTitle %}
-  {% if pageTitle and pageTitle != serviceName %}{{ pageTitle }} - {% endif %}{{ serviceName }} - GOV.UK
-{% endblock %}
 
 {% block beforeContent %}
   <aside>
@@ -45,7 +52,7 @@
           text: "Privacy"
         },
         {
-          href: "https://www.gov.uk/help/cookies",
+          href: "/cookies",
           text: "Cookies"
         },
         {

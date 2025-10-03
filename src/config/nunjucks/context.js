@@ -14,6 +14,7 @@ let webpackManifest
 
 export function context (request) {
   const ctx = request.response.source?.context || {}
+
   if (!webpackManifest) {
     try {
       webpackManifest = JSON.parse(readFileSync(manifestPath, 'utf-8'))
