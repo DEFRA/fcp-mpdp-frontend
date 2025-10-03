@@ -193,7 +193,7 @@ export const config = convict({
       }
     }
   },
-  googleAnalyticsTagManagerKey: {
+  googleTagManager: {
     doc: 'Tag manager key for Google Analytics',
     format: String,
     default: null,

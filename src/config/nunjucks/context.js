@@ -29,10 +29,10 @@ export function context (request) {
     serviceName: config.get('serviceName'),
     serviceUrl: '/',
     breadcrumbs: [],
-    getAssetPath (asset) {
+    getAssetPath(asset) {
       const webpackAssetPath = webpackManifest?.[asset]
       return `${assetPath}/${webpackAssetPath ?? asset}`
     },
-    googleAnalyticsTagManagerKey: config.get('googleAnalyticsTagManagerKey')
+    googleTagManager: config.get('googleTagManager')
   }
 }
