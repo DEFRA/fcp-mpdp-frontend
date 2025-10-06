@@ -2,12 +2,12 @@ import { describe, beforeAll, afterAll, test, expect, vi } from 'vitest'
 import http2 from 'node:http2'
 import { createServer } from '../../../../../src/server.js'
 import { getOptions } from '../../../../utils/helpers.js'
-import { postStream } from '../../../../../src/api/post-stream.js'
+import { post } from '../../../../../src/api/post.js'
 
 const { constants: httpConstants } = http2
 
-vi.mock('../../../../../src/api/post-stream.js', () => ({
-  postStream: vi.fn().mockResolvedValue('Sample data in CSV')
+vi.mock('../../../../../src/api/post.js', () => ({
+  post: vi.fn().mockResolvedValue({ payload: 'Sample data in CSV' })
 }))
 
 describe('Download search results data CSV link', () => {
@@ -56,7 +56,7 @@ describe('Download search results data CSV link', () => {
   })
 
   test('GET /results/file returns status code 500 on underlying error', async () => {
-    postStream.mockRejectedValueOnce(new Error('Internal Server Error'))
+    post.mockRejectedValueOnce(new Error('Internal Server Error'))
     response = await server.inject(options)
 
     expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
