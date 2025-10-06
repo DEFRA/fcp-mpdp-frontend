@@ -1,3 +1,4 @@
+import { config } from '../../config/config.js'
 import { initAll } from 'govuk-frontend'
 import schemePaymentsByYear from './scheme-payments-by-year.js'
 import search from './search.js'
@@ -8,6 +9,7 @@ import searchFilterTags from './search-filter-tags.js'
 import details from './details.js'
 import print from './print.js'
 import cookies from './cookies.js'
+import googleTagManager from './google-tag-manager.js'
 
 schemePaymentsByYear.init()
 search.init()
@@ -18,5 +20,6 @@ searchFilterTags.init()
 details.init()
 print.init()
 cookies.init()
+googleTagManager.init(config.get('googleAnalytics.googleTagManagerKey'))
 
 initAll()

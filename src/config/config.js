@@ -193,11 +193,18 @@ export const config = convict({
       }
     }
   },
-  googleTagManagerKey: {
-    doc: 'Tag manager key for Google Analytics',
-    format: String,
-    default: null,
-    env: 'GOOGLE_TAG_MANAGER_KEY'
+  googleAnalytics: {
+    googleTagManagerKey: {
+      doc: 'Google tag manager (GTM) key for Google Analytics',
+      format: String,
+      default: null,
+      env: 'GOOGLE_TAG_MANAGER_KEY'
+    },
+    enabled: {
+      doc: 'Check if GTM is present and enable Google Analytics',
+      format: Boolean,
+      default: !!process.env.GOOGLE_TAG_MANAGER_KEY
+    }
   }
 })
 
