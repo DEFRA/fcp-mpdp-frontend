@@ -1,3 +1,6 @@
 {% if googleTagManagerKey %}
-
+  <script type="module">
+    import googleTagManager from '{{ getAssetPath("scripts/google-tag-manager.js") }}';
+    googleTagManager.init('{{ googleTagManagerKey }}');
+  </script>
 {% endif %}
