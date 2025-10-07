@@ -8,7 +8,7 @@ export const contentSecurityPolicy = {
   options: {
     fontSrc: ['self'],
     imgSrc: ['self', 'https://www.googletagmanager.com'],
-    scriptSrc: ['self', "'sha256-GUQ5ad8JK5KmEWmROf3LZd9ge94daqNvd8xy9YS1iDw='", 'https://www.googletagmanager.com'],
+    scriptSrc: ['self', 'strict-dynamic', "'sha256-GUQ5ad8JK5KmEWmROf3LZd9ge94daqNvd8xy9YS1iDw='", 'https://www.googletagmanager.com'],
     styleSrc: ['self'],
     connectSrc: ['self', 'https://www.googletagmanager.com', 'https://www.google.com'],
     frameSrc: ['https://www.googletagmanager.com'],
