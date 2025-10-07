@@ -59,7 +59,7 @@ describe('Context and cache', () => {
           getAssetPath: expect.any(Function),
           serviceName: 'Find farm and land payment data',
           serviceUrl: '/',
-          googleTagManagerKey: 'tbc'
+          googleTagManagerKey: ''
         })
       })
 
@@ -103,7 +103,7 @@ describe('Context and cache', () => {
             getAssetPath: expect.any(Function),
             serviceName: 'Find farm and land payment data',
             serviceUrl: '/',
-            googleTagManagerKey: 'tbc'
+            googleTagManagerKey: ''
           })
         })
       })
@@ -175,7 +175,7 @@ describe('Context and cache', () => {
           getAssetPath: expect.any(Function),
           serviceName: 'Find farm and land payment data',
           serviceUrl: '/',
-          googleTagManagerKey: 'tbc'
+          googleTagManagerKey: ''
         })
       })
     })
