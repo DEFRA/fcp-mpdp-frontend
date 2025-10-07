@@ -16,21 +16,14 @@ describe('contentSecurityPolicy', () => {
   })
 
   test('should restrict the img src to self and Google Analytics', () => {
-    expect(contentSecurityPolicy.options.imgSrc).toEqual([
-      'self',
-      'https://*.googletagmanager.com',
-      'https://*.google-analytics.com',
-      'https://*.g.doubleclick.net',
-      'https://*.google.com',
-      'https://*.google.co.uk'
-    ])
+    expect(contentSecurityPolicy.options.imgSrc).toEqual(['self', 'https://www.googletagmanager.com'])
   })
 
   test('should restrict the script src to self, GOV.UK hash, and Google Tag Manager', () => {
     expect(contentSecurityPolicy.options.scriptSrc).toEqual([
       'self',
       "'sha256-GUQ5ad8JK5KmEWmROf3LZd9ge94daqNvd8xy9YS1iDw='",
-      'https://*.googletagmanager.com'
+      'https://www.googletagmanager.com'
     ])
   })
 
@@ -41,18 +34,13 @@ describe('contentSecurityPolicy', () => {
   test('should restrict the connect src to self and Google Analytics', () => {
     expect(contentSecurityPolicy.options.connectSrc).toEqual([
       'self',
-      'https://*.googletagmanager.com',
-      'https://*.google-analytics.com',
-      'https://*.analytics.google.com',
-      'https://*.g.doubleclick.net',
-      'https://*.google.com',
-      'https://*.google.co.uk',
-      'https://pagead2.googlesyndication.com'
+      'https://www.googletagmanager.com',
+      'https://www.google.com'
     ])
   })
 
   test('should restrict the frame src to Google Tag Manager', () => {
-    expect(contentSecurityPolicy.options.frameSrc).toEqual(['https://*.googletagmanager.com'])
+    expect(contentSecurityPolicy.options.frameSrc).toEqual(['https://www.googletagmanager.com'])
   })
 
   test('should restrict the frame ancestors to self', () => {
