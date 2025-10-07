@@ -8,4 +8,4 @@ services:
       - ./package.json:/home/node/package.json
     environment:
       MPDP_BACKEND_ENDPOINT: ${MPDP_BACKEND_ENDPOINT:-http://fcp-mpdp-backend:3001}
-      GOOGLE_TAG_MANAGER_KEY: GTM-T9BKSXT
+      GOOGLE_TAG_MANAGER_KEY: ${GOOGLE_TAG_MANAGER_KEY}
