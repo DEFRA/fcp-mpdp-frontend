@@ -22,6 +22,7 @@ describe('contentSecurityPolicy', () => {
   test('should restrict the script src to self, GOV.UK hash, and Google Tag Manager', () => {
     expect(contentSecurityPolicy.options.scriptSrc).toEqual([
       'self',
+      'strict-dynamic',
       "'sha256-GUQ5ad8JK5KmEWmROf3LZd9ge94daqNvd8xy9YS1iDw='",
       'https://www.googletagmanager.com'
     ])
