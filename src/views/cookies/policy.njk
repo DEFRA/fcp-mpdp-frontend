@@ -4,6 +4,13 @@
 
 {% set mainClasses = "govuk-!-padding-top-2" %}
 
+{% block beforeContent %}
+  {{ super() }}
+  <nav>
+    <a id="back-link" href="{{ referer }}" class="govuk-back-link">Back</a>
+  </nav>
+{% endblock %}
+
 {% block content %}
   {% if updated %}
     <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">

@@ -7,6 +7,7 @@ import { getOptions } from '../../../utils/helpers.js'
 import { expectPageTitle } from '../../../utils/page-title-expect.js'
 import { expectHeader } from '../../../utils/header-expect.js'
 import { expectPhaseBanner } from '../../../utils/phase-banner-expect.js'
+import { expectBackLink } from '../../../utils/back-link-expect.js'
 import { expectPageHeading } from '../../../utils/page-heading-expect.js'
 import { expectFooter } from '../../../utils/footer-expect.js'
 
@@ -44,6 +45,17 @@ describe('Cookies route', () => {
     expectPhaseBanner($)
     expectPageHeading($, 'Cookies')
     expectFooter($)
+  })
+
+  test('Should render a back link with referer', async () => {
+    options.headers = {
+      referer: '/previous-page'
+    }
+
+    response = await server.inject(options)
+    $ = cheerio.load(response.payload)
+
+    expectBackLink($, '/previous-page', 'Back')
   })
 
   test('GET /cookies returns cookie policy', async () => {
