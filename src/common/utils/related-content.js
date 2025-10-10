@@ -6,10 +6,16 @@ const relatedContentLinks = [
     pages: ['start', 'scheme-payments-by-year', 'search', 'details']
   },
   {
+    id: 'cookies-link',
+    text: 'Cookies',
+    url: 'https://www.gov.uk/help/cookies',
+    pages: ['privacy']
+  },
+  {
     id: 'tc-link',
     text: 'Terms and conditions',
     url: 'https://www.gov.uk/help/terms-conditions',
-    pages: ['accessibility']
+    pages: ['accessibility', 'privacy']
   },
   {
     id: 'about-govuk-link',
