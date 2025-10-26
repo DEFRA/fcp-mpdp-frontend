@@ -16,15 +16,18 @@ describe('contentSecurityPolicy', () => {
   })
 
   test('should restrict the img src to self and Google Analytics', () => {
-    expect(contentSecurityPolicy.options.imgSrc).toEqual(['self', 'https://www.googletagmanager.com'])
+    expect(contentSecurityPolicy.options.imgSrc).toEqual([
+      'self',
+      'https://*.googletagmanager.com',
+      'https://*.google-analytics.com'
+    ])
   })
 
   test('should restrict the script src to self, GOV.UK hash, and Google Tag Manager', () => {
     expect(contentSecurityPolicy.options.scriptSrc).toEqual([
       'self',
-      'strict-dynamic',
       "'sha256-GUQ5ad8JK5KmEWmROf3LZd9ge94daqNvd8xy9YS1iDw='",
-      'https://www.googletagmanager.com'
+      'https://*.googletagmanager.com'
     ])
   })
 
@@ -35,8 +38,10 @@ describe('contentSecurityPolicy', () => {
   test('should restrict the connect src to self and Google Analytics', () => {
     expect(contentSecurityPolicy.options.connectSrc).toEqual([
       'self',
-      'https://www.googletagmanager.com',
-      'https://www.google.com'
+      'https://www.google.com',
+      'https://*.google-analytics.com',
+      'https://*.analytics.google.com',
+      'https://*.googletagmanager.com'
     ])
   })
 
