@@ -32,11 +32,18 @@ describe('headers', () => {
     expect(response.headers['x-frame-options']).toBe('DENY')
   })
 
-  test('should prevent robots from indexing pages', async () => {
+  test('should prevent robots from indexing pages if not home page', async () => {
+    const response = await server.inject({
+      url: '/some-page'
+    })
+    expect(response.headers['x-robots-tag']).toBe('noindex, nofollow')
+  })
+
+  test('should not prevent robots from indexing the home page', async () => {
     const response = await server.inject({
       url: '/'
     })
-    expect(response.headers['x-robots-tag']).toBe('noindex, nofollow')
+    expect(response.headers['x-robots-tag']).toBeUndefined()
   })
 
   test('should prevent cross-site scripting attacks', async () => {

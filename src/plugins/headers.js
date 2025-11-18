@@ -8,7 +8,10 @@ export const headers = {
         const headerLocation = response.headers || response.output?.headers
 
         if (headerLocation) {
-          headerLocation['X-Robots-Tag'] = 'noindex, nofollow'
+          console.log(request.path)
+          if (request.path !== '/') {
+            headerLocation['X-Robots-Tag'] = 'noindex, nofollow'
+          }
           headerLocation['Cross-Origin-Opener-Policy'] = 'same-origin'
           headerLocation['Cross-Origin-Embedder-Policy'] = 'require-corp'
           headerLocation['Cross-Origin-Resource-Policy'] = 'same-site'
