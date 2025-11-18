@@ -80,7 +80,7 @@ export const config = convict({
     level: {
       doc: 'Logging level',
       format: ['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent'],
-      default: 'warn',
+      default: 'info',
       env: 'LOG_LEVEL'
     },
     format: {

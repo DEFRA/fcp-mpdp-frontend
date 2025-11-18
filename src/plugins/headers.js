@@ -8,7 +8,6 @@ export const headers = {
         const headerLocation = response.headers || response.output?.headers
 
         if (headerLocation) {
-          console.log(request.path)
           if (request.path !== '/') {
             headerLocation['X-Robots-Tag'] = 'noindex, nofollow'
           }
