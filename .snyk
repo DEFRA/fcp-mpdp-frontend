@@ -6,15 +6,10 @@ ignore:
     - '*':
         reason: No fix available, however we have implemented User-Agent truncation to mitigate ReDoS attacks
         expires: 2026-10-24T17:59:39.786Z
-        created: 2025-08-25T17:59:39.792Z
+        created: 2026-08-25T17:59:39.792Z
   SNYK-JS-USERAGENT-174737:
     - '*':
         reason: No fix available, however we have implemented User-Agent truncation to mitigate ReDoS attacks
         expires: 2026-10-24T18:00:04.997Z
-        created: 2025-08-25T18:00:05.003Z
-  SNYK-JS-VALIDATOR-13395830:
-    - '*':
-        reason: Fix in progress, awaiting release
-        expires: 2025-11-18T12:44:22.005Z
-        created: 2025-10-19T12:44:22.008Z
+        created: 2026-08-25T18:00:05.003Z
 patch: {}
