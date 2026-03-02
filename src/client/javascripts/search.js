@@ -7,6 +7,9 @@ export default {
       success: 200,
       multipleChoices: 300
     }
+    this.debounceTimer = null // Timer for debouncing input
+    this.pendingRequest = null // Current XMLHttpRequest to allow cancellation
+    this.lastSearchString = '' // Track last search to avoid redundant requests
 
     this.setupSearch()
 
@@ -38,10 +41,19 @@ export default {
   },
 
   makeSearchRequest (searchString, callback) {
+    // Cancel any pending request
+    if (this.pendingRequest) {
+      this.pendingRequest.abort()
+      this.pendingRequest = null
+    }
+
     const xhr = new window.XMLHttpRequest()
+    this.pendingRequest = xhr // Store reference for cancellation
+
     xhr.open('GET', `/suggestions?searchString=${searchString}`, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.onload = () => {
+      this.pendingRequest = null // Clear reference on completion
       if (xhr.status >= this.responseCodes.success && xhr.status < this.responseCodes.multipleChoices) {
         callback(null, xhr.response ? JSON.parse(xhr.response) : null)
       } else {
@@ -51,11 +63,16 @@ export default {
         callback(error)
       }
     }
-    xhr.onerror = function () {
+    xhr.onerror = () => {
+      this.pendingRequest = null // Clear reference on error
       const error = new Error(`Request failed with status ${xhr.status}: ${xhr.statusText}`)
       error.status = xhr.status
       error.statusText = xhr.statusText
       callback(error)
+    }
+    xhr.onabort = () => {
+      this.pendingRequest = null // Clear reference on abort
+      // Don't call callback on abort - request was intentionally cancelled
     }
     xhr.send(JSON.stringify({
       searchString
@@ -111,8 +128,7 @@ export default {
   },
 
   async loadSuggestions () {
-    this.domSuggestions.innerHTML = this.loadingOption().outerHTML
-    this.showSuggestions()
+    // Loading state is now shown in oninput handler for immediate feedback
 
     try {
       const searchString = encodeURIComponent(this.searchInput.value)
@@ -141,6 +157,10 @@ export default {
         return
       }
     } catch (e) {
+      // Ignore errors from aborted requests
+      if (e.message && e.message.includes('abort')) {
+        return
+      }
       console.error(e)
     }
     this.domSuggestions.innerHTML = this.noResultsOption().outerHTML
@@ -177,6 +197,7 @@ export default {
   addSearchInputListeners () {
     const minCharLength = 3
     const timeout = 250
+    const debounceDelay = 500 // Wait 500ms after user stops typing (more aggressive)
 
     this.searchInput.onblur = () => {
       window.setTimeout(() => {
@@ -185,12 +206,39 @@ export default {
     }
 
     this.searchInput.oninput = () => {
+      // Clear any existing debounce timer
+      if (this.debounceTimer) {
+        window.clearTimeout(this.debounceTimer)
+        this.debounceTimer = null
+      }
+
       if (this.searchInput.value.trim().length < minCharLength) {
         this.hideSuggestions()
+        // Cancel any pending request when below min length
+        if (this.pendingRequest) {
+          this.pendingRequest.abort()
+          this.pendingRequest = null
+        }
         return
       }
 
-      this.loadSuggestions()
+      // Show loading state immediately for better UX
+      this.domSuggestions.innerHTML = this.loadingOption().outerHTML
+      this.showSuggestions()
+
+      // Debounce: wait for user to stop typing before making request
+      this.debounceTimer = window.setTimeout(() => {
+        this.debounceTimer = null
+        const currentSearch = this.searchInput.value.trim()
+
+        // Skip if same as last search (redundant)
+        if (currentSearch === this.lastSearchString) {
+          return
+        }
+
+        this.lastSearchString = currentSearch
+        this.loadSuggestions()
+      }, debounceDelay)
     }
 
     this.searchInput.onkeydown = e => {

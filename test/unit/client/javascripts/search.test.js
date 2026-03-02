@@ -402,12 +402,101 @@ describe('search', () => {
       expect(hideSuggestionsSpy).toHaveBeenCalled()
     })
 
-    test('should call loadSuggestions when input length is sufficient', () => {
+    test('should call loadSuggestions when input length is sufficient', async () => {
+      vi.useFakeTimers()
       searchInput.value = 'test'
       const loadSuggestionsSpy = vi.spyOn(search, 'loadSuggestions')
       searchInput.dispatchEvent(new window.Event('input'))
 
+      // Should not be called immediately due to debouncing
+      expect(loadSuggestionsSpy).not.toHaveBeenCalled()
+
+      // Fast-forward past debounce delay (500ms)
+      await vi.advanceTimersByTimeAsync(500)
+
       expect(loadSuggestionsSpy).toHaveBeenCalled()
+      vi.useRealTimers()
+    })
+
+    test('should debounce multiple rapid inputs and only call loadSuggestions once', async () => {
+      vi.useFakeTimers()
+      const loadSuggestionsSpy = vi.spyOn(search, 'loadSuggestions')
+
+      // Simulate rapid typing: "test"
+      searchInput.value = 't'
+      searchInput.dispatchEvent(new window.Event('input'))
+      await vi.advanceTimersByTimeAsync(50)
+
+      searchInput.value = 'te'
+      searchInput.dispatchEvent(new window.Event('input'))
+      await vi.advanceTimersByTimeAsync(50)
+
+      searchInput.value = 'tes'
+      searchInput.dispatchEvent(new window.Event('input'))
+      await vi.advanceTimersByTimeAsync(50)
+
+      searchInput.value = 'test'
+      searchInput.dispatchEvent(new window.Event('input'))
+
+      // Should not be called yet - still within debounce window
+      expect(loadSuggestionsSpy).not.toHaveBeenCalled()
+
+      // Fast-forward past full debounce delay
+      await vi.advanceTimersByTimeAsync(500)
+
+      // Should only be called once for the final value
+      expect(loadSuggestionsSpy).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
+
+    test('should show loading state immediately on input', () => {
+      searchInput.value = 'test'
+      searchInput.dispatchEvent(new window.Event('input'))
+
+      // Should show loading immediately (not wait for debounce)
+      expect(domSuggestions.textContent).toContain('Loading...')
+      expect(domSuggestions.style.display).toBe('block')
+    })
+
+    test('should not make redundant request for same search string', async () => {
+      vi.useFakeTimers()
+      const loadSuggestionsSpy = vi.spyOn(search, 'loadSuggestions')
+
+      // First search
+      searchInput.value = 'test'
+      searchInput.dispatchEvent(new window.Event('input'))
+      await vi.advanceTimersByTimeAsync(500)
+      expect(loadSuggestionsSpy).toHaveBeenCalledTimes(1)
+
+      // Trigger same search again (simulating user clicking in/out of field)
+      searchInput.dispatchEvent(new window.Event('input'))
+      await vi.advanceTimersByTimeAsync(500)
+
+      // Should still only be called once (redundant request skipped)
+      expect(loadSuggestionsSpy).toHaveBeenCalledTimes(1)
+
+      vi.useRealTimers()
+    })
+
+    test('should make new request when search string changes', async () => {
+      vi.useFakeTimers()
+      const loadSuggestionsSpy = vi.spyOn(search, 'loadSuggestions')
+
+      // First search
+      searchInput.value = 'test'
+      searchInput.dispatchEvent(new window.Event('input'))
+      await vi.advanceTimersByTimeAsync(500)
+      expect(loadSuggestionsSpy).toHaveBeenCalledTimes(1)
+
+      // Different search
+      searchInput.value = 'testing'
+      searchInput.dispatchEvent(new window.Event('input'))
+      await vi.advanceTimersByTimeAsync(500)
+
+      // Should be called twice (new search term)
+      expect(loadSuggestionsSpy).toHaveBeenCalledTimes(2)
+
+      vi.useRealTimers()
     })
 
     test('should navigate through options on arrow key presses', () => {
