@@ -44,10 +44,6 @@ describe('sortByDropdown', () => {
     const sortSelect = form.elements['sortBy']
     const submitSpy = vi.spyOn(form, 'submit').mockImplementation(() => { })
 
-    console.log('form.sortBy:', form.sortBy)
-    console.log('form.elements.sortBy:', form.elements.sortBy)
-    console.log('form.elements["sortBy"]:', form.elements['sortBy'])
-
     dropdown.value = 'date'
     dropdown.dispatchEvent(new window.Event('change', { bubbles: true }))
 

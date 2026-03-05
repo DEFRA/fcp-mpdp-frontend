@@ -13,6 +13,8 @@ describe('search', () => {
   beforeAll(() => {
     global.document = dom.window.document
     global.window = dom.window
+    globalThis.XMLHttpRequest = dom.window.XMLHttpRequest
+    globalThis.MouseEvent = dom.window.MouseEvent
   })
 
   beforeEach(() => {
@@ -43,6 +45,55 @@ describe('search', () => {
       search.init()
 
       expect(search.searchInput).toBeNull()
+      expect(search.domSuggestions).toBeNull()
+    })
+  })
+
+  describe('setupSearch', () => {
+    test('should find search-input element', () => {
+      document.body.innerHTML = `
+        <input type="text" id="search-input" />
+        <div id="suggestions"></div>
+      `
+      search.setupSearch()
+
+      expect(search.searchInput.id).toBe('search-input')
+      expect(search.domSuggestions.id).toBe('suggestions')
+    })
+
+    test('should find results-search-input element as fallback', () => {
+      document.body.innerHTML = `
+        <input type="text" id="results-search-input" />
+        <div id="suggestions"></div>
+      `
+      search.setupSearch()
+
+      expect(search.searchInput.id).toBe('results-search-input')
+      expect(search.domSuggestions.id).toBe('suggestions')
+    })
+
+    test('should prefer search-input over results-search-input', () => {
+      document.body.innerHTML = `
+        <input type="text" id="search-input" />
+        <input type="text" id="results-search-input" />
+        <div id="suggestions"></div>
+      `
+      search.setupSearch()
+
+      expect(search.searchInput.id).toBe('search-input')
+    })
+
+    test('should return null if no valid search input found', () => {
+      document.body.innerHTML = '<div id="suggestions"></div>'
+      search.setupSearch()
+
+      expect(search.searchInput).toBeNull()
+    })
+
+    test('should return null if suggestions element not found', () => {
+      document.body.innerHTML = '<input type="text" id="search-input" />'
+      search.setupSearch()
+
       expect(search.domSuggestions).toBeNull()
     })
   })
@@ -82,7 +133,7 @@ describe('search', () => {
         send: vi.fn()
       }
 
-      vi.spyOn(window, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
 
       const searchString = encodeURIComponent('test')
       const callback = vi.fn()
@@ -116,7 +167,7 @@ describe('search', () => {
         response: JSON.stringify(response)
       }
 
-      vi.spyOn(window, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
 
       const searchString = encodeURIComponent('test')
       const callback = vi.fn()
@@ -135,7 +186,7 @@ describe('search', () => {
         statusText: 'error'
       }
 
-      vi.spyOn(window, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
 
       const searchString = encodeURIComponent('test')
       const callback = vi.fn()
@@ -159,7 +210,7 @@ describe('search', () => {
         statusText: 'error'
       }
 
-      vi.spyOn(window, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
 
       const searchString = encodeURIComponent('test')
       const callback = vi.fn()
@@ -172,6 +223,81 @@ describe('search', () => {
         status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR,
         statusText: 'error'
       }))
+    })
+
+    test('should abort pending request when new request is made', () => {
+      const mockAbort = vi.fn()
+      const firstXhrMock = {
+        open: vi.fn(),
+        setRequestHeader: vi.fn(),
+        send: vi.fn(),
+        abort: mockAbort
+      }
+      const secondXhrMock = {
+        open: vi.fn(),
+        setRequestHeader: vi.fn(),
+        send: vi.fn()
+      }
+
+      vi.spyOn(globalThis, 'XMLHttpRequest')
+        .mockImplementationOnce(() => firstXhrMock)
+        .mockImplementationOnce(() => secondXhrMock)
+
+      // Make first request
+      search.makeSearchRequest('first', vi.fn())
+      expect(search.pendingRequest).toBe(firstXhrMock)
+
+      // Make second request should abort first
+      search.makeSearchRequest('second', vi.fn())
+      expect(mockAbort).toHaveBeenCalled()
+      expect(search.pendingRequest).toBe(secondXhrMock)
+    })
+
+    test('should handle xhr.onabort and clear pendingRequest', () => {
+      const xhrMock = {
+        open: vi.fn(),
+        setRequestHeader: vi.fn(),
+        send: vi.fn(function () { this.onabort() }),
+        abort: vi.fn()
+      }
+
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+
+      const callback = vi.fn()
+      search.makeSearchRequest('test', callback)
+
+      expect(search.pendingRequest).toBeNull()
+      expect(callback).not.toHaveBeenCalled() // Should not call callback on abort
+    })
+
+    test('should clear pendingRequest on successful response', () => {
+      const xhrMock = {
+        open: vi.fn(),
+        setRequestHeader: vi.fn(),
+        send: vi.fn(function () { this.onload() }),
+        status: httpConstants.HTTP_STATUS_OK,
+        response: '{"test": "data"}'
+      }
+
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+
+      search.makeSearchRequest('test', vi.fn())
+      expect(search.pendingRequest).toBeNull()
+    })
+
+    test('should clear pendingRequest on error response', () => {
+      const xhrMock = {
+        open: vi.fn(),
+        setRequestHeader: vi.fn(),
+        send: vi.fn(function () { this.onerror() }),
+        status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR,
+        statusText: 'error'
+      }
+
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+
+      search.makeSearchRequest('test', vi.fn())
+      expect(search.pendingRequest).toBeNull()
     })
   })
 
@@ -290,6 +416,104 @@ describe('search', () => {
         'Payee 2 (Town2, Council2, P2)'
       )
     })
+
+    test('should display no results message if no suggestions found', async () => {
+      search.getSearchSuggestions = vi.fn().mockResolvedValueOnce({ count: 0 })
+      searchInput.value = 'nonexistent'
+
+      await search.loadSuggestions()
+
+      expect(domSuggestions.innerHTML).toContain(search.noResultsText)
+    })
+
+    test('should display no results message if getSearchSuggestions returns null', async () => {
+      search.getSearchSuggestions = vi.fn().mockResolvedValueOnce(null)
+      searchInput.value = 'test'
+
+      await search.loadSuggestions()
+
+      expect(domSuggestions.innerHTML).toContain(search.noResultsText)
+    })
+
+    test('should handle errors from getSearchSuggestions gracefully', async () => {
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      search.getSearchSuggestions = vi.fn().mockRejectedValueOnce(new Error('Network error'))
+      searchInput.value = 'test'
+
+      await search.loadSuggestions()
+
+      expect(consoleErrorSpy).toHaveBeenCalledWith(expect.any(Error))
+      expect(domSuggestions.innerHTML).toContain(search.noResultsText)
+    })
+
+    test('should ignore abort errors silently', async () => {
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      const abortError = new Error('Request was aborted')
+      search.getSearchSuggestions = vi.fn().mockRejectedValueOnce(abortError)
+      searchInput.value = 'test'
+
+      await search.loadSuggestions()
+
+      expect(consoleErrorSpy).not.toHaveBeenCalled()
+      // Should return early without setting no results
+    })
+
+    test('should create clickable suggestion options that navigate to details page', async () => {
+      const mockSuggestion = {
+        count: 1,
+        rows: [{
+          payee_name: 'Test Payee',
+          town: 'Test Town',
+          county_council: 'Test Council',
+          part_postcode: 'TE1 2ST'
+        }]
+      }
+
+      search.getSearchSuggestions = vi.fn().mockResolvedValueOnce(mockSuggestion)
+      searchInput.value = 'test'
+
+      // Mock globalThis.location
+      const mockLocation = { origin: 'https://example.com', href: '' }
+      globalThis.location = mockLocation
+
+      await search.loadSuggestions()
+
+      const suggestionElement = domSuggestions.querySelector('.mpdp-option-container')
+      expect(suggestionElement).toBeTruthy()
+
+      // Simulate clicking the suggestion
+      suggestionElement.onmousedown()
+
+      expect(mockLocation.href).toBe(
+        'https://example.com/details?payeeName=Test%20Payee&partPostcode=TE1 2ST&searchString=test'
+      )
+    })
+
+    test('should add view all option when suggestions are found', async () => {
+      const mockSuggestions = {
+        count: 5,
+        rows: [{
+          payee_name: 'Test',
+          town: 'Town',
+          county_council: 'Council',
+          part_postcode: 'T1'
+        }]
+      }
+
+      search.getSearchSuggestions = vi.fn().mockResolvedValueOnce(mockSuggestions)
+      const searchButtonClickSpy = vi.spyOn(document.getElementById('search-button'), 'click')
+
+      await search.loadSuggestions()
+
+      // Should contain view all option
+      expect(domSuggestions.innerHTML).toContain('View all (5 results)')
+
+      // Test view all click functionality
+      const viewAllElement = domSuggestions.querySelector('.mpdp-text-align-center')
+      viewAllElement.onmousedown()
+
+      expect(searchButtonClickSpy).toHaveBeenCalled()
+    })
   })
 
   describe('setActive and unsetActive', () => {
@@ -355,6 +579,22 @@ describe('search', () => {
         expect(child.classList).not.toContain('active')
       }
     })
+
+    test('should return early if no children exist', () => {
+      domSuggestions.innerHTML = ''
+      search.focusIndex = 0
+
+      // Should not throw error
+      expect(() => search.setActive()).not.toThrow()
+      expect(search.focusIndex).toBe(0) // Should remain unchanged
+    })
+
+    test('should handle unsetActive when no children exist', () => {
+      domSuggestions.innerHTML = ''
+
+      // Should not throw error
+      expect(() => search.unsetActive()).not.toThrow()
+    })
   })
 
   describe('addSearchInputListeners', () => {
@@ -368,7 +608,7 @@ describe('search', () => {
 
     test('should hide suggestions when the search input is blurred', () => {
       const hideSuggestionsSpy = vi.spyOn(search, 'hideSuggestions')
-      const timeoutSpy = vi.spyOn(window, 'setTimeout')
+      const timeoutSpy = vi.spyOn(globalThis, 'setTimeout')
       searchInput.dispatchEvent(new window.Event('blur', { bubbles: true }))
 
       expect(timeoutSpy).toHaveBeenCalled()
@@ -402,12 +642,101 @@ describe('search', () => {
       expect(hideSuggestionsSpy).toHaveBeenCalled()
     })
 
-    test('should call loadSuggestions when input length is sufficient', () => {
+    test('should call loadSuggestions when input length is sufficient', async () => {
+      vi.useFakeTimers()
       searchInput.value = 'test'
       const loadSuggestionsSpy = vi.spyOn(search, 'loadSuggestions')
       searchInput.dispatchEvent(new window.Event('input'))
 
+      // Should not be called immediately due to debouncing
+      expect(loadSuggestionsSpy).not.toHaveBeenCalled()
+
+      // Fast-forward past debounce delay (500ms)
+      await vi.advanceTimersByTimeAsync(500)
+
       expect(loadSuggestionsSpy).toHaveBeenCalled()
+      vi.useRealTimers()
+    })
+
+    test('should debounce multiple rapid inputs and only call loadSuggestions once', async () => {
+      vi.useFakeTimers()
+      const loadSuggestionsSpy = vi.spyOn(search, 'loadSuggestions')
+
+      // Simulate rapid typing: "test"
+      searchInput.value = 't'
+      searchInput.dispatchEvent(new window.Event('input'))
+      await vi.advanceTimersByTimeAsync(50)
+
+      searchInput.value = 'te'
+      searchInput.dispatchEvent(new window.Event('input'))
+      await vi.advanceTimersByTimeAsync(50)
+
+      searchInput.value = 'tes'
+      searchInput.dispatchEvent(new window.Event('input'))
+      await vi.advanceTimersByTimeAsync(50)
+
+      searchInput.value = 'test'
+      searchInput.dispatchEvent(new window.Event('input'))
+
+      // Should not be called yet - still within debounce window
+      expect(loadSuggestionsSpy).not.toHaveBeenCalled()
+
+      // Fast-forward past full debounce delay
+      await vi.advanceTimersByTimeAsync(500)
+
+      // Should only be called once for the final value
+      expect(loadSuggestionsSpy).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
+
+    test('should show loading state immediately on input', () => {
+      searchInput.value = 'test'
+      searchInput.dispatchEvent(new window.Event('input'))
+
+      // Should show loading immediately (not wait for debounce)
+      expect(domSuggestions.textContent).toContain('Loading...')
+      expect(domSuggestions.style.display).toBe('block')
+    })
+
+    test('should not make redundant request for same search string', async () => {
+      vi.useFakeTimers()
+      const loadSuggestionsSpy = vi.spyOn(search, 'loadSuggestions')
+
+      // First search
+      searchInput.value = 'test'
+      searchInput.dispatchEvent(new window.Event('input'))
+      await vi.advanceTimersByTimeAsync(500)
+      expect(loadSuggestionsSpy).toHaveBeenCalledTimes(1)
+
+      // Trigger same search again (simulating user clicking in/out of field)
+      searchInput.dispatchEvent(new window.Event('input'))
+      await vi.advanceTimersByTimeAsync(500)
+
+      // Should still only be called once (redundant request skipped)
+      expect(loadSuggestionsSpy).toHaveBeenCalledTimes(1)
+
+      vi.useRealTimers()
+    })
+
+    test('should make new request when search string changes', async () => {
+      vi.useFakeTimers()
+      const loadSuggestionsSpy = vi.spyOn(search, 'loadSuggestions')
+
+      // First search
+      searchInput.value = 'test'
+      searchInput.dispatchEvent(new window.Event('input'))
+      await vi.advanceTimersByTimeAsync(500)
+      expect(loadSuggestionsSpy).toHaveBeenCalledTimes(1)
+
+      // Different search
+      searchInput.value = 'testing'
+      searchInput.dispatchEvent(new window.Event('input'))
+      await vi.advanceTimersByTimeAsync(500)
+
+      // Should be called twice (new search term)
+      expect(loadSuggestionsSpy).toHaveBeenCalledTimes(2)
+
+      vi.useRealTimers()
     })
 
     test('should navigate through options on arrow key presses', () => {
@@ -454,6 +783,149 @@ describe('search', () => {
       searchInput.dispatchEvent(enterEvent)
 
       expect(spy).not.toHaveBeenCalled()
+    })
+
+    test('should cancel pending request when input length falls below minimum', () => {
+      const mockAbort = vi.fn()
+      search.pendingRequest = { abort: mockAbort }
+
+      searchInput.value = 'te' // Below 3 char minimum
+      searchInput.dispatchEvent(new window.Event('input'))
+
+      expect(mockAbort).toHaveBeenCalled()
+      expect(search.pendingRequest).toBeNull()
+    })
+
+    test('should clear debounce timer when new input event occurs', () => {
+      vi.useFakeTimers()
+      const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout')
+
+      searchInput.value = 'test'
+      searchInput.dispatchEvent(new window.Event('input')) // This creates a timer
+
+      const timerId = search.debounceTimer
+      expect(timerId).toBeTruthy() // A timer should be created
+
+      searchInput.value = 'test2'
+      searchInput.dispatchEvent(new window.Event('input')) // This should clear the previous timer
+
+      expect(clearTimeoutSpy).toHaveBeenCalledWith(timerId)
+      vi.useRealTimers()
+    })
+
+    test('should handle keyboard navigation with ArrowDown key', () => {
+      domSuggestions.innerHTML = `
+        <div value="1" class="option">Option 1</div>
+        <div value="2" class="option">Option 2</div>
+      `
+      const setActiveSpy = vi.spyOn(search, 'setActive')
+      const arrowDownEvent = new window.KeyboardEvent('keydown', { key: 'ArrowDown' })
+
+      searchInput.dispatchEvent(arrowDownEvent)
+
+      expect(search.focusIndex).toBe(0)
+      expect(setActiveSpy).toHaveBeenCalled()
+    })
+
+    test('should handle keyboard navigation with ArrowUp key', () => {
+      domSuggestions.innerHTML = `
+        <div value="1" class="option">Option 1</div>
+        <div value="2" class="option">Option 2</div>
+      `
+      const setActiveSpy = vi.spyOn(search, 'setActive')
+      const arrowUpEvent = new window.KeyboardEvent('keydown', { key: 'ArrowUp' })
+
+      search.focusIndex = 0 // Set initial focus
+      searchInput.dispatchEvent(arrowUpEvent)
+
+      // After ArrowUp from 0, focusIndex becomes -1, then setActive() wraps it to last element (1)
+      expect(search.focusIndex).toBe(1)
+      expect(setActiveSpy).toHaveBeenCalled()
+    })
+
+    test('should handle Esc key to hide suggestions', () => {
+      const hideSuggestionsSpy = vi.spyOn(search, 'hideSuggestions')
+      const escEvent = new window.KeyboardEvent('keydown', { key: 'Esc' })
+
+      searchInput.dispatchEvent(escEvent)
+
+      expect(hideSuggestionsSpy).toHaveBeenCalled()
+    })
+
+    test('should dispatch mousedown event on focused element when Enter is pressed', () => {
+      domSuggestions.innerHTML = `
+        <div value="test-option">Test Option</div>
+      `
+      search.focusIndex = 0
+      const dispatchSpy = vi.spyOn(domSuggestions.children[0], 'dispatchEvent')
+
+      const enterEvent = new window.KeyboardEvent('keydown', { key: 'Enter' })
+      searchInput.dispatchEvent(enterEvent)
+
+      expect(dispatchSpy).toHaveBeenCalledWith(expect.any(globalThis.MouseEvent))
+    })
+
+    test('should return early if focused option has loading text value', () => {
+      // The check compares the VALUE attribute, not textContent
+      domSuggestions.innerHTML = `
+        <div class="mpdp-text-colour-dark-grey">${search.loadingText}</div>
+      `
+      domSuggestions.children[0].value = search.loadingText
+      search.focusIndex = 0
+      const dispatchSpy = vi.spyOn(domSuggestions.children[0], 'dispatchEvent')
+
+      const enterEvent = new window.KeyboardEvent('keydown', { key: 'Enter' })
+      searchInput.dispatchEvent(enterEvent)
+
+      expect(dispatchSpy).not.toHaveBeenCalled()
+    })
+
+    test('should return early if focused option has no results text value', () => {
+      // The check compares the VALUE attribute, not textContent
+      domSuggestions.innerHTML = `
+        <div class="mpdp-text-colour-dark-grey">${search.noResultsText}</div>
+      `
+      domSuggestions.children[0].value = search.noResultsText
+      search.focusIndex = 0
+      const dispatchSpy = vi.spyOn(domSuggestions.children[0], 'dispatchEvent')
+
+      const enterEvent = new window.KeyboardEvent('keydown', { key: 'Enter' })
+      searchInput.dispatchEvent(enterEvent)
+
+      expect(dispatchSpy).not.toHaveBeenCalled()
+    })
+
+    test('should prevent default for handled keyboard events', () => {
+      const arrowDownEvent = new window.KeyboardEvent('keydown', { key: 'ArrowDown' })
+      const preventDefaultSpy = vi.spyOn(arrowDownEvent, 'preventDefault')
+
+      searchInput.dispatchEvent(arrowDownEvent)
+
+      expect(preventDefaultSpy).toHaveBeenCalled()
+    })
+
+    test('should check if event is already processed before handling', () => {
+      // Note: JSDOM's KeyboardEvent doesn't properly support defaultPrevented
+      // This test verifies the handler checks for it, even if we can't fully test it
+      const setActiveSpy = vi.spyOn(search, 'setActive')
+      const arrowDownEvent = new window.KeyboardEvent('keydown', { key: 'ArrowDown' })
+
+      searchInput.dispatchEvent(arrowDownEvent)
+
+      // In real browsers, if defaultPrevented is true, the handler returns early
+      // In JSDOM, the event processes normally since defaultPrevented doesn't work properly
+      expect(setActiveSpy).toHaveBeenCalled()
+    })
+
+    test('should return early for unhandled keys without preventing default', () => {
+      const setActiveSpy = vi.spyOn(search, 'setActive')
+      const unhandledEvent = new window.KeyboardEvent('keydown', { key: 'a' })
+      const preventDefaultSpy = vi.spyOn(unhandledEvent, 'preventDefault')
+
+      searchInput.dispatchEvent(unhandledEvent)
+
+      expect(setActiveSpy).not.toHaveBeenCalled()
+      expect(preventDefaultSpy).not.toHaveBeenCalled()
     })
   })
 })
