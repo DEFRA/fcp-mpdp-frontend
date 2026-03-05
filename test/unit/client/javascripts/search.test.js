@@ -13,6 +13,8 @@ describe('search', () => {
   beforeAll(() => {
     global.document = dom.window.document
     global.window = dom.window
+    globalThis.XMLHttpRequest = dom.window.XMLHttpRequest
+    globalThis.MouseEvent = dom.window.MouseEvent
   })
 
   beforeEach(() => {
@@ -82,7 +84,7 @@ describe('search', () => {
         send: vi.fn()
       }
 
-      vi.spyOn(window, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
 
       const searchString = encodeURIComponent('test')
       const callback = vi.fn()
@@ -116,7 +118,7 @@ describe('search', () => {
         response: JSON.stringify(response)
       }
 
-      vi.spyOn(window, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
 
       const searchString = encodeURIComponent('test')
       const callback = vi.fn()
@@ -135,7 +137,7 @@ describe('search', () => {
         statusText: 'error'
       }
 
-      vi.spyOn(window, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
 
       const searchString = encodeURIComponent('test')
       const callback = vi.fn()
@@ -159,7 +161,7 @@ describe('search', () => {
         statusText: 'error'
       }
 
-      vi.spyOn(window, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
 
       const searchString = encodeURIComponent('test')
       const callback = vi.fn()
@@ -368,7 +370,7 @@ describe('search', () => {
 
     test('should hide suggestions when the search input is blurred', () => {
       const hideSuggestionsSpy = vi.spyOn(search, 'hideSuggestions')
-      const timeoutSpy = vi.spyOn(window, 'setTimeout')
+      const timeoutSpy = vi.spyOn(globalThis, 'setTimeout')
       searchInput.dispatchEvent(new window.Event('blur', { bubbles: true }))
 
       expect(timeoutSpy).toHaveBeenCalled()
