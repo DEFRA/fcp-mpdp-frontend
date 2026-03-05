@@ -47,7 +47,7 @@ export default {
       this.pendingRequest = null
     }
 
-    const xhr = new window.XMLHttpRequest()
+    const xhr = new globalThis.XMLHttpRequest()
     this.pendingRequest = xhr // Store reference for cancellation
 
     xhr.open('GET', `/suggestions?searchString=${searchString}`, true)
@@ -140,7 +140,7 @@ export default {
           const val = `${row.payee_name} (${row.town}, ${row.county_council}, ${row.part_postcode})`
           this.domSuggestions.append(this.getOption(val, val,
             () => {
-              window.location.href = `${window.location.origin}/details?payeeName=${encodeURIComponent(row.payee_name)}&partPostcode=${row.part_postcode}&searchString=${searchString}`
+              globalThis.location.href = `${globalThis.location.origin}/details?payeeName=${encodeURIComponent(row.payee_name)}&partPostcode=${row.part_postcode}&searchString=${searchString}`
             },
             (event) => {
               event.stopPropagation()
@@ -158,7 +158,7 @@ export default {
       }
     } catch (e) {
       // Ignore errors from aborted requests
-      if (e.message && e.message.includes('abort')) {
+      if (e.message?.includes('abort')) {
         return
       }
       console.error(e)
@@ -200,7 +200,7 @@ export default {
     const debounceDelay = 500 // Wait 500ms after user stops typing (more aggressive)
 
     this.searchInput.onblur = () => {
-      window.setTimeout(() => {
+      globalThis.setTimeout(() => {
         this.hideSuggestions()
       }, timeout)
     }
@@ -208,7 +208,7 @@ export default {
     this.searchInput.oninput = () => {
       // Clear any existing debounce timer
       if (this.debounceTimer) {
-        window.clearTimeout(this.debounceTimer)
+        globalThis.clearTimeout(this.debounceTimer)
         this.debounceTimer = null
       }
 
@@ -227,7 +227,7 @@ export default {
       this.showSuggestions()
 
       // Debounce: wait for user to stop typing before making request
-      this.debounceTimer = window.setTimeout(() => {
+      this.debounceTimer = globalThis.setTimeout(() => {
         this.debounceTimer = null
         const currentSearch = this.searchInput.value.trim()
 
@@ -264,7 +264,7 @@ export default {
           return
         }
 
-        this.domSuggestions.children[this.focusIndex].dispatchEvent(new window.MouseEvent('mousedown'))
+        this.domSuggestions.children[this.focusIndex].dispatchEvent(new globalThis.MouseEvent('mousedown'))
       } else {
         return
       }
