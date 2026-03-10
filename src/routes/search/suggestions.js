@@ -10,7 +10,7 @@ export const suggestions = {
   options: {
     validate: {
       query: Joi.object({
-        searchString: Joi.string().trim().min(3).required()
+        searchString: Joi.string().trim().min(3).custom(val => val.slice(0, 32)).required()
       }),
       failAction: async function (_request, h, error) {
         return h.response(error.toString()).code(httpConstants.HTTP_STATUS_BAD_REQUEST).takeover()
