@@ -49,7 +49,7 @@ describe('resultsModel', () => {
       { text: 'Enter a name or location', href: '#search-input' }
     ])
 
-    expect(result.headingTitle).toBe('Results for ‘test’')
+    expect(result.pageTitle).toBe('Results for ‘test’')
     expect(result.relatedContentLinks).toEqual(['Mock related content link'])
     expect(result.total).toBe(0)
     expect(result.filters.schemes.name).toBe('Scheme')
@@ -107,7 +107,7 @@ describe('resultsModel', () => {
     expect(result.downloadResultsLink).toContain('&years=21%2F22')
     expect(result.downloadResultsLink).toContain('&counties=Bedfordshire')
 
-    expect(result.headingTitle).toBe('Results for ‘farms’')
+    expect(result.pageTitle).toBe('Results for ‘farms’')
   })
 
   test('should generate correct pagination when multiple pages exist', async () => {

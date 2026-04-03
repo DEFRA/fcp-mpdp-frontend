@@ -54,7 +54,7 @@ describe('Context and cache', () => {
 
       test('Should provide expected context', () => {
         expect(contextResult).toEqual({
-          assetPath: '/public/assets/rebrand',
+          assetPath: '/public/assets',
           breadcrumbs: [],
           getAssetPath: expect.any(Function),
           serviceName: 'Find farm and land payment data',
@@ -98,7 +98,7 @@ describe('Context and cache', () => {
           expect(result).toEqual({
             pageTitle: 'Custom Page Title',
             customProperty: 'existing value',
-            assetPath: '/public/assets/rebrand',
+            assetPath: '/public/assets',
             breadcrumbs: [],
             getAssetPath: expect.any(Function),
             serviceName: 'Find farm and land payment data',
@@ -170,7 +170,7 @@ describe('Context and cache', () => {
 
       test('Should provide expected context', () => {
         expect(contextResult).toEqual({
-          assetPath: '/public/assets/rebrand',
+          assetPath: '/public/assets',
           breadcrumbs: [],
           getAssetPath: expect.any(Function),
           serviceName: 'Find farm and land payment data',

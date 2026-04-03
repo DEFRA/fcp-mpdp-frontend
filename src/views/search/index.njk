@@ -3,10 +3,6 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "macros/search/search-form.njk" import searchForm %}
 
-{% block pageTitle %}
-  {% if errorList %}Error: {% endif %}{{ pageTitle }} - {{ serviceName }} - GOV.UK
-{% endblock %}
-
 {% block beforeContent %}
   {{ super() }}
   <nav>
@@ -50,7 +46,7 @@
         inputAttributes: "aria-describedby='search-hint'"
       }) }}
 
-      <p>You can <a id="download-all-scheme-payment-data-link" href="/all-scheme-payment-data/file">download all scheme payment data (5.7MB)</a></p>
+      <p>You can <a id="download-all-scheme-payment-data-link" class="govuk-link" href="/all-scheme-payment-data/file">download all scheme payment data (5.7MB)</a></p>
     </div>
     <div class="govuk-grid-column-one-third">
       {% include "related-content.njk" %}

@@ -22,7 +22,7 @@
     {% for key, object in model.filters %}
       <div id="{{ key | lower }}Filter" class="govuk-!-margin-3">
         <details open>
-          <summary class="mpdp-filter-summary mpdp-text-link-colour">{{ object.name }}</summary>
+          <summary class="mpdp-text-link-colour">{{ object.name }}</summary>
           <div class="description">
             {% if object.name === "Year" %}
               <span class="govuk-!-font-size-19">Financial year (1 April to 31 March)</span>

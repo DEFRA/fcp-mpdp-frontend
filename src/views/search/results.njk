@@ -6,10 +6,6 @@
 {% from "macros/search/search-form.njk" import searchForm %}
 {% from "macros/search/search-results.njk" import searchResults %}
 
-{% block pageTitle %}
-  {%if errorList %}Error: {%endif%}{{ headingTitle }} - {{ serviceName }} - GOV.UK
-{% endblock %}
-
 {% block beforeContent %}
   {{ super() }}
   {% if errorList %}

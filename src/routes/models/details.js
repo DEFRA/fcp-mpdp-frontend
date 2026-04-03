@@ -17,7 +17,8 @@ export async function detailsModel ({ payeeName, partPostcode, searchString, pag
     relatedContentLinks: getRelatedContentLinks('details'),
     summary: createPaymentDetailsSummary(paymentDetails),
     searchString,
-    page
+    page,
+    pageTitle: paymentDetails.payee_name
   }
 }
 

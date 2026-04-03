@@ -25,7 +25,7 @@ export function context (request) {
 
   return {
     ...ctx,
-    assetPath: `${assetPath}/assets/rebrand`,
+    assetPath: `${assetPath}/assets`,
     serviceName: config.get('serviceName'),
     serviceUrl: '/',
     breadcrumbs: [],

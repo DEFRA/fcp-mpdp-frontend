@@ -222,7 +222,7 @@ export async function resultsModel (request, error) {
         text: 'Enter a name or location',
         href: '#search-input'
       }],
-      headingTitle: `Results for ‘${searchString}’`,
+      pageTitle: `Results for ‘${searchString}’`,
       total: 0
     }
   }
@@ -246,7 +246,7 @@ export async function resultsModel (request, error) {
     results,
     total,
     currentPage: requestedPage,
-    headingTitle: `${total ? 'Results for' : 'We found no results for'} ‘${searchString}’`,
+    pageTitle: `${total ? 'Results for' : 'We found no results for'} ‘${searchString}’`,
     ...getDownloadResultsLink(searchString, filterBy, sortBy)
   }
 }
