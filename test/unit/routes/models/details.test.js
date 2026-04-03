@@ -161,6 +161,7 @@ describe('detailsModel', () => {
       },
       searchString: 'test',
       page: 'test',
+      pageTitle: 'payee & name',
       relatedContentLinks: [
         {
           id: 'fflm-link',

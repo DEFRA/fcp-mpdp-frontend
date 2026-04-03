@@ -124,7 +124,7 @@ describe('Search route', () => {
     })
 
     test('Should render common elements on invalid query submission', () => {
-      expectPageTitle($, 'Error: Search for an agreement holder')
+      expectPageTitle($, 'Search for an agreement holder')
       expectPageHeading($, 'Search for an agreement holder')
       expectRelatedContent($)
     })

@@ -260,8 +260,7 @@ describe('Results route', () => {
       $ = cheerio.load(response.payload)
     })
 
-    test('Results page title and heading shows empty string and error heading is displayed', () => {
-      expectPageTitle($, `Results for ‘${searchString}’`)
+    test('Results heading shows empty string and error heading is displayed', () => {
       expectPageHeading($, `Results for ‘${searchString}’`)
       expect($('.govuk-error-summary__title').text()).toContain('There is a problem')
     })
@@ -275,7 +274,7 @@ describe('Results route', () => {
       expect(button.text()).toMatch('Search')
 
       expect(searchInputError).toBeDefined()
-      expect(searchInputError.text()).toContain('Error: Enter a name or location')
+      expect(searchInputError.text()).toContain('Enter a name or location')
 
       expect(searchErrorBox).toBeDefined()
       expect(searchErrorBox.val()).toMatch(searchString)
@@ -290,10 +289,6 @@ describe('Results route', () => {
 
       expect(noResults).toBeDefined()
       expect(noResults.text()).toMatch('There are no matching results')
-    })
-
-    test('Page title contains error text', () => {
-      expectPageTitle($, 'Error: Results for ‘’')
     })
 
     test('Sort by dropdown is not shown to the user', () => {
@@ -582,7 +577,7 @@ describe('Results route', () => {
       expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
       expect($('.govuk-error-summary__title').text()).toContain('There is a problem')
       expect($('.govuk-heading-l').text()).toContain('Search for an agreement holder')
-      expect($('#search-input-error').text()).toContain('Error: Enter a name or location')
+      expect($('#search-input-error').text()).toContain('Enter a name or location')
     })
 
     test('renders the search/index view with Joi error message if query string is invalid', async () => {

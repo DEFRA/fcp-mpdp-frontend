@@ -127,7 +127,7 @@ describe('Details route', () => {
     expect(invalidResponse.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
     expect(errorText).toMatch('Enter a name or location')
     expect(errorHref).toBe('#search-input')
-    expectPageTitle(invalidPayload, 'Error: Search for an agreement holder')
+    expectPageTitle(invalidPayload, 'Search for an agreement holder')
     expectRelatedContent(invalidPayload, 'details')
   })
 })

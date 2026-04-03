@@ -17,8 +17,8 @@ export const results = {
           return h.view(
             `search/${pageId || 'index'}`,
             {
-              pageTitle: 'Search for an agreement holder',
-              ...await resultsModel(request, error)
+              ...await resultsModel(request, error),
+              pageTitle: 'Search for an agreement holder'
             }
           ).code(httpConstants.HTTP_STATUS_BAD_REQUEST).takeover()
         }
