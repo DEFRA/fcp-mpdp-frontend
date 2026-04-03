@@ -19,8 +19,6 @@ export const cookies = {
         if (
           request.response.variety === 'view' &&
           statusCode !== httpConstants.HTTP_STATUS_FORBIDDEN &&
-          statusCode !== httpConstants.HTTP_STATUS_BAD_REQUEST &&
-          statusCode !== httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR &&
           request.response.source.context
         ) {
           const cookiesPolicy = getCurrentPolicy(request, h)
