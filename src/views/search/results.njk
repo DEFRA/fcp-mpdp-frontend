@@ -6,7 +6,7 @@
 {% from "macros/search/search-form.njk" import searchForm %}
 {% from "macros/search/search-results.njk" import searchResults %}
 
-{% block beforeContent %}
+{% block containerStart %}
   {{ super() }}
   {% if errorList %}
     {{govukErrorSummary ({

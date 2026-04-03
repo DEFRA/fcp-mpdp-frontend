@@ -3,7 +3,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "macros/search/search-form.njk" import searchForm %}
 
-{% block beforeContent %}
+{% block containerStart %}
   {{ super() }}
   <nav>
     <a id="back-link" href="{{ referer }}" class="govuk-back-link">Back</a>
