@@ -124,9 +124,22 @@ describe('Search route', () => {
     })
 
     test('Should render common elements on invalid query submission', () => {
-      expectPageTitle($, 'Error: Search for an agreement holder')
+      expectPageTitle($, 'Search for an agreement holder')
       expectPageHeading($, 'Search for an agreement holder')
       expectRelatedContent($)
+    })
+
+    test('Should not show cookie banner when cookies already accepted on 400 error response', async () => {
+      const cookieName = 'fcp_mpdp_cookie_policy'
+      const cookieValue = Buffer.from(JSON.stringify({ confirmed: true, essential: true, analytics: false })).toString('base64')
+      const options = getOptions('results', 'GET', { searchString: '' })
+      options.headers = { cookie: `${cookieName}=${cookieValue}` }
+
+      const result = await server.inject(options)
+      const $page = cheerio.load(result.payload)
+
+      expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
+      expect($page('.govuk-cookie-banner').length).toBe(0)
     })
   })
 })

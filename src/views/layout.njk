@@ -4,16 +4,16 @@
 
 {% set mainClasses = "app-main-wrapper" %}
 
-{% block head %}
-  <link href="{{ getAssetPath('stylesheets/application.scss') }}" rel="stylesheet">
-
-  {% if cookiesPolicy.analytics %}
-    {% include "./google-tag-manager/head-content.njk" %}
+{% block pageTitle %}
+  {% if pageTitle %}
+    {{ pageTitle }} | {{ serviceName }}
+  {% else %}
+    {{ serviceName }}
   {% endif %}
 {% endblock %}
 
-{% block pageTitle %}
-  {% if pageTitle and pageTitle != serviceName %}{{ pageTitle }} - {% endif %}{{ serviceName }} - GOV.UK
+{% block head %}
+  <link href="{{ getAssetPath('stylesheets/application.scss') }}" rel="stylesheet">
 {% endblock %}
 
 {% block bodyStart %}
@@ -22,36 +22,24 @@
   {% endif %}
 
   {% if cookiesPolicy.analytics %}
+    {% include "./google-tag-manager/head-content.njk" %}
+  {% endif %}
+
+  {% if cookiesPolicy.analytics %}
     {% include "./google-tag-manager/body-content.njk" %}
   {% endif %}
 {% endblock %}
 
-{% block header %}
-  {{ govukHeader({
-    homepageUrl: "https://www.gov.uk/",
-    classes: "app-header",
-    containerClasses: "govuk-width-container",
-    serviceName: serviceName,
-    serviceUrl: serviceUrl,
-    useTudorCrown: true
+{% block headerEnd %}
+  {{ govukPhaseBanner({
+    tag: {
+      text: "Beta"
+    },
+    html: 'This is a new service. Help us improve it and <a class="govuk-link" href="https://defragroup.eu.qualtrics.com/jfe/form/SV_1FcBVO6IMkfHmbs" target="_blank" rel="noreferrer noopener">give your feedback (opens in new tab)</a>.'
   }) }}
 {% endblock %}
 
-
-{% block beforeContent %}
-  <aside>
-    {{ govukPhaseBanner({
-      tag: {
-        text: "Beta"
-      },
-      html: 'This is a new service. Help us improve it and <a class="govuk-link" href="https://defragroup.eu.qualtrics.com/jfe/form/SV_1FcBVO6IMkfHmbs" target="_blank" rel="noreferrer noopener">give your feedback (opens in new tab)</a>.'
-    }) }}
-  </aside>
-{% endblock %}
-
-{% block content %}{% endblock %}
-
-{% block footer %}
+{% block govukFooter %}
   {{ govukFooter({
     meta: {
       items: [
@@ -73,7 +61,7 @@
           </a>'
     }
   }) }}
-{% endblock %}
+{% endblock govukFooter %}
 
 {% block bodyEnd %}
   <script type="module" nonce="{{ nonce }}" src="{{ getAssetPath('application.js') }}"></script>

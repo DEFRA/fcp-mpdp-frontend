@@ -1,5 +1,5 @@
-import Joi from 'joi'
 import http2 from 'node:http2'
+import Joi from 'joi'
 import { detailsModel } from './models/details.js'
 import { getRelatedContentLinks } from '../common/utils/related-content.js'
 

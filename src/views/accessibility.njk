@@ -1,6 +1,6 @@
 {% extends "layout.njk" %}
 
-{% block beforeContent %}
+{% block containerStart %}
   {{ super() }}
   <nav>
     <a id="back-link" href="{{ referer }}" class="govuk-back-link">Back</a>
@@ -23,11 +23,11 @@
 
         <h2 class="govuk-heading-m govuk-!-font-size-27" id="reporting-accessibility-problems">Reporting accessibility problems with this website</h2>
 
-        <p>We’re always looking to improve the accessibility of this website. If you find any problems not listed on this page or think we’re not meeting accessibility requirements, contact: <a id="accessibility-contact-email" href="mailto:morgan.dirodi@defra.gov.uk">morgan.dirodi@defra.gov.uk</a>.</p>
+        <p>We're always looking to improve the accessibility of this website. If you find any problems not listed on this page or think we're not meeting accessibility requirements, contact: <a id="accessibility-contact-email" class="govuk-link" href="mailto:morgan.dirodi@defra.gov.uk">morgan.dirodi@defra.gov.uk</a>.</p>
 
         <h2 class="govuk-heading-m govuk-!-font-size-27" id="enforcement-procedure">Enforcement procedure</h2>
 
-        <p>The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’). If you’re not happy with how we respond to your complaint, contact the <a id="eass-link" href="https://www.equalityadvisoryservice.com/">Equality Advisory and Support Service (EASS)</a>.</p>
+        <p>The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the 'accessibility regulations'). If you're not happy with how we respond to your complaint, contact the <a id="eass-link" class="govuk-link" href="https://www.equalityadvisoryservice.com/">Equality Advisory and Support Service (EASS)</a>.</p>
 
         <h2 class="govuk-heading-m govuk-!-font-size-27" id="technical-information">Technical information about this website’s accessibility</h2>
 
@@ -35,7 +35,7 @@
 
         <h2 class="govuk-heading-m govuk-!-font-size-27" id="compliance-status">Compliance status</h2>
 
-        <p>This website is partially compliant with the <a id="wcag-link" href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines (WCAG) version 2.1</a> AA standard, due to the possible non-compliance listed below.</p>
+        <p>This website is partially compliant with the <a id="wcag-link" class="govuk-link" href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines (WCAG) version 2.1</a> AA standard, due to the possible non-compliance listed below.</p>
 
         <h2 class="govuk-heading-m govuk-!-font-size-27" id="non-compliance-with-the-accessibility-regulations">Non-compliance with the accessibility regulations</h2>
 

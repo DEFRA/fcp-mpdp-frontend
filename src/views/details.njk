@@ -1,10 +1,6 @@
 {% extends "layout.njk" %}
 
-{% block pageTitle %}
-  {{ summary.payee_name }} - {{ serviceName }} - GOV.UK
-{% endblock %}
-
-{% block beforeContent %}
+{% block containerStart %}
   {{ super() }}
   <nav>
     <a id="back-link" href="/results?searchString={{ searchString }}&page={{ page }}" class="govuk-back-link">Back to results</a>
@@ -28,7 +24,7 @@
           <p></p>
         </div>
         <div class="govuk-!-font-size-16 govuk-!-margin-right-3 mpdp-float-right">
-          <a id="download-details-link" class="mpdp-link-btn nojs-hidden" href="{{ summary.downloadLink }}">Download this data (.CSV)</a>
+          <a id="download-details-link" class="govuk-link mpdp-link-btn nojs-hidden" href="{{ summary.downloadLink }}">Download this data (.CSV)</a>
         </div>
       </div>
 
@@ -85,7 +81,7 @@
                   </dd>
                 </dl>
                 <p id="scheme-more-info{{ loop.index }}" class="govuk-!-padding-left-3 govuk-!-padding-right-3"> 
-                  <a href="{{ scheme.link }}">Read more about the {{ scheme.name }}</a>
+                  <a href="{{ scheme.link }}" class="govuk-link">Read more about the {{ scheme.name }}</a>
                 </p>
               </div>
 
