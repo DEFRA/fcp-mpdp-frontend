@@ -39,7 +39,7 @@ describe('cookies', () => {
       send: vi.fn()
     }
 
-    global.XMLHttpRequest = vi.fn(() => xhrMock)
+    global.XMLHttpRequest = vi.fn(function () { return xhrMock })
   })
 
   afterEach(() => {

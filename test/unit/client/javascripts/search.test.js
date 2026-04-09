@@ -133,7 +133,7 @@ describe('search', () => {
         send: vi.fn()
       }
 
-      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(function () { return xhrMock })
 
       const searchString = encodeURIComponent('test')
       const callback = vi.fn()
@@ -167,7 +167,7 @@ describe('search', () => {
         response: JSON.stringify(response)
       }
 
-      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(function () { return xhrMock })
 
       const searchString = encodeURIComponent('test')
       const callback = vi.fn()
@@ -186,7 +186,7 @@ describe('search', () => {
         statusText: 'error'
       }
 
-      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(function () { return xhrMock })
 
       const searchString = encodeURIComponent('test')
       const callback = vi.fn()
@@ -210,7 +210,7 @@ describe('search', () => {
         statusText: 'error'
       }
 
-      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(function () { return xhrMock })
 
       const searchString = encodeURIComponent('test')
       const callback = vi.fn()
@@ -240,8 +240,8 @@ describe('search', () => {
       }
 
       vi.spyOn(globalThis, 'XMLHttpRequest')
-        .mockImplementationOnce(() => firstXhrMock)
-        .mockImplementationOnce(() => secondXhrMock)
+        .mockImplementationOnce(function () { return firstXhrMock })
+        .mockImplementationOnce(function () { return secondXhrMock })
 
       // Make first request
       search.makeSearchRequest('first', vi.fn())
@@ -261,7 +261,7 @@ describe('search', () => {
         abort: vi.fn()
       }
 
-      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(function () { return xhrMock })
 
       const callback = vi.fn()
       search.makeSearchRequest('test', callback)
@@ -279,7 +279,7 @@ describe('search', () => {
         response: '{"test": "data"}'
       }
 
-      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(function () { return xhrMock })
 
       search.makeSearchRequest('test', vi.fn())
       expect(search.pendingRequest).toBeNull()
@@ -294,7 +294,7 @@ describe('search', () => {
         statusText: 'error'
       }
 
-      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(() => xhrMock)
+      vi.spyOn(globalThis, 'XMLHttpRequest').mockImplementation(function () { return xhrMock })
 
       search.makeSearchRequest('test', vi.fn())
       expect(search.pendingRequest).toBeNull()
