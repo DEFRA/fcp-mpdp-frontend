@@ -29,7 +29,7 @@ function createPaymentDetailsSummary (paymentDetails) {
 
   if (paymentDetails.schemes) {
     paymentDetails.schemes.forEach(scheme => {
-      const amount = parseFloat(scheme.amount)
+      const amount = Number.parseFloat(scheme.amount)
       farmerTotal += amount
 
       addSchemeToSummary(summary, scheme)
@@ -80,7 +80,7 @@ function createSummary (paymentDetails) {
 }
 
 function addSchemeToSummary (summary, scheme) {
-  const amount = parseFloat(scheme.amount)
+  const amount = Number.parseFloat(scheme.amount)
   let schemeData = summary.schemes.find(x => x?.name.toLowerCase() === scheme.name.toLowerCase())
   if (!schemeData) {
     const staticSchemeData = getSchemeStaticData(scheme.name)
@@ -117,7 +117,7 @@ function addSchemeActivity (scheme, schemeData) {
     }
   }
 
-  const schemeAmount = parseFloat(scheme.amount)
+  const schemeAmount = Number.parseFloat(scheme.amount)
   schemeData.activity[financialYear].total += schemeAmount
   schemeData.activity[financialYear].readableTotal = getReadableAmount(schemeData.activity[financialYear].total)
   schemeData.activity[financialYear].schemeDetails.push({
