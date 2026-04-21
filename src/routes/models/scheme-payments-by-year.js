@@ -17,7 +17,7 @@ function getSchemeSummary (schemePaymentsByYear) {
     /* eslint-disable camelcase */
     schemePaymentsByYear[year].forEach(({ scheme, total_amount }) => {
       const schemeData = totalPaymentsBySchemes.find(x => x?.name === scheme)
-      const schemeAmount = Number(parseFloat(total_amount).toFixed(2))
+      const schemeAmount = Number(Number.parseFloat(total_amount).toFixed(2))
 
       if (!schemeData) {
         totalPaymentsBySchemes.push({
@@ -51,7 +51,7 @@ function transformSummary (schemePaymentsByYear) {
   Object.keys(schemePaymentsByYear).forEach(year => {
     const formattedYear = getFormattedYear(year)
     schemePaymentsSummary[formattedYear] = schemePaymentsByYear[year].map(scheme => ({
-      ...scheme, total_amount: getReadableAmount(parseFloat(scheme.total_amount))
+      ...scheme, total_amount: getReadableAmount(Number.parseFloat(scheme.total_amount))
     }))
   })
 
