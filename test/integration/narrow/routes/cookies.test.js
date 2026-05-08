@@ -132,4 +132,76 @@ describe('Cookies route', () => {
     expect($('.js-cookies-button-reject').text()).toContain('Reject analytics cookies')
     expectPhaseBanner($)
   })
+
+  test('POST /cookies with valid returnUrl redirects to that URL', async () => {
+    const getResponse = await server.inject(getOptions('cookies', 'GET'))
+    const $page = cheerio.load(getResponse.payload)
+    const cookies = getResponse.headers['set-cookie']
+    const crumb = $page('input[name="crumb"]').val()
+
+    const result = await server.inject({
+      method: 'POST',
+      url: '/cookies',
+      headers: {
+        cookie: cookies ? cookies.join(';') : ''
+      },
+      payload: {
+        analytics: true,
+        async: false,
+        returnUrl: '/search',
+        crumb
+      }
+    })
+
+    expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_FOUND)
+    expect(result.headers.location).toBe('/search')
+  })
+
+  test('POST /cookies with external returnUrl falls through to policy view', async () => {
+    const getResponse = await server.inject(getOptions('cookies', 'GET'))
+    const $page = cheerio.load(getResponse.payload)
+    const cookies = getResponse.headers['set-cookie']
+    const crumb = $page('input[name="crumb"]').val()
+
+    const result = await server.inject({
+      method: 'POST',
+      url: '/cookies',
+      headers: {
+        cookie: cookies ? cookies.join(';') : ''
+      },
+      payload: {
+        analytics: true,
+        async: false,
+        returnUrl: 'https://evil.example.com',
+        crumb
+      }
+    })
+
+    expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
+    expect(result.request.response.source.template).toBe('cookies/policy')
+  })
+
+  test('POST /cookies with protocol-relative returnUrl falls through to policy view', async () => {
+    const getResponse = await server.inject(getOptions('cookies', 'GET'))
+    const $page = cheerio.load(getResponse.payload)
+    const cookies = getResponse.headers['set-cookie']
+    const crumb = $page('input[name="crumb"]').val()
+
+    const result = await server.inject({
+      method: 'POST',
+      url: '/cookies',
+      headers: {
+        cookie: cookies ? cookies.join(';') : ''
+      },
+      payload: {
+        analytics: false,
+        async: false,
+        returnUrl: '//evil.example.com',
+        crumb
+      }
+    })
+
+    expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
+    expect(result.request.response.source.template).toBe('cookies/policy')
+  })
 })

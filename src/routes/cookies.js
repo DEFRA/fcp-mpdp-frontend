@@ -2,6 +2,7 @@ import Joi from 'joi'
 import { config } from '../config/config.js'
 import { cookiesModel } from './models/cookies.js'
 import { updatePolicy } from '../cookies.js'
+import { isSafeRedirect } from '../common/utils/is-safe-redirect.js'
 
 export const cookies = [
   {
@@ -29,7 +30,8 @@ export const cookies = [
         payload: {
           analytics: Joi.boolean(),
           async: Joi.boolean().default(false),
-          referer: Joi.string().allow('')
+          referer: Joi.string().allow(''),
+          returnUrl: Joi.string().allow('').optional()
         }
       }
     },
@@ -40,6 +42,10 @@ export const cookies = [
 
       if (payload.async) {
         return h.response({ message: 'success' })
+      }
+
+      if (isSafeRedirect(payload.returnUrl)) {
+        return h.redirect(payload.returnUrl)
       }
 
       return h.view(
