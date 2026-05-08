@@ -266,4 +266,32 @@ describe('cookies', () => {
 
     expect(assignMock).not.toHaveBeenCalled()
   })
+
+  test('should delete stale GA cookies when banner is not shown and GTM is not loaded', () => {
+    document.body.innerHTML = '<p>No cookie banner here</p>'
+    document.head.innerHTML = ''
+
+    document.cookie = '_ga=GA1.2.123456789.1234567890'
+    document.cookie = '_gid=GA1.2.123456789'
+
+    cookies.init()
+
+    expect(document.cookie).not.toContain('_ga=GA1')
+    expect(document.cookie).not.toContain('_gid=GA1')
+  })
+
+  test('should not delete GA cookies when banner is not shown but GTM script is loaded', () => {
+    document.body.innerHTML = '<p>No cookie banner</p>'
+    document.head.innerHTML = ''
+
+    document.cookie = '_ga=GA1.2.123456789.1234567890'
+
+    const script = document.createElement('script')
+    script.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-TEST123'
+    document.head.appendChild(script)
+
+    cookies.init()
+
+    expect(document.cookie).toContain('_ga=GA1')
+  })
 })

@@ -52,6 +52,21 @@ function loadGoogleAnalytics (gtmKey) {
 export default {
   init () {
     this.setupCookieComponentListeners()
+    this.cleanupStaleCookies()
+  },
+
+  cleanupStaleCookies () {
+    const cookieContainer = document.querySelector('.js-cookies-container')
+
+    if (cookieContainer) {
+      return
+    }
+
+    const gtmScript = document.querySelector('script[src*="googletagmanager.com/gtm.js"]')
+
+    if (!gtmScript) {
+      deleteGoogleAnalyticsCookies()
+    }
   },
 
   setupCookieComponentListeners () {
