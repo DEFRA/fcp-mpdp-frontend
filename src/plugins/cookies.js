@@ -24,6 +24,7 @@ export const cookies = {
           const cookiesPolicy = getCurrentPolicy(request, h)
 
           request.response.source.context.cookiesPolicy = cookiesPolicy
+          request.response.source.context.currentPath = `${request.path}${request.url.search ?? ''}`
 
           if ((!cookiesPolicy.analytics)) {
             removeAnalytics(request, h)

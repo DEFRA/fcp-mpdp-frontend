@@ -1,6 +1,72 @@
+const GA_COOKIE_PREFIXES = ['_ga', '_gid', '_gat', '_dc_gtm_']
+
+function buildDeletableDomains (hostname) {
+  const domains = new Set()
+
+  domains.add(hostname)
+  domains.add('.' + hostname)
+
+  const parts = hostname.split('.')
+
+  for (let i = 1; i < parts.length - 1; i++) {
+    domains.add('.' + parts.slice(i).join('.'))
+  }
+
+  return domains
+}
+
+function deleteGoogleAnalyticsCookies () {
+  const allCookies = document.cookie.split(';')
+  const hostname = globalThis.location.hostname
+  const domains = buildDeletableDomains(hostname)
+
+  for (const cookie of allCookies) {
+    const cookieName = cookie.split('=')[0].trim()
+    const isGaCookie = GA_COOKIE_PREFIXES.some((prefix) => cookieName.startsWith(prefix))
+
+    if (isGaCookie) {
+      document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`
+
+      for (const domain of domains) {
+        document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${domain}`
+      }
+    }
+  }
+}
+
+function loadGoogleAnalytics (gtmKey) {
+  if (!gtmKey || !/^GTM-[A-Z0-9]+$/.test(gtmKey)) {
+    return
+  }
+
+  globalThis.dataLayer = globalThis.dataLayer || []
+  globalThis.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' })
+
+  const script = document.createElement('script')
+  script.async = true
+  script.src = `https://www.googletagmanager.com/gtm.js?id=${gtmKey}`
+
+  document.head.appendChild(script)
+}
+
 export default {
   init () {
     this.setupCookieComponentListeners()
+    this.cleanupStaleCookies()
+  },
+
+  cleanupStaleCookies () {
+    const cookieContainer = document.querySelector('.js-cookies-container')
+
+    if (cookieContainer) {
+      return
+    }
+
+    const gtmScript = document.querySelector('script[src*="googletagmanager.com/gtm.js"]')
+
+    if (!gtmScript) {
+      deleteGoogleAnalyticsCookies()
+    }
   },
 
   setupCookieComponentListeners () {
@@ -17,13 +83,17 @@ export default {
     const cookieBanner = document.querySelector('.js-cookies-banner')
 
     const crumb = cookieContainer.dataset.crumb
+    const gtmKey = cookieContainer.dataset.gtmKey
+    const returnUrl = cookieContainer.dataset.returnUrl
 
-    const submitPreference = (accepted) => {
+    const isSafeRedirect = (url) => typeof url === 'string' && url.startsWith('/') && !url.startsWith('//')
+
+    const submitPreference = (accepted, onSuccess) => {
       const xhr = new XMLHttpRequest() // eslint-disable-line no-undef
 
       xhr.open('POST', '/cookies', true)
-
       xhr.setRequestHeader('Content-Type', 'application/json')
+      xhr.onload = onSuccess
 
       xhr.send(JSON.stringify({
         analytics: accepted,
@@ -45,15 +115,25 @@ export default {
     }
 
     acceptButton?.addEventListener('click', (event) => {
-      showBanner(acceptedBanner)
       event.preventDefault()
-      submitPreference(true)
+      showBanner(acceptedBanner)
+      loadGoogleAnalytics(gtmKey)
+      submitPreference(true, () => {
+        if (isSafeRedirect(returnUrl)) {
+          globalThis.location.assign(returnUrl)
+        }
+      })
     })
 
     rejectButton?.addEventListener('click', (event) => {
-      showBanner(rejectedBanner)
       event.preventDefault()
-      submitPreference(false)
+      showBanner(rejectedBanner)
+      deleteGoogleAnalyticsCookies()
+      submitPreference(false, () => {
+        if (isSafeRedirect(returnUrl)) {
+          globalThis.location.assign(returnUrl)
+        }
+      })
     })
 
     acceptedBanner?.querySelector('.js-hide').addEventListener('click', () => {

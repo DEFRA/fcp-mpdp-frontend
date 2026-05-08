@@ -27,7 +27,8 @@ describe('contentSecurityPolicy', () => {
     expect(contentSecurityPolicy.options.scriptSrc).toEqual([
       'self',
       "'sha256-GUQ5ad8JK5KmEWmROf3LZd9ge94daqNvd8xy9YS1iDw='",
-      'https://*.googletagmanager.com'
+      'https://*.googletagmanager.com',
+      'https://*.google-analytics.com'
     ])
   })
 
