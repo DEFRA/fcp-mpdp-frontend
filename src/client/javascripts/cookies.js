@@ -40,7 +40,7 @@ function loadGoogleAnalytics (gtmKey) {
   }
 
   globalThis.dataLayer = globalThis.dataLayer || []
-  globalThis.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+  globalThis.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' })
 
   const script = document.createElement('script')
   script.async = true
