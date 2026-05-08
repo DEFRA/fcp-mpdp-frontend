@@ -204,4 +204,27 @@ describe('Cookies route', () => {
     expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
     expect(result.request.response.source.template).toBe('cookies/policy')
   })
+
+  test('POST /cookies with returnUrl exceeding 2000 chars returns 400', async () => {
+    const getResponse = await server.inject(getOptions('cookies', 'GET'))
+    const $page = cheerio.load(getResponse.payload)
+    const cookies = getResponse.headers['set-cookie']
+    const crumb = $page('input[name="crumb"]').val()
+
+    const result = await server.inject({
+      method: 'POST',
+      url: '/cookies',
+      headers: {
+        cookie: cookies ? cookies.join(';') : ''
+      },
+      payload: {
+        analytics: true,
+        async: false,
+        returnUrl: '/' + 'a'.repeat(2001),
+        crumb
+      }
+    })
+
+    expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
+  })
 })

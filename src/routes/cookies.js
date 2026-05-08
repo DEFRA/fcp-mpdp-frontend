@@ -31,7 +31,7 @@ export const cookies = [
           analytics: Joi.boolean(),
           async: Joi.boolean().default(false),
           referer: Joi.string().allow(''),
-          returnUrl: Joi.string().allow('').optional()
+          returnUrl: Joi.string().allow('').max(2000).optional()
         }
       }
     },

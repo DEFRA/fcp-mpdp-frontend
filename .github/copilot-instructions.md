@@ -123,6 +123,7 @@ cd ../fcp-mpdp-core
 npm run docker:test          # Run all tests with coverage
 npm run docker:test:watch    # TDD mode
 ```
+- **Always use `npm run docker:test` to run tests — never invoke `vitest` or `npx vitest` directly.** The Docker environment provides required dependencies and environment variables that are not available locally.
 - Tests in `test/unit/**/*.test.js` and `test/integration/**/*.test.js`
 - Vitest config: [vitest.config.js](../vitest.config.js)
 - Set `TZ=UTC` for time-based tests

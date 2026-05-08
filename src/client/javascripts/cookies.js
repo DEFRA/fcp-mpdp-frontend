@@ -17,7 +17,7 @@ function buildDeletableDomains (hostname) {
 
 function deleteGoogleAnalyticsCookies () {
   const allCookies = document.cookie.split(';')
-  const hostname = window.location.hostname
+  const hostname = globalThis.location.hostname
   const domains = buildDeletableDomains(hostname)
 
   for (const cookie of allCookies) {
@@ -35,24 +35,16 @@ function deleteGoogleAnalyticsCookies () {
 }
 
 function loadGoogleAnalytics (gtmKey) {
-  if (!gtmKey) {
+  if (!gtmKey || !/^GTM-[A-Z0-9]+$/.test(gtmKey)) {
     return
   }
 
-  const existingScript = document.querySelector('script[nonce]')
-  const nonce = existingScript ? existingScript.getAttribute('nonce') : null
+  globalThis.dataLayer = globalThis.dataLayer || []
+  globalThis.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
 
   const script = document.createElement('script')
-
-  if (nonce) {
-    script.setAttribute('nonce', nonce)
-  }
-
-  script.textContent = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','${gtmKey}');`
+  script.async = true
+  script.src = `https://www.googletagmanager.com/gtm.js?id=${gtmKey}`
 
   document.head.appendChild(script)
 }
@@ -77,13 +69,16 @@ export default {
 
     const crumb = cookieContainer.dataset.crumb
     const gtmKey = cookieContainer.dataset.gtmKey
+    const returnUrl = cookieContainer.dataset.returnUrl
 
-    const submitPreference = (accepted) => {
+    const isSafeRedirect = (url) => typeof url === 'string' && url.startsWith('/') && !url.startsWith('//')
+
+    const submitPreference = (accepted, onSuccess) => {
       const xhr = new XMLHttpRequest() // eslint-disable-line no-undef
 
       xhr.open('POST', '/cookies', true)
-
       xhr.setRequestHeader('Content-Type', 'application/json')
+      xhr.onload = onSuccess
 
       xhr.send(JSON.stringify({
         analytics: accepted,
@@ -107,15 +102,23 @@ export default {
     acceptButton?.addEventListener('click', (event) => {
       event.preventDefault()
       showBanner(acceptedBanner)
-      submitPreference(true)
       loadGoogleAnalytics(gtmKey)
+      submitPreference(true, () => {
+        if (isSafeRedirect(returnUrl)) {
+          globalThis.location.assign(returnUrl)
+        }
+      })
     })
 
     rejectButton?.addEventListener('click', (event) => {
       event.preventDefault()
       showBanner(rejectedBanner)
-      submitPreference(false)
       deleteGoogleAnalyticsCookies()
+      submitPreference(false, () => {
+        if (isSafeRedirect(returnUrl)) {
+          globalThis.location.assign(returnUrl)
+        }
+      })
     })
 
     acceptedBanner?.querySelector('.js-hide').addEventListener('click', () => {
