@@ -84,16 +84,25 @@ export default {
 
     const crumb = cookieContainer.dataset.crumb
     const gtmKey = cookieContainer.dataset.gtmKey
-    const returnUrl = cookieContainer.dataset.returnUrl
-
-    const isSafeRedirect = (url) => typeof url === 'string' && url.startsWith('/') && !url.startsWith('//')
+    const formElement = cookieContainer.closest('form')
 
     const submitPreference = (accepted, onSuccess) => {
       const xhr = new XMLHttpRequest() // eslint-disable-line no-undef
 
       xhr.open('POST', '/cookies', true)
       xhr.setRequestHeader('Content-Type', 'application/json')
-      xhr.onload = onSuccess
+
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          onSuccess()
+        } else {
+          formElement?.submit()
+        }
+      }
+
+      xhr.onerror = () => {
+        formElement?.submit()
+      }
 
       xhr.send(JSON.stringify({
         analytics: accepted,
@@ -118,22 +127,14 @@ export default {
       event.preventDefault()
       showBanner(acceptedBanner)
       loadGoogleAnalytics(gtmKey)
-      submitPreference(true, () => {
-        if (isSafeRedirect(returnUrl)) {
-          globalThis.location.assign(returnUrl)
-        }
-      })
+      submitPreference(true, () => {})
     })
 
     rejectButton?.addEventListener('click', (event) => {
       event.preventDefault()
       showBanner(rejectedBanner)
       deleteGoogleAnalyticsCookies()
-      submitPreference(false, () => {
-        if (isSafeRedirect(returnUrl)) {
-          globalThis.location.assign(returnUrl)
-        }
-      })
+      submitPreference(false, () => {})
     })
 
     acceptedBanner?.querySelector('.js-hide').addEventListener('click', () => {

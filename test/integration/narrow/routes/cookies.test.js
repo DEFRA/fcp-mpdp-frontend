@@ -227,4 +227,43 @@ describe('Cookies route', () => {
 
     expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
   })
+
+  test('POST /cookies without analytics field returns 400', async () => {
+    const getResponse = await server.inject(getOptions('cookies', 'GET'))
+    const $page = cheerio.load(getResponse.payload)
+    const cookies = getResponse.headers['set-cookie']
+    const crumb = $page('input[name="crumb"]').val()
+
+    const result = await server.inject({
+      method: 'POST',
+      url: '/cookies',
+      headers: {
+        cookie: cookies ? cookies.join(';') : ''
+      },
+      payload: {
+        async: false,
+        crumb
+        // analytics intentionally omitted
+      }
+    })
+
+    expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
+  })
+
+  test('does not expire GA cookies on first visit before user has made a choice', async () => {
+    const firstVisit = await server.inject({
+      method: 'GET',
+      url: '/cookies',
+      headers: {
+        cookie: '_ga=GA1.1.123456789.1234567890; _gid=GA1.1.987654321.1234567890'
+      }
+    })
+
+    const setCookieHeaders = [firstVisit.headers['set-cookie']].flat().filter(Boolean)
+    const expiresGa = setCookieHeaders.some(
+      (h) => (h.startsWith('_ga') || h.startsWith('_gid')) && h.includes('expires=Thu, 01 Jan 1970')
+    )
+
+    expect(expiresGa).toBe(false)
+  })
 })
