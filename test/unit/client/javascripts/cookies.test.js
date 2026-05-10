@@ -177,94 +177,99 @@ describe('cookies', () => {
     expect(document.cookie).toContain('fcp_mpdp_cookie_policy=test')
   })
 
-  test('should redirect to returnUrl after XHR succeeds on accept', () => {
+  test('should not redirect after XHR succeeds on accept', () => {
     const assignMock = vi.fn()
     vi.stubGlobal('location', { assign: assignMock })
-
-    document.body.innerHTML = `
-      <div class="js-cookies-container" data-return-url="/results">
-        <button class="js-cookies-button-accept">Accept</button>
-        <button class="js-cookies-button-reject">Reject</button>
-        <div class="js-cookies-accepted" hidden>
-          <button class="js-hide">Hide</button>
-        </div>
-        <div class="js-cookies-rejected" hidden>
-          <button class="js-hide">Hide</button>
-        </div>
-        <div class="js-cookies-banner"></div>
-        <div class="js-question-banner"></div>
-      </div>
-    `
-    cookies.init()
 
     const acceptButton = document.querySelector('.js-cookies-button-accept')
     const acceptedBanner = document.querySelector('.js-cookies-accepted')
     acceptedBanner.focus = vi.fn()
 
     acceptButton.dispatchEvent(new window.MouseEvent('click', { bubbles: true, cancelable: true }))
+    xhrMock.status = 200
     xhrMock.onload()
 
-    expect(assignMock).toHaveBeenCalledWith('/results')
+    expect(assignMock).not.toHaveBeenCalled()
   })
 
-  test('should redirect to returnUrl after XHR succeeds on reject', () => {
+  test('should not redirect after XHR succeeds on reject', () => {
     const assignMock = vi.fn()
     vi.stubGlobal('location', { assign: assignMock, hostname: 'localhost' })
-
-    document.body.innerHTML = `
-      <div class="js-cookies-container" data-return-url="/results">
-        <button class="js-cookies-button-accept">Accept</button>
-        <button class="js-cookies-button-reject">Reject</button>
-        <div class="js-cookies-accepted" hidden>
-          <button class="js-hide">Hide</button>
-        </div>
-        <div class="js-cookies-rejected" hidden>
-          <button class="js-hide">Hide</button>
-        </div>
-        <div class="js-cookies-banner"></div>
-        <div class="js-question-banner"></div>
-      </div>
-    `
-    cookies.init()
 
     const rejectButton = document.querySelector('.js-cookies-button-reject')
     const rejectedBanner = document.querySelector('.js-cookies-rejected')
     rejectedBanner.focus = vi.fn()
 
     rejectButton.dispatchEvent(new window.MouseEvent('click', { bubbles: true, cancelable: true }))
+    xhrMock.status = 200
     xhrMock.onload()
 
-    expect(assignMock).toHaveBeenCalledWith('/results')
+    expect(assignMock).not.toHaveBeenCalled()
   })
 
-  test('should not redirect when returnUrl is unsafe', () => {
-    const assignMock = vi.fn()
-    vi.stubGlobal('location', { assign: assignMock })
-
+  test('should fall back to form submit on non-2xx response', () => {
     document.body.innerHTML = `
-      <div class="js-cookies-container" data-return-url="//evil.com">
-        <button class="js-cookies-button-accept">Accept</button>
-        <button class="js-cookies-button-reject">Reject</button>
-        <div class="js-cookies-accepted" hidden>
-          <button class="js-hide">Hide</button>
+      <form action="/cookies" method="post" novalidate>
+        <div class="js-cookies-container">
+          <button class="js-cookies-button-accept">Accept</button>
+          <button class="js-cookies-button-reject">Reject</button>
+          <div class="js-cookies-accepted" hidden>
+            <button class="js-hide">Hide</button>
+          </div>
+          <div class="js-cookies-rejected" hidden>
+            <button class="js-hide">Hide</button>
+          </div>
+          <div class="js-cookies-banner"></div>
+          <div class="js-question-banner"></div>
         </div>
-        <div class="js-cookies-rejected" hidden>
-          <button class="js-hide">Hide</button>
-        </div>
-        <div class="js-cookies-banner"></div>
-        <div class="js-question-banner"></div>
-      </div>
+      </form>
     `
     cookies.init()
+
+    const form = document.querySelector('form')
+    form.submit = vi.fn()
 
     const acceptButton = document.querySelector('.js-cookies-button-accept')
     const acceptedBanner = document.querySelector('.js-cookies-accepted')
     acceptedBanner.focus = vi.fn()
 
     acceptButton.dispatchEvent(new window.MouseEvent('click', { bubbles: true, cancelable: true }))
+    xhrMock.status = 500
     xhrMock.onload()
 
-    expect(assignMock).not.toHaveBeenCalled()
+    expect(form.submit).toHaveBeenCalled()
+  })
+
+  test('should fall back to form submit on network error', () => {
+    document.body.innerHTML = `
+      <form action="/cookies" method="post" novalidate>
+        <div class="js-cookies-container">
+          <button class="js-cookies-button-accept">Accept</button>
+          <button class="js-cookies-button-reject">Reject</button>
+          <div class="js-cookies-accepted" hidden>
+            <button class="js-hide">Hide</button>
+          </div>
+          <div class="js-cookies-rejected" hidden>
+            <button class="js-hide">Hide</button>
+          </div>
+          <div class="js-cookies-banner"></div>
+          <div class="js-question-banner"></div>
+        </div>
+      </form>
+    `
+    cookies.init()
+
+    const form = document.querySelector('form')
+    form.submit = vi.fn()
+
+    const acceptButton = document.querySelector('.js-cookies-button-accept')
+    const acceptedBanner = document.querySelector('.js-cookies-accepted')
+    acceptedBanner.focus = vi.fn()
+
+    acceptButton.dispatchEvent(new window.MouseEvent('click', { bubbles: true, cancelable: true }))
+    xhrMock.onerror()
+
+    expect(form.submit).toHaveBeenCalled()
   })
 
   test('should delete stale GA cookies when banner is not shown and GTM is not loaded', () => {

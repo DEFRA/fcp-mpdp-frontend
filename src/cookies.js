@@ -36,10 +36,10 @@ function updatePolicy (request, h, analytics) {
 }
 
 function removeAnalytics (request, h) {
-  const googleCookiesRegex = /^_ga$|^_ga_*$|^_gid$|^_ga_.*$|^_gat_.*$/g
+  const googleCookiesRegex = /^_ga$|^_ga_.*$|^_gid$|^_gat_.*$|^_dc_gtm_.*$/
 
   for (const cookieName of Object.keys(request.state)) {
-    if (cookieName.search(googleCookiesRegex) === 0) {
+    if (googleCookiesRegex.test(cookieName)) {
       h.unstate(cookieName)
     }
   }
