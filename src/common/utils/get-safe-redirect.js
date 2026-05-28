@@ -1,6 +1,6 @@
-export function isSafeRedirect (url) {
+export function getSafeRedirect (url) {
   if (!url || typeof url !== 'string') {
-    return false
+    return ''
   }
-  return url.startsWith('/') && !url.startsWith('//')
+  return (url.startsWith('/') && !url.startsWith('//')) ? url : ''
 }

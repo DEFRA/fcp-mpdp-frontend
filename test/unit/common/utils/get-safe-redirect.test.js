@@ -1,15 +1,15 @@
 import { describe, test, expect } from 'vitest'
-import { isSafeRedirect } from '../../../../src/common/utils/is-safe-redirect.js'
+import { getSafeRedirect } from '../../../../src/common/utils/get-safe-redirect.js'
 
-describe('isSafeRedirect', () => {
+describe('getSafeRedirect', () => {
   test.each([
     ['/'],
     ['/search'],
     ['/search?payee=smith'],
     ['/cookies?success=true'],
     ['/a/deeply/nested/path']
-  ])('returns true for safe relative URL: %s', (url) => {
-    expect(isSafeRedirect(url)).toBe(true)
+  ])('returns the URL for a safe relative path: %s', (url) => {
+    expect(getSafeRedirect(url)).toBe(url)
   })
 
   test.each([
@@ -17,12 +17,13 @@ describe('isSafeRedirect', () => {
     ['http://evil.com'],
     ['//evil.com'],
     ['//evil.com/path'],
+    ['javascript:alert(1)'],
     [''],
     [null],
     [undefined],
     [42],
     [{}]
-  ])('returns false for unsafe or invalid value: %s', (url) => {
-    expect(isSafeRedirect(url)).toBe(false)
+  ])('returns empty string for unsafe or invalid value: %s', (url) => {
+    expect(getSafeRedirect(url)).toBe('')
   })
 })

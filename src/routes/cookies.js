@@ -2,7 +2,7 @@ import Joi from 'joi'
 import { config } from '../config/config.js'
 import { cookiesModel } from './models/cookies.js'
 import { updatePolicy } from '../cookies.js'
-import { isSafeRedirect } from '../common/utils/is-safe-redirect.js'
+import { getSafeRedirect } from '../common/utils/get-safe-redirect.js'
 
 export const cookies = [
   {
@@ -15,7 +15,7 @@ export const cookies = [
           pageTitle: 'Cookies',
           ...cookiesModel(
             false,
-            isSafeRedirect(request.headers.referer) ? request.headers.referer : '',
+            getSafeRedirect(request.headers.referer),
             request.state[config.get('cookie.name')]
           )
         }
@@ -44,8 +44,9 @@ export const cookies = [
         return h.response({ message: 'success' })
       }
 
-      if (isSafeRedirect(payload.returnUrl)) {
-        return h.redirect(payload.returnUrl)
+      const safeReturnUrl = getSafeRedirect(payload.returnUrl)
+      if (safeReturnUrl) {
+        return h.redirect(safeReturnUrl)
       }
 
       return h.view(
