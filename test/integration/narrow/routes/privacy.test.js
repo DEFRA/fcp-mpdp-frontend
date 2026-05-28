@@ -59,6 +59,28 @@ describe('Privacy route', () => {
     expectBackLink($, '/previous-page', 'Back')
   })
 
+  test('Should not use an external URL as the back link href', async () => {
+    options.headers = {
+      referer: 'https://evil.com'
+    }
+
+    response = await server.inject(options)
+    $ = cheerio.load(response.payload)
+
+    expectBackLink($, '', 'Back')
+  })
+
+  test('Should not use a javascript URI as the back link href', async () => {
+    options.headers = {
+      referer: 'javascript:alert(1)'
+    }
+
+    response = await server.inject(options)
+    $ = cheerio.load(response.payload)
+
+    expectBackLink($, '', 'Back')
+  })
+
   test.each([
     { reference: 'GOV.uk homepage', id: '#govuk-homepage-link', url: 'https://www.gov.uk/' },
     { reference: 'personal information charter', id: '#charter-link', url: 'https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs/about/personal-information-charter' },

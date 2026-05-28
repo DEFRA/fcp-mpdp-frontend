@@ -58,6 +58,30 @@ describe('Cookies route', () => {
     expectBackLink($, '/previous-page', 'Back')
   })
 
+  test('Should not use an external URL as the back link href', async () => {
+    options = getOptions('cookies', 'GET')
+    options.headers = {
+      referer: 'https://evil.com'
+    }
+
+    response = await server.inject(options)
+    $ = cheerio.load(response.payload)
+
+    expectBackLink($, '', 'Back')
+  })
+
+  test('Should not use a javascript URI as the back link href', async () => {
+    options = getOptions('cookies', 'GET')
+    options.headers = {
+      referer: 'javascript:alert(1)'
+    }
+
+    response = await server.inject(options)
+    $ = cheerio.load(response.payload)
+
+    expectBackLink($, '', 'Back')
+  })
+
   test('GET /cookies returns cookie policy', async () => {
     options = getOptions('cookies')
     const result = await server.inject(options)

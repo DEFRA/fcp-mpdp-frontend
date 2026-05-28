@@ -59,6 +59,28 @@ describe('Accessibility route', () => {
     expectBackLink($, '/previous-page', 'Back')
   })
 
+  test('Should not use an external URL as the back link href', async () => {
+    options.headers = {
+      referer: 'https://evil.com'
+    }
+
+    response = await server.inject(options)
+    $ = cheerio.load(response.payload)
+
+    expectBackLink($, '', 'Back')
+  })
+
+  test('Should not use a javascript URI as the back link href', async () => {
+    options.headers = {
+      referer: 'javascript:alert(1)'
+    }
+
+    response = await server.inject(options)
+    $ = cheerio.load(response.payload)
+
+    expectBackLink($, '', 'Back')
+  })
+
   test.each([
     { reference: 'equality advisory and support service', id: '#eass-link', url: 'https://www.equalityadvisoryservice.com/' },
     { reference: 'web content accessibility guidelines', id: '#wcag-link', url: 'https://www.w3.org/TR/WCAG21/' },
