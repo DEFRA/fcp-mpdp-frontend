@@ -5,6 +5,7 @@ import staticYears from '../../../data/filters/years.js'
 import { sortByItems } from '../../../data/sort-by-items.js'
 import { getAllSchemeNames } from '../../../common/utils/get-all-scheme-names.js'
 import { getRelatedContentLinks } from '../../../common/utils/related-content.js'
+import { isSafeRedirect } from '../../../common/utils/is-safe-redirect.js'
 
 function getTags (query, { counties }) {
   const tags = {
@@ -196,7 +197,8 @@ async function performSearch (searchString, requestedPage, filterBy, sortBy) {
 export async function resultsModel (request, error) {
   const { query } = request
   const searchString = decodeURIComponent(query.searchString)
-  const referer = query.referer || request.headers.referer
+  const rawReferer = query.referer || request.headers.referer
+  const referer = isSafeRedirect(rawReferer) ? rawReferer : ''
 
   const defaultReturn = {
     hiddenInputs: [

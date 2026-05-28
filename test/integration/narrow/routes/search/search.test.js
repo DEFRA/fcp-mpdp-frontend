@@ -68,6 +68,30 @@ describe('Search route', () => {
     expectBackLink($, '/previous-page', 'Back')
   })
 
+  test('Should not use an external URL as the back link href', async () => {
+    options = getOptions('search', 'GET')
+    options.headers = {
+      referer: 'https://evil.com'
+    }
+
+    response = await server.inject(options)
+    $ = cheerio.load(response.payload)
+
+    expectBackLink($, '', 'Back')
+  })
+
+  test('Should not use a javascript URI as the back link href', async () => {
+    options = getOptions('search', 'GET')
+    options.headers = {
+      referer: 'javascript:alert(1)'
+    }
+
+    response = await server.inject(options)
+    $ = cheerio.load(response.payload)
+
+    expectBackLink($, '', 'Back')
+  })
+
   test('Check for search page specific elements', () => {
     const searchBox = $('#search-input')
     const button = $('.govuk-button')

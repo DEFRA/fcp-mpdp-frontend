@@ -15,7 +15,7 @@ export const cookies = [
           pageTitle: 'Cookies',
           ...cookiesModel(
             false,
-            request.headers.referer,
+            isSafeRedirect(request.headers.referer) ? request.headers.referer : '',
             request.state[config.get('cookie.name')]
           )
         }
