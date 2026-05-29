@@ -1,5 +1,5 @@
 import { getRelatedContentLinks } from '../common/utils/related-content.js'
-import { getSafeRedirect } from '../common/utils/get-safe-redirect.js'
+import { getRefererPath } from '../common/utils/get-referer-path.js'
 
 export const privacy = {
   method: 'GET',
@@ -8,7 +8,7 @@ export const privacy = {
     return h.view(
       'privacy',
       {
-        referer: getSafeRedirect(request.headers.referer),
+        referer: getRefererPath(request.headers.referer, request.info.hostname),
         pageTitle: 'Privacy notice',
         relatedContentLinks: getRelatedContentLinks('privacy')
       }

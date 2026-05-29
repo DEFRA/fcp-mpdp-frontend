@@ -77,7 +77,7 @@ describe('Search route', () => {
     response = await server.inject(options)
     $ = cheerio.load(response.payload)
 
-    expectBackLink($, '', 'Back')
+    expectBackLink($, '/', 'Back')
   })
 
   test('Should not use a javascript URI as the back link href', async () => {
@@ -89,7 +89,7 @@ describe('Search route', () => {
     response = await server.inject(options)
     $ = cheerio.load(response.payload)
 
-    expectBackLink($, '', 'Back')
+    expectBackLink($, '/', 'Back')
   })
 
   test('Check for search page specific elements', () => {
