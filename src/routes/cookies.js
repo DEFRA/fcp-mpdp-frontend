@@ -3,6 +3,7 @@ import { config } from '../config/config.js'
 import { cookiesModel } from './models/cookies.js'
 import { updatePolicy } from '../cookies.js'
 import { getSafeRedirect } from '../common/utils/get-safe-redirect.js'
+import { getRefererPath } from '../common/utils/get-referer-path.js'
 
 export const cookies = [
   {
@@ -15,7 +16,7 @@ export const cookies = [
           pageTitle: 'Cookies',
           ...cookiesModel(
             false,
-            getSafeRedirect(request.headers.referer),
+            getRefererPath(request.headers.referer, request.info.hostname),
             request.state[config.get('cookie.name')]
           )
         }

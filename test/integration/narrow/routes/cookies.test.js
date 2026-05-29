@@ -67,7 +67,7 @@ describe('Cookies route', () => {
     response = await server.inject(options)
     $ = cheerio.load(response.payload)
 
-    expectBackLink($, '', 'Back')
+    expectBackLink($, '/', 'Back')
   })
 
   test('Should not use a javascript URI as the back link href', async () => {
@@ -79,7 +79,7 @@ describe('Cookies route', () => {
     response = await server.inject(options)
     $ = cheerio.load(response.payload)
 
-    expectBackLink($, '', 'Back')
+    expectBackLink($, '/', 'Back')
   })
 
   test('GET /cookies returns cookie policy', async () => {
