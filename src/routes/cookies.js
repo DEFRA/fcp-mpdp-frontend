@@ -31,7 +31,7 @@ export const cookies = [
         payload: {
           analytics: Joi.boolean().required(),
           async: Joi.boolean().default(false),
-          referer: Joi.string().allow(''),
+          referer: Joi.string().allow('').max(2000).optional(),
           returnUrl: Joi.string().allow('').max(2000).optional()
         }
       }
