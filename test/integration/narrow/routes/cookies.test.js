@@ -229,6 +229,35 @@ describe('Cookies route', () => {
     expect(result.request.response.source.template).toBe('cookies/policy')
   })
 
+  test('POST /cookies fallback sanitizes an unsafe referer back link to /', async () => {
+    const getResponse = await server.inject(getOptions('cookies', 'GET'))
+    const $page = cheerio.load(getResponse.payload)
+    const cookies = getResponse.headers['set-cookie']
+    const crumb = $page('input[name="crumb"]').val()
+
+    const result = await server.inject({
+      method: 'POST',
+      url: '/cookies',
+      headers: {
+        cookie: cookies ? cookies.join(';') : ''
+      },
+      payload: {
+        analytics: false,
+        async: false,
+        referer: 'javascript:alert(1)',
+        returnUrl: 'https://evil.example.com',
+        crumb
+      }
+    })
+
+    expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
+    expect(result.request.response.source.template).toBe('cookies/policy')
+
+    const payload = result.payload
+    const $payload = cheerio.load(payload)
+    expectBackLink($payload, '/', 'Back')
+  })
+
   test('POST /cookies with returnUrl exceeding 2000 chars returns 400', async () => {
     const getResponse = await server.inject(getOptions('cookies', 'GET'))
     const $page = cheerio.load(getResponse.payload)

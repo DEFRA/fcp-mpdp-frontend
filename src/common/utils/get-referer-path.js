@@ -1,6 +1,8 @@
 import { getSafeRedirect } from './get-safe-redirect.js'
 
 export function getRefererPath (url, hostname) {
+  const normalizedHostname = typeof hostname === 'string' ? hostname.trim().toLowerCase() : ''
+
   if (!url || typeof url !== 'string') {
     return '/'
   }
@@ -11,7 +13,8 @@ export function getRefererPath (url, hostname) {
 
   try {
     const { protocol, hostname: urlHostname, pathname, search } = new URL(url)
-    if ((protocol === 'http:' || protocol === 'https:') && urlHostname === hostname) {
+    const normalizedUrlHostname = urlHostname.trim().toLowerCase()
+    if ((protocol === 'http:' || protocol === 'https:') && normalizedUrlHostname === normalizedHostname) {
       return getSafeRedirect(pathname + search) || '/'
     }
   } catch {

@@ -56,7 +56,7 @@ export const cookies = [
           pageTitle: 'Cookies',
           ...cookiesModel(
             true,
-            payload.referer,
+            getRefererPath(payload.referer, request.info.hostname),
             request.state[config.get('cookie.name')]
           )
         }

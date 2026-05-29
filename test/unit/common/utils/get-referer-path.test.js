@@ -26,7 +26,9 @@ describe('getRefererPath', () => {
     ['http://localhost/', '/'],
     ['http://localhost/search', '/search'],
     ['http://localhost/search?q=test', '/search?q=test'],
-    ['https://localhost/cookies', '/cookies']
+    ['https://localhost/cookies', '/cookies'],
+    ['http://localhost:3000/results?page=2', '/results?page=2'],
+    ['http://LOCALHOST/search', '/search']
   ])('extracts the path from a same-origin absolute url: %s → %s', (url, expected) => {
     expect(getRefererPath(url, hostname)).toBe(expected)
   })
