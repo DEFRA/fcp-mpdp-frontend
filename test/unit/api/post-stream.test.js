@@ -4,6 +4,10 @@ import { config } from '../../../src/config/config.js'
 import { postStream } from '../../../src/api/post-stream.js'
 import { logBackendError } from '../../../src/api/log-backend-error.js'
 
+vi.mock('../../../src/api/get-backend-auth-headers.js', () => ({
+  getBackendAuthHeaders: vi.fn().mockReturnValue({})
+}))
+
 const endpoint = 'https://__TEST_ENDPOINT__'
 process.env.MPDP_BACKEND_ENDPOINT = endpoint
 const path = process.env.MPDP_BACKEND_PATH
@@ -43,7 +47,8 @@ describe('Backend API: postStream', () => {
       {
         payload: {
           content: 'mock data'
-        }
+        },
+        headers: {}
       }
     )
 
@@ -60,7 +65,7 @@ describe('Backend API: postStream', () => {
     expect(mockRequest).toHaveBeenCalledWith(
       'post',
       url,
-      { payload: {} }
+      { payload: {}, headers: {} }
     )
 
     expect(logBackendError).toHaveBeenCalledWith(url, mockError)

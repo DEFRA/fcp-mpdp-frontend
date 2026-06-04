@@ -7,6 +7,9 @@ import { logBackendError } from '../../../src/api/log-backend-error.js'
 vi.mock('@hapi/wreck')
 vi.mock('../../../src/api/build-backend-url.js')
 vi.mock('../../../src/api/log-backend-error.js')
+vi.mock('../../../src/api/get-backend-auth-headers.js', () => ({
+  getBackendAuthHeaders: vi.fn().mockReturnValue({})
+}))
 
 describe('getBufferFromUrl', () => {
   afterEach(() => {
@@ -24,7 +27,7 @@ describe('getBufferFromUrl', () => {
     const response = await getBufferFromUrl(mockUrl)
 
     expect(buildBackendUrl).toHaveBeenCalledWith(mockUrl)
-    expect(Wreck.get).toHaveBeenCalledWith(backendUrl)
+    expect(Wreck.get).toHaveBeenCalledWith(backendUrl, { headers: {} })
     expect(response).toEqual(mockBuffer)
   })
 

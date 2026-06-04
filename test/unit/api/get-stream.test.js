@@ -3,6 +3,10 @@ import Wreck from '@hapi/wreck'
 import { config } from '../../../src/config/config.js'
 import { getStream } from '../../../src/api/get-stream.js'
 
+vi.mock('../../../src/api/get-backend-auth-headers.js', () => ({
+  getBackendAuthHeaders: vi.fn().mockReturnValue({})
+}))
+
 const endpoint = 'https://__TEST_ENDPOINT__'
 process.env.MPDP_BACKEND_ENDPOINT = endpoint
 const path = process.env.MPDP_BACKEND_PATH
@@ -42,7 +46,8 @@ describe('Backend API: getStream', () => {
 
     expect(mockRequest).toHaveBeenCalledWith(
       'get',
-      `${endpoint}${path}${route}`
+      `${endpoint}${path}${route}`,
+      { headers: {} }
     )
   })
 
@@ -57,7 +62,8 @@ describe('Backend API: getStream', () => {
 
     expect(mockRequest).toHaveBeenCalledWith(
       'get',
-      `${endpoint}${path}${route}`
+      `${endpoint}${path}${route}`,
+      { headers: {} }
     )
     expect(mockLoggerError).toHaveBeenCalled()
   })

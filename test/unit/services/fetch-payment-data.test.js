@@ -3,6 +3,10 @@ import Wreck from '@hapi/wreck'
 import { fetchPaymentData } from '../../../src/services/fetch-payment-data.js'
 import { config } from '../../../src/config/config.js'
 
+vi.mock('../../../src/api/get-backend-auth-headers.js', () => ({
+  getBackendAuthHeaders: vi.fn().mockReturnValue({})
+}))
+
 const endpoint = 'https://__TEST_ENDPOINT__'
 process.env.MPDP_BACKEND_ENDPOINT = endpoint
 const path = process.env.MPDP_BACKEND_PATH
@@ -48,7 +52,7 @@ describe('fetchPaymentData', () => {
       filterOptions: {}
     })
 
-    expect(mockPost).toHaveBeenCalledWith(`${endpoint}${path}`, { payload: { filterBy, limit: 20, offset, searchString, sortBy } })
+    expect(mockPost).toHaveBeenCalledWith(`${endpoint}${path}`, { payload: { filterBy, limit: 20, offset, searchString, sortBy }, headers: {} })
   })
 
   test('getPaymentData returns results from the payload in the right format', async () => {
@@ -74,7 +78,7 @@ describe('fetchPaymentData', () => {
       filterOptions: {}
     })
 
-    expect(mockPost).toHaveBeenCalledWith(`${endpoint}${path}`, { payload: { filterBy, limit: 20, offset, searchString, sortBy } })
+    expect(mockPost).toHaveBeenCalledWith(`${endpoint}${path}`, { payload: { filterBy, limit: 20, offset, searchString, sortBy }, headers: {} })
   })
 
   test('getPaymentData called with download action', async () => {
@@ -99,6 +103,6 @@ describe('fetchPaymentData', () => {
       total: mockData.length
     })
 
-    expect(mockPost).toHaveBeenCalledWith(`${endpoint}${path}`, { payload: { filterBy, limit: 20, offset, searchString, sortBy, action } })
+    expect(mockPost).toHaveBeenCalledWith(`${endpoint}${path}`, { payload: { filterBy, limit: 20, offset, searchString, sortBy, action }, headers: {} })
   })
 })
