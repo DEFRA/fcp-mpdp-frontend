@@ -5,7 +5,7 @@ import { getBackendAuthHeaders } from './get-backend-auth-headers.js'
 
 export async function getStream (path) {
   const backendUrl = buildBackendUrl(path)
-  const headers = getBackendAuthHeaders()
+  const headers = await getBackendAuthHeaders()
 
   return requestPromise(
     backendUrl,

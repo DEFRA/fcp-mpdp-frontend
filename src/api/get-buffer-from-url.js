@@ -6,7 +6,7 @@ import { getBackendAuthHeaders } from './get-backend-auth-headers.js'
 export async function getBufferFromUrl (url) {
   try {
     const backendUrl = buildBackendUrl(url)
-    const headers = getBackendAuthHeaders()
+    const headers = await getBackendAuthHeaders()
     const { payload } = await Wreck.get(backendUrl, { headers })
 
     return payload

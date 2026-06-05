@@ -8,7 +8,7 @@ export async function postStream (path, payload) {
 
   try {
     backendUrl = buildBackendUrl(path)
-    const headers = getBackendAuthHeaders()
+    const headers = await getBackendAuthHeaders()
     const stream = await Wreck.request('post', backendUrl, { payload, headers })
 
     return stream
