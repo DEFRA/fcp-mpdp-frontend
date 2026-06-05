@@ -206,7 +206,7 @@ export const config = convict({
       default: !!process.env.GOOGLE_TAG_MANAGER_KEY
     }
   },
-  serviceToServiceAuth: {
+  serviceAuth: {
     enabled: {
       doc: 'Enable service-to-service JWT authentication when calling the backend',
       format: Boolean,
