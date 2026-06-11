@@ -10,9 +10,9 @@ export const downloadResults = {
   options: {
     validate: {
       query,
-      failAction: async function (_request, h, error) {
+      failAction: async function (_request, h, _error) {
         return h
-          .response(error.toString())
+          .response({ message: 'Bad Request' })
           .code(httpConstants.HTTP_STATUS_BAD_REQUEST)
           .takeover()
       }

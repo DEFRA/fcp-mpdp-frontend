@@ -73,4 +73,13 @@ describe('Suggestions route', () => {
     response = await server.inject(getOptions('suggestions', 'GET', { searchString: longString }))
     expect(fetchSearchSuggestions).toHaveBeenCalledWith(longString.slice(0, 32))
   })
+
+  test('GET /suggestions does not reflect XSS payload from unknown query parameter', async () => {
+    response = await server.inject({
+      method: 'GET',
+      url: '/suggestions?searchString=son&dayjk%3cscript%3ealert(1)%3c%2fscript%3ebn6vr=1'
+    })
+    expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
+    expect(response.payload).not.toContain('<script>')
+  })
 })

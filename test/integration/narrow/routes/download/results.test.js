@@ -71,6 +71,15 @@ describe('Download search results data CSV link', () => {
     response = await server.inject(invalidOptions)
 
     expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
-    expect(response.result).toContain('Error')
+    expect(response.result).toEqual({ message: 'Bad Request' })
+  })
+
+  test('GET /results/file does not reflect XSS payload from unknown query parameter', async () => {
+    response = await server.inject({
+      method: 'GET',
+      url: '/results/file?searchString=test&sortBy=score&dayjk%3cscript%3ealert(1)%3c%2fscript%3ebn6vr=1'
+    })
+    expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
+    expect(response.payload).not.toContain('<script>')
   })
 })
