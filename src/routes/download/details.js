@@ -13,9 +13,9 @@ export const downloadDetails = {
         payeeName: Joi.string().trim().required(),
         partPostcode: Joi.string().trim().required()
       }),
-      failAction: async function (_request, h, error) {
+      failAction: async function (_request, h, _error) {
         return h
-          .response(error.toString())
+          .response({ message: 'Bad Request' })
           .code(httpConstants.HTTP_STATUS_BAD_REQUEST)
           .takeover()
       }
