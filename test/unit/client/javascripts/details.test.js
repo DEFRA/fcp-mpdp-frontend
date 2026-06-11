@@ -24,7 +24,7 @@ describe('details', () => {
       <button id="summary-toggle">Show details</button>
     </div>
 
-    <div id="mpdp-summary-breakdown" data-schemesLength="2">
+    <div id="mpdp-summary-breakdown" data-schemes-length="2">
       <div>
         <button id="show-all-button">Show all</button>
       </div>
@@ -124,6 +124,16 @@ describe('details', () => {
       expect(schemeDetails.style.display).toBe('none')
       expect(schemeMoreInfo.style.display).toBe('none')
       expect(schemeToggle.textContent).toBe('Show details')
+    })
+  })
+
+  describe('getAllSchemeShowHideButtons', () => {
+    test('should return all scheme toggle buttons based on data-schemesLength', () => {
+      const buttons = details.getAllSchemeShowHideButtons()
+
+      expect(buttons).toHaveLength(2)
+      expect(buttons[0]).toBe(document.getElementById('scheme-toggle1'))
+      expect(buttons[1]).toBe(document.getElementById('scheme-toggle2'))
     })
   })
 

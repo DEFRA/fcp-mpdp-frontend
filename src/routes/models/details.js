@@ -43,14 +43,14 @@ function createPaymentDetailsSummary (paymentDetails) {
   summary.total = getReadableAmount(farmerTotal)
 
   summary.financial_years.sort((a, b) => {
-    const [_startYearA, endYearA] = a.split('/') // eslint-disable-line no-unused-vars
-    const [_startYearB, endYearB] = b.split('/') // eslint-disable-line no-unused-vars
-    return parseInt(endYearA) - parseInt(endYearB)
+    const [, endYearA] = a.split('/')
+    const [, endYearB] = b.split('/')
+    return Number.parseInt(endYearA) - Number.parseInt(endYearB)
   })
 
   if (summary.financial_years.length > 0) {
     summary.startYear = `20${summary.financial_years[0].split('/')[0]}`
-    summary.endYear = `20${summary.financial_years[summary.financial_years.length - 1].split('/')[1]}`
+    summary.endYear = `20${summary.financial_years.at(-1).split('/')[1]}`
   } else {
     summary.startYear = ''
     summary.endYear = ''
@@ -82,7 +82,10 @@ function createSummary (paymentDetails) {
 function addSchemeToSummary (summary, scheme) {
   const amount = Number.parseFloat(scheme.amount)
   let schemeData = summary.schemes.find(x => x?.name.toLowerCase() === scheme.name.toLowerCase())
-  if (!schemeData) {
+  if (schemeData) {
+    schemeData.total += amount
+    schemeData.readableTotal = getReadableAmount(schemeData.total)
+  } else {
     const staticSchemeData = getSchemeStaticData(scheme.name)
     schemeData = {
       name: scheme.name,
@@ -93,9 +96,6 @@ function addSchemeToSummary (summary, scheme) {
       activity: {}
     }
     summary.schemes.push(schemeData)
-  } else {
-    schemeData.total += amount
-    schemeData.readableTotal = getReadableAmount(schemeData.total)
   }
 
   addSchemeActivity(scheme, schemeData)

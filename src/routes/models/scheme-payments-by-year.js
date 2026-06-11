@@ -19,15 +19,15 @@ function getSchemeSummary (schemePaymentsByYear) {
       const schemeData = totalPaymentsBySchemes.find(x => x?.name === scheme)
       const schemeAmount = Number(Number.parseFloat(total_amount).toFixed(2))
 
-      if (!schemeData) {
+      if (schemeData) {
+        schemeData.total = Number((schemeData.total + schemeAmount).toFixed(2))
+        schemeData.readableTotal = getReadableAmount(schemeData.total)
+      } else {
         totalPaymentsBySchemes.push({
           name: scheme,
           total: schemeAmount,
           readableTotal: getReadableAmount(schemeAmount)
         })
-      } else {
-        schemeData.total = Number((schemeData.total + schemeAmount).toFixed(2))
-        schemeData.readableTotal = getReadableAmount(schemeData.total)
       }
 
       total = Number((total + schemeAmount).toFixed(2))
