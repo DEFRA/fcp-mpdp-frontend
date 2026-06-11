@@ -96,8 +96,8 @@ export default {
 
   getAllSchemeShowHideButtons () {
     const allButtons = []
-    const schemesLength = document.getElementById('mpdp-summary-breakdown')?.getAttribute('data-schemesLength')
-    for (let i = 1; i <= parseInt(schemesLength); i++) {
+    const schemesLength = document.getElementById('mpdp-summary-breakdown')?.dataset.schemesLength
+    for (let i = 1; i <= Number.parseInt(schemesLength); i++) {
       allButtons.push(document.getElementById(`scheme-toggle${i}`))
     }
 
