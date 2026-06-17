@@ -23,10 +23,5 @@ export const schemeStaticData = [
     name: 'Countryside Stewardship',
     description: 'Countryside Stewardship (CS) provides financial incentives for farmers, foresters and land managers to look after and improve the environment.',
     link: 'https://www.gov.uk/guidance/countryside-stewardship-get-funding-to-protect-and-improve-the-land-you-manage'
-  },
-  {
-    name: 'XL Bully Abandonment Fund',
-    description: 'Supporting local councils in fulfilling their responsibilities under the ban on XL Bully dogs.',
-    link: 'https://www.gov.uk/guidance/ban-on-xl-bully-dogs'
   }
 ]
