@@ -6,11 +6,18 @@ export async function fetchSearchSuggestions (searchString) {
     searchString
   })
 
-  const response = await get(url)
+  try {
+    const response = await get(url)
 
-  if (!response) {
-    return { rows: [], count: 0 }
+    if (!response) {
+      return { rows: [], count: 0 }
+    }
+
+    return JSON.parse(response.payload)
+  } catch (err) {
+    if (err.output?.statusCode === 404) {
+      return { rows: [], count: 0 }
+    }
+    throw err
   }
-
-  return JSON.parse(response.payload)
 }

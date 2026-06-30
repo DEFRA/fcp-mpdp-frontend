@@ -59,4 +59,24 @@ describe('fetchSearchSuggestions', () => {
 
     expect(mockGet).toHaveBeenCalledWith(`${endpoint}${path}${newRoute}`, { headers: {} })
   })
+
+  test('should return empty results when backend returns 404', async () => {
+    const notFoundError = Object.assign(new Error('Not Found'), {
+      output: { statusCode: 404 }
+    })
+    vi.spyOn(Wreck, 'get').mockRejectedValue(notFoundError)
+
+    const res = await fetchSearchSuggestions('__NO_RESULTS__')
+
+    expect(res).toEqual({ rows: [], count: 0 })
+  })
+
+  test('should rethrow non-404 errors', async () => {
+    const serverError = Object.assign(new Error('Internal Server Error'), {
+      output: { statusCode: 500 }
+    })
+    vi.spyOn(Wreck, 'get').mockRejectedValue(serverError)
+
+    await expect(fetchSearchSuggestions('__ERROR__')).rejects.toThrow('Internal Server Error')
+  })
 })
