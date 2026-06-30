@@ -55,6 +55,12 @@ Run locally with hot reload:
 npm run dev
 ```
 
+Or use the shorthand alias (equivalent to `npm run dev`):
+
+```bash
+npm run local
+```
+
 The app reads `MPDP_BACKEND_ENDPOINT` from your `.env` (default `http://localhost:3001`).
 To run against a live backend, start it first — see [fcp-mpdp-core](../fcp-mpdp-core).
 
