@@ -33,7 +33,7 @@ describe('Context and cache', () => {
       }
     }
 
-    describe('When webpack manifest file read succeeds', () => {
+    describe('When Vite manifest file read succeeds', () => {
       let contextImport
       let contextResult
 
@@ -45,8 +45,11 @@ describe('Context and cache', () => {
 
       beforeEach(() => {
         mockReadFileSync.mockReturnValue(`{
-        "application.js": "javascripts/application.js",
-        "stylesheets/application.scss": "stylesheets/application.css"
+        "javascripts/application.js": {
+          "file": "javascripts/application.js",
+          "isEntry": true,
+          "css": ["stylesheets/application.css"]
+        }
       }`)
 
         contextResult = contextImport.context(mockRequest)
@@ -109,7 +112,7 @@ describe('Context and cache', () => {
       })
     })
 
-    describe('When webpack manifest file read fails', () => {
+    describe('When Vite manifest file read fails', () => {
       let contextImport
 
       beforeAll(async () => {
@@ -125,7 +128,7 @@ describe('Context and cache', () => {
 
       test('Should log that the Webpack Manifest file is not available', () => {
         expect(mockLoggerError).toHaveBeenCalledWith(
-          'Webpack assets-manifest.json not found'
+          'Vite assets-manifest.json not found'
         )
       })
     })
@@ -142,7 +145,7 @@ describe('Context and cache', () => {
     }
     let contextResult
 
-    describe('Webpack manifest file cache', () => {
+    describe('Vite manifest file cache', () => {
       let contextImport
 
       beforeAll(async () => {
@@ -153,8 +156,11 @@ describe('Context and cache', () => {
 
       beforeEach(() => {
         mockReadFileSync.mockReturnValue(`{
-        "application.js": "javascripts/application.js",
-        "stylesheets/application.scss": "stylesheets/application.css"
+        "javascripts/application.js": {
+          "file": "javascripts/application.js",
+          "isEntry": true,
+          "css": ["stylesheets/application.css"]
+        }
       }`)
 
         contextResult = contextImport.context(mockRequest)

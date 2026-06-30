@@ -2,6 +2,7 @@ services:
   fcp-mpdp-frontend:
     ports:
       - '3000:3000'
+      - '9000:9229'
     networks:
       - fcp-mpdp
 

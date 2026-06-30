@@ -31,7 +31,7 @@ describe('schemePaymentsByYearModel', () => {
     getFinancialYearSummary.mockReturnValue({ financial_years: ['21/22', '22/23'], startYear: '2021', endYear: '2023' })
 
     getReadableAmount.mockImplementation(amount => {
-      if (typeof amount !== 'number') return '£0.00'
+      if (typeof amount !== 'number') { return '£0.00' }
       return `£${amount.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
     })
 
