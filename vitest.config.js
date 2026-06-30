@@ -1,5 +1,11 @@
 import { defineConfig, configDefaults } from 'vitest/config'
 
+const sharedEnv = {
+  NODE_ENV: 'test',
+  MPDP_BACKEND_ENDPOINT: 'http://localhost:3001',
+  GOOGLE_TAG_MANAGER_KEY: ''
+}
+
 const coverageConfig = {
   provider: 'v8',
   reportsDirectory: './coverage',
@@ -27,10 +33,7 @@ export default defineConfig({
           include: ['test/unit/**/*.test.js'],
           clearMocks: true,
           environment: 'node',
-          env: {
-            NODE_ENV: 'test',
-            MPDP_BACKEND_ENDPOINT: 'http://localhost:3001'
-          }
+          env: sharedEnv
         }
       },
       {
@@ -39,11 +42,7 @@ export default defineConfig({
           include: ['test/integration/**/*.test.js'],
           clearMocks: true,
           environment: 'node',
-          env: {
-            NODE_ENV: 'test',
-            MPDP_BACKEND_ENDPOINT: 'http://localhost:3001',
-            GOOGLE_TAG_MANAGER_KEY: 'GTM-TEST'
-          }
+          env: sharedEnv
         }
       }
     ]
