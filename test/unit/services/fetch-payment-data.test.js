@@ -25,9 +25,9 @@ describe('fetchPaymentData', () => {
     config.validate({ allowed: 'strict' })
 
     vi.spyOn(config, 'get').mockImplementation(key => {
-      if (key === 'backend.endpoint') return endpoint
-      if (key === 'backend.path') return path
-      if (key === 'search.limit') return 20
+      if (key === 'backend.endpoint') { return endpoint }
+      if (key === 'backend.path') { return path }
+      if (key === 'search.limit') { return 20 }
       return config[key]
     })
   })
