@@ -3,3 +3,4 @@ Dockerfile
 coverage
 .public
 **/*.test.js
+.env
