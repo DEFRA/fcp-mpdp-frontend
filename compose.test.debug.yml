@@ -2,4 +2,4 @@ services:
   fcp-mpdp-frontend:
     command: npm run test:debug
     ports:
-      - '9000:9229'
+      - '9010:9229'
