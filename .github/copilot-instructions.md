@@ -12,7 +12,7 @@ Public-facing frontend for the Making Payment Data Public (MPDP) service. Server
 - Sibling service: [fcp-mpdp-admin](../fcp-mpdp-admin) (authenticated admin interface)
 
 ### Core Technology Stack
-- **Runtime:** Node.js 22+ with ES modules (`"type": "module"`)
+- **Runtime:** Node.js 24+ with ES modules (`"type": "module"`)
 - **Framework:** Hapi.js 21 for HTTP server
 - **Templates:** Nunjucks for server-side rendering
 - **Bundling:** Webpack for client-side assets  
@@ -122,6 +122,7 @@ cd ../fcp-mpdp-core
 ```bash
 npm run docker:test          # Run all tests with coverage
 npm run docker:test:watch    # TDD mode
+npm run docker:test:debug    # Debug tests (attach via .vscode launch config)
 ```
 - **Always use `npm run docker:test` to run tests — never invoke `vitest` or `npx vitest` directly.** The Docker environment provides required dependencies and environment variables that are not available locally.
 - Tests in `test/unit/**/*.test.js` and `test/integration/**/*.test.js`
@@ -129,6 +130,11 @@ npm run docker:test:watch    # TDD mode
 - Set `TZ=UTC` for time-based tests
 
 ### Debugging
+Debug inside Docker using the VS Code launch configs in [.vscode/launch.json](../.vscode/launch.json):
+- Run `npm run docker:dev`, then attach with **Docker: Attach to App**
+- Run `npm run docker:test:debug`, then attach with **Docker: Attach to Tests**
+
+Or debug locally outside Docker:
 ```bash
 npm run dev:debug            # Debugger listening on 0.0.0.0:9229
 # Attach VS Code debugger or Chrome DevTools
@@ -166,7 +172,7 @@ Use services in [src/services](../src/services):
 - [.github/workflows/publish.yml](../.github/workflows/publish.yml) - Main branch builds
 - Runs `npm run docker:test` and SonarQube scan
 - Deploys to CDP (Defra Cloud Platform) environments
-- Node.js 22+ required in workflows
+- Node.js 24+ required in workflows
 
 ### Quality Gates
 - ESLint (neostandard) must pass
