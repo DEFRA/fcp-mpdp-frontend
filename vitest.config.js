@@ -25,9 +25,11 @@ export default defineConfig({
         test: {
           name: 'unit',
           include: ['test/unit/**/*.test.js'],
+          clearMocks: true,
           environment: 'node',
           env: {
-            NODE_ENV: 'test'
+            NODE_ENV: 'test',
+            MPDP_BACKEND_ENDPOINT: 'http://localhost:3001'
           }
         }
       },
@@ -35,9 +37,11 @@ export default defineConfig({
         test: {
           name: 'integration',
           include: ['test/integration/**/*.test.js'],
+          clearMocks: true,
           environment: 'node',
           env: {
             NODE_ENV: 'test',
+            MPDP_BACKEND_ENDPOINT: 'http://localhost:3001',
             GOOGLE_TAG_MANAGER_KEY: 'GTM-TEST'
           }
         }
