@@ -2,7 +2,7 @@
 
 ## Overview
 
-Public-facing frontend for the Making Payment Data Public (MPDP) service. Server-side rendered Node.js application using Hapi.js with Nunjucks templates and client-side JavaScript bundled via Webpack.
+Public-facing frontend for the Making Payment Data Public (MPDP) service. Server-side rendered Node.js application using Hapi.js with Nunjucks templates and client-side JavaScript bundled via Vite.
 
 ## Architecture
 
@@ -15,7 +15,7 @@ Public-facing frontend for the Making Payment Data Public (MPDP) service. Server
 - **Runtime:** Node.js 24+ with ES modules (`"type": "module"`)
 - **Framework:** Hapi.js 21 for HTTP server
 - **Templates:** Nunjucks for server-side rendering
-- **Bundling:** Webpack for client-side assets  
+- **Bundling:** Vite for client-side assets  
 - **Testing:** Vitest with separate `test/unit` and `test/integration` directories
 - **Linting:** Neostandard (modern ESLint config)
 - **Config:** Convict for environment-based configuration
@@ -146,7 +146,7 @@ Use services in [src/services](../src/services):
 
 ### Client-Side Assets
 - Source: [src/client](../src/client) 
-- Webpack bundles to `.public/` directory
+- Vite builds to `.public/` directory
 - Served via `@hapi/inert` static file handler
 - GOV.UK Frontend components used for styling
 
@@ -167,7 +167,7 @@ Use services in [src/services](../src/services):
 
 ### GitHub Actions
 - [.github/workflows/publish.yml](../.github/workflows/publish.yml) - Main branch builds
-- Runs `npm run docker:test` and SonarQube scan
+- Runs `npm test` and SonarQube scan
 - Deploys to CDP (Defra Cloud Platform) environments
 - Node.js 24+ required in workflows
 
@@ -193,4 +193,4 @@ Use services in [src/services](../src/services):
 ### Updating Dependencies
 - Use `ncu --interactive --format group` (npm-check-updates)
 - Test thoroughly after updates
-- Watch for breaking changes in Hapi, Nunjucks, Webpack
+- Watch for breaking changes in Hapi, Nunjucks, Vite

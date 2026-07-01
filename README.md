@@ -26,7 +26,7 @@ nvm use
 
 ### Docker
 
-Docker is required to run the dependency containers and to build the production image.
+Docker is required to build the production image. For host-native development, only Node.js is required.
 
 Docker can be installed from [Docker's official website](https://docs.docker.com/get-docker/).
 
