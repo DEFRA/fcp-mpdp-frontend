@@ -1,4 +1,4 @@
-function sortFinancialYears (financialYears) {
+export function sortFinancialYears (financialYears) {
   return financialYears.sort((a, b) => {
     const [, endYearA] = a.split('/')
     const [, endYearB] = b.split('/')

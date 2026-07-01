@@ -109,7 +109,33 @@ describe('resultsModel', () => {
 
     expect(result.pageTitle).toBe('Results for ‘farms’')
   })
+  test('should return years filter items in ascending financial year order', async () => {
+    fetchPaymentData.mockResolvedValue({
+      results: [{ id: 1, total_amount: 100, payee_name: 'John Doe' }],
+      total: 1,
+      filterOptions: {
+        schemes: [],
+        years: ['23/24', '21/22', '22/23'],
+        counties: []
+      }
+    })
 
+    const request = {
+      query: {
+        searchString: 'farms',
+        sortBy: 'score',
+        page: 1,
+        schemes: [],
+        years: [],
+        counties: []
+      },
+      headers: { referer: '/previous-page' }
+    }
+
+    const result = await resultsModel(request, false)
+
+    expect(result.filters.years.items.map(item => item.value)).toEqual(['21/22', '22/23', '23/24'])
+  })
   test('should generate correct pagination when multiple pages exist', async () => {
     fetchPaymentData.mockResolvedValue({
       results: Array(15).fill({ id: 1, total_amount: 50 }),

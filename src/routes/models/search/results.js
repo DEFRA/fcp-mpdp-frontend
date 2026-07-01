@@ -6,6 +6,7 @@ import { sortByItems } from '../../../data/sort-by-items.js'
 import { getAllSchemeNames } from '../../../common/utils/get-all-scheme-names.js'
 import { getRelatedContentLinks } from '../../../common/utils/related-content.js'
 import { getSafeRedirect } from '../../../common/utils/get-safe-redirect.js'
+import { sortFinancialYears } from '../../../common/utils/get-financial-year-summary.js'
 
 function getTags (query, { counties }) {
   const tags = {
@@ -106,7 +107,7 @@ function getFilters (query, filterOptions) {
 
 const getSchemes = schemes => schemes?.length ? schemes : getAllSchemeNames()
 
-const getYears = years => (years?.length ? years : staticYears)
+const getYears = years => sortFinancialYears(years?.length ? years : staticYears)
 
 const getCounties = counties => counties?.length ? counties.sort((a, b) => a.localeCompare(b)) : staticCounties
 
