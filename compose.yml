@@ -5,6 +5,9 @@ services:
     build:
       context: .
       target: development
+    ports:
+      - '3000:3000'
+      - '9000:9229'
     volumes:
       - ./src:/home/node/src
       - ./package.json:/home/node/package.json
@@ -12,5 +15,11 @@ services:
     env_file:
       - .env
     environment:
-      # Override values that differ inside Docker (take precedence over env_file)
       MPDP_BACKEND_ENDPOINT: http://fcp-mpdp-backend:3001
+    networks:
+      - fcp-mpdp
+
+networks:
+  fcp-mpdp:
+    driver: bridge
+    name: fcp-mpdp
