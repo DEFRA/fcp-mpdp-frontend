@@ -1,9 +1,10 @@
 import { describe, beforeEach, afterEach, test, expect, vi } from 'vitest'
-import Wreck from '@hapi/wreck'
 import { config } from '../../../src/config/config.js'
 import { getUrlParams } from '../../../src/api/get-url-params.js'
 import { fetchPaymentDetails } from '../../../src/services/fetch-payment-details.js'
+import * as apiGet from '../../../src/api/get.js'
 
+vi.mock('../../../src/api/get.js')
 vi.mock('../../../src/api/get-backend-auth-headers.js', () => ({
   getBackendAuthHeaders: vi.fn().mockReturnValue({})
 }))
@@ -36,11 +37,7 @@ describe('fetchPaymentDetails', () => {
   }]
 
   test('fetchPaymentDetails returns results', async () => {
-    const mockGet = vi.fn().mockResolvedValue({
-      payload: JSON.stringify(mockData)
-    })
-
-    vi.spyOn(Wreck, 'get').mockImplementation(mockGet)
+    apiGet.get.mockResolvedValue(mockData)
 
     const payeeName = '__PAYEE_NAME__'
     const partPostcode = '__POST_CODE'
@@ -49,7 +46,6 @@ describe('fetchPaymentDetails', () => {
     expect(response).toMatchObject(mockData)
 
     const newRoute = getUrlParams(`${payeeName}/${partPostcode}`)
-
-    expect(mockGet).toHaveBeenCalledWith(`${endpoint}${path}${newRoute}`, { headers: {} })
+    expect(apiGet.get).toHaveBeenCalledWith(newRoute)
   })
 })

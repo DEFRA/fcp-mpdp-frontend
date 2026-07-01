@@ -10,15 +10,9 @@ export async function fetchSearchSuggestions (searchString) {
   })
 
   try {
-    const response = await get(url)
-
-    if (!response) {
-      return { rows: [], count: 0 }
-    }
-
-    return JSON.parse(response.payload)
+    return await get(url)
   } catch (err) {
-    if (err.output?.statusCode === httpConstants.HTTP_STATUS_NOT_FOUND) {
+    if (err.status === httpConstants.HTTP_STATUS_NOT_FOUND) {
       return { rows: [], count: 0 }
     }
     throw err

@@ -2,12 +2,12 @@ import { describe, beforeAll, afterAll, test, expect, vi } from 'vitest'
 import http2 from 'node:http2'
 import { createServer } from '../../../../../src/server.js'
 import { getOptions } from '../../../../utils/helpers.js'
-import { get } from '../../../../../src/api/get.js'
+import { getBufferFromUrl } from '../../../../../src/api/get-buffer-from-url.js'
 
 const { constants: httpConstants } = http2
 
-vi.mock('../../../../../src/api/get.js', () => ({
-  get: vi.fn()
+vi.mock('../../../../../src/api/get-buffer-from-url.js', () => ({
+  getBufferFromUrl: vi.fn()
 }))
 
 describe('Download scheme payments by year CSV link', () => {
@@ -29,20 +29,17 @@ describe('Download scheme payments by year CSV link', () => {
     vi.clearAllMocks()
   })
 
-  const content = {
-    response: {},
-    payload: 'Sample data in CSV'
-  }
+  const csvContent = Buffer.from('Sample data in CSV')
 
   test('GET /scheme-payments-by-year/file returns status code 200', async () => {
-    get.mockResolvedValue(content)
+    getBufferFromUrl.mockResolvedValue(csvContent)
     response = await server.inject(options)
 
     expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
   })
 
   test('GET /scheme-payments-by-year/file returns attachment', async () => {
-    get.mockResolvedValue(content)
+    getBufferFromUrl.mockResolvedValue(csvContent)
     response = await server.inject(options)
 
     expect(response.headers).toHaveProperty('content-type', 'text/csv; charset=utf-8')
@@ -50,14 +47,14 @@ describe('Download scheme payments by year CSV link', () => {
   })
 
   test('GET /scheme-payments-by-year/file returns expected content', async () => {
-    get.mockResolvedValue(content)
+    getBufferFromUrl.mockResolvedValue(csvContent)
     response = await server.inject(options)
 
-    expect(response.result).toBe(content.payload)
+    expect(response.result).toBe('Sample data in CSV')
   })
 
   test('GET /scheme-payments-by-year/file returns status code 500 on underlying error', async () => {
-    get.mockRejectedValue('Internal server error')
+    getBufferFromUrl.mockRejectedValue('Internal server error')
     response = await server.inject(options)
 
     expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR)

@@ -1,5 +1,5 @@
 import { vi, describe, beforeEach, afterEach, test, expect } from 'vitest'
-import Wreck from '@hapi/wreck'
+import { Readable } from 'node:stream'
 import { config } from '../../../src/config/config.js'
 import { postStream } from '../../../src/api/post-stream.js'
 import { logBackendError } from '../../../src/api/log-backend-error.js'
@@ -33,39 +33,36 @@ describe('Backend API: postStream', () => {
 
   afterEach(() => {
     vi.restoreAllMocks()
+    vi.unstubAllGlobals()
   })
 
-  test('calls Wreck.request with correct parameters and returns stream', async () => {
-    const mockStream = { on: vi.fn() }
-    const mockRequest = vi.fn().mockResolvedValue(mockStream)
-    vi.spyOn(Wreck, 'request').mockImplementation(mockRequest)
+  test('calls fetch with correct parameters and returns a Readable stream', async () => {
+    const mockReadable = Readable.from(['test'])
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ body: Readable.toWeb(mockReadable) }))
+
     const result = await postStream(route, { content: 'mock data' })
 
-    expect(mockRequest).toHaveBeenCalledWith(
-      'post',
+    expect(fetch).toHaveBeenCalledWith(
       url,
       {
-        payload: {
-          content: 'mock data'
-        },
+        method: 'POST',
+        body: { content: 'mock data' },
         headers: {}
       }
     )
 
-    expect(result).toBe(mockStream)
+    expect(result).toBeInstanceOf(Readable)
   })
 
-  test('logs error and rethrows when Wreck.request rejects', async () => {
+  test('logs error and rethrows when fetch rejects', async () => {
     const mockError = new Error('Test stream error')
-    const mockRequest = vi.fn().mockRejectedValue(mockError)
-    vi.spyOn(Wreck, 'request').mockImplementation(mockRequest)
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(mockError))
 
     await expect(postStream(route, {})).rejects.toThrow('Test stream error')
 
-    expect(mockRequest).toHaveBeenCalledWith(
-      'post',
+    expect(fetch).toHaveBeenCalledWith(
       url,
-      { payload: {}, headers: {} }
+      { method: 'POST', body: {}, headers: {} }
     )
 
     expect(logBackendError).toHaveBeenCalledWith(url, mockError)

@@ -1,5 +1,5 @@
 import { vi, describe, beforeEach, afterEach, test, expect } from 'vitest'
-import Wreck from '@hapi/wreck'
+import { Readable } from 'node:stream'
 import { config } from '../../../src/config/config.js'
 import { getStream } from '../../../src/api/get-stream.js'
 
@@ -36,16 +36,16 @@ describe('Backend API: getStream', () => {
 
   afterEach(() => {
     vi.restoreAllMocks()
+    vi.unstubAllGlobals()
   })
 
   test('service uses the env variable to connect to backend service (stream)', async () => {
-    const mockRequest = vi.fn()
-    vi.spyOn(Wreck, 'request').mockImplementation(mockRequest)
+    const mockReadable = Readable.from(['test'])
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ body: Readable.toWeb(mockReadable) }))
 
     await getStream(route)
 
-    expect(mockRequest).toHaveBeenCalledWith(
-      'get',
+    expect(fetch).toHaveBeenCalledWith(
       `${endpoint}${path}${route}`,
       { headers: {} }
     )
@@ -55,13 +55,11 @@ describe('Backend API: getStream', () => {
     const mockLoggerError = vi.fn()
     mockLogger.error = mockLoggerError
 
-    const mockRequest = vi.fn().mockRejectedValue(new Error('Stream error'))
-    vi.spyOn(Wreck, 'request').mockImplementation(mockRequest)
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('Stream error')))
 
     await expect(getStream(route)).rejects.toThrow('Stream error')
 
-    expect(mockRequest).toHaveBeenCalledWith(
-      'get',
+    expect(fetch).toHaveBeenCalledWith(
       `${endpoint}${path}${route}`,
       { headers: {} }
     )

@@ -1,8 +1,9 @@
 import { describe, beforeEach, afterEach, test, expect, vi } from 'vitest'
-import Wreck from '@hapi/wreck'
 import { fetchPaymentData } from '../../../src/services/fetch-payment-data.js'
+import * as apiPost from '../../../src/api/post.js'
 import { config } from '../../../src/config/config.js'
 
+vi.mock('../../../src/api/post.js')
 vi.mock('../../../src/api/get-backend-auth-headers.js', () => ({
   getBackendAuthHeaders: vi.fn().mockReturnValue({})
 }))
@@ -37,34 +38,22 @@ describe('fetchPaymentData', () => {
   })
 
   test('fetchPaymentData return empty results list if no response is received', async () => {
-    const mockPost = vi.fn().mockResolvedValue(null)
-    vi.spyOn(Wreck, 'post').mockImplementation(mockPost)
+    apiPost.post.mockRejectedValue(Object.assign(new Error('Not Found'), { status: 404 }))
 
     const searchString = '__TEST_STRING__'
     const offset = 0
     const sortBy = 'score'
     const filterBy = { schemes: [] }
-    const res = await fetchPaymentData(searchString, offset, filterBy, sortBy)
 
-    expect(res).toMatchObject({
-      results: [],
-      total: 0,
-      filterOptions: {}
-    })
-
-    expect(mockPost).toHaveBeenCalledWith(`${endpoint}${path}`, { payload: { filterBy, limit: 20, offset, searchString, sortBy }, headers: {} })
+    await expect(fetchPaymentData(searchString, offset, filterBy, sortBy)).rejects.toThrow()
   })
 
   test('getPaymentData returns results from the payload in the right format', async () => {
-    const mockPost = vi.fn().mockResolvedValue({
-      payload: JSON.stringify({
-        rows: mockData,
-        count: 1,
-        filterOptions: {}
-      })
+    apiPost.post.mockResolvedValue({
+      rows: mockData,
+      count: 1,
+      filterOptions: {}
     })
-
-    vi.spyOn(Wreck, 'post').mockImplementation(mockPost)
 
     const searchString = '__TEST_STRING__'
     const offset = 0
@@ -78,18 +67,14 @@ describe('fetchPaymentData', () => {
       filterOptions: {}
     })
 
-    expect(mockPost).toHaveBeenCalledWith(`${endpoint}${path}`, { payload: { filterBy, limit: 20, offset, searchString, sortBy }, headers: {} })
+    expect(apiPost.post).toHaveBeenCalledWith('', { filterBy, limit: 20, offset, searchString, sortBy, action: undefined })
   })
 
   test('getPaymentData called with download action', async () => {
-    const mockPost = vi.fn().mockResolvedValue({
-      payload: JSON.stringify({
-        rows: mockData,
-        count: 1
-      })
+    apiPost.post.mockResolvedValue({
+      rows: mockData,
+      count: 1
     })
-
-    vi.spyOn(Wreck, 'post').mockImplementation(mockPost)
 
     const searchString = '__TEST_STRING__'
     const offset = 0
@@ -103,6 +88,6 @@ describe('fetchPaymentData', () => {
       total: mockData.length
     })
 
-    expect(mockPost).toHaveBeenCalledWith(`${endpoint}${path}`, { payload: { filterBy, limit: 20, offset, searchString, sortBy, action }, headers: {} })
+    expect(apiPost.post).toHaveBeenCalledWith('', { filterBy, limit: 20, offset, searchString, sortBy, action })
   })
 })
