@@ -2,7 +2,7 @@
 
 ## Overview
 
-Public-facing frontend for the Making Payment Data Public (MPDP) service. Server-side rendered Node.js application using Hapi.js with Nunjucks templates and client-side JavaScript bundled via Webpack.
+Public-facing frontend for the Making Payment Data Public (MPDP) service. Server-side rendered Node.js application using Hapi.js with Nunjucks templates and client-side JavaScript bundled via Vite.
 
 ## Architecture
 
@@ -15,7 +15,7 @@ Public-facing frontend for the Making Payment Data Public (MPDP) service. Server
 - **Runtime:** Node.js 24+ with ES modules (`"type": "module"`)
 - **Framework:** Hapi.js 21 for HTTP server
 - **Templates:** Nunjucks for server-side rendering
-- **Bundling:** Webpack for client-side assets  
+- **Bundling:** Vite for client-side assets  
 - **Testing:** Vitest with separate `test/unit` and `test/integration` directories
 - **Linting:** Neostandard (modern ESLint config)
 - **Config:** Convict for environment-based configuration
@@ -102,43 +102,40 @@ Server capabilities are added via plugins in [src/server.js](../src/server.js). 
 
 ## Development Workflow
 
-### Local Development (Standalone)
+### Local Development
 ```bash
-npm install
-npm run docker:build
-npm run docker:dev           # Runs on port 3000
+nvm use && npm install     # First-time setup
+cp .env.example .env       # Copy and fill in env vars
+npm run dev                # Host-native hot reload on port 3000
 ```
 
 ### Full System Development
 Use [fcp-mpdp-core](../fcp-mpdp-core) orchestration scripts:
 ```bash
 cd ../fcp-mpdp-core
-./build                      # Build all services
-./start                      # Start all services
+./build                      # Build all service images
+./start                      # Start all services (Docker, fcp-mpdp network)
 ./start -s                   # Start and seed database
 ```
 
 ### Testing
 ```bash
-npm run docker:test          # Run all tests with coverage
-npm run docker:test:watch    # TDD mode
-npm run docker:test:debug    # Debug tests (attach via .vscode launch config)
+npm test                  # All tests (unit + integration) with coverage
+npm run test:unit         # Unit tests only — fast, no containers needed
+npm run test:integration  # Integration tests only
+npm run test:watch        # TDD watch mode
 ```
-- **Always use `npm run docker:test` to run tests — never invoke `vitest` or `npx vitest` directly.** The Docker environment provides required dependencies and environment variables that are not available locally.
+- Tests run natively on the host against mocked backends (frontend mocks all API calls).
+- Set `TZ=UTC` is handled by `cross-env` in the npm script.
 - Tests in `test/unit/**/*.test.js` and `test/integration/**/*.test.js`
 - Vitest config: [vitest.config.js](../vitest.config.js)
-- Set `TZ=UTC` for time-based tests
 
 ### Debugging
-Debug inside Docker using the VS Code launch configs in [.vscode/launch.json](../.vscode/launch.json):
-- Run `npm run docker:dev`, then attach with **Docker: Attach to App**
-- Run `npm run docker:test:debug`, then attach with **Docker: Attach to Tests**
+Debug locally using the VS Code launch configs in [.vscode/launch.json](../.vscode/launch.json):
+- **Dev: run server** — launches the server with the inspector. Set a breakpoint and hit F5.
+- **Debug current test** — opens the inspector on the active test file. Open a test file and hit F5.
 
-Or debug locally outside Docker:
-```bash
-npm run dev:debug            # Debugger listening on 0.0.0.0:9229
-# Attach VS Code debugger or Chrome DevTools
-```
+To debug inside Docker (e.g. when running with fcp-mpdp-core), use **Docker: Attach to App (together)**.
 
 ## Component Integration
 
@@ -149,7 +146,7 @@ Use services in [src/services](../src/services):
 
 ### Client-Side Assets
 - Source: [src/client](../src/client) 
-- Webpack bundles to `.public/` directory
+- Vite builds to `.public/` directory
 - Served via `@hapi/inert` static file handler
 - GOV.UK Frontend components used for styling
 
@@ -170,7 +167,7 @@ Use services in [src/services](../src/services):
 
 ### GitHub Actions
 - [.github/workflows/publish.yml](../.github/workflows/publish.yml) - Main branch builds
-- Runs `npm run docker:test` and SonarQube scan
+- Runs `npm test` and SonarQube scan
 - Deploys to CDP (Defra Cloud Platform) environments
 - Node.js 24+ required in workflows
 
@@ -196,4 +193,4 @@ Use services in [src/services](../src/services):
 ### Updating Dependencies
 - Use `ncu --interactive --format group` (npm-check-updates)
 - Test thoroughly after updates
-- Watch for breaking changes in Hapi, Nunjucks, Webpack
+- Watch for breaking changes in Hapi, Nunjucks, Vite

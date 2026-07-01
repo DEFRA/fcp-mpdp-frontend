@@ -1,12 +1,25 @@
 services:
   fcp-mpdp-frontend:
+    profiles:
+      - app
     build:
       context: .
       target: development
+    ports:
+      - '3000:3000'
+      - '9000:9229'
     volumes:
       - ./src:/home/node/src
       - ./package.json:/home/node/package.json
       - ./vite.config.js:/home/node/vite.config.js
+    env_file:
+      - .env
     environment:
-      MPDP_BACKEND_ENDPOINT: ${MPDP_BACKEND_ENDPOINT:-http://fcp-mpdp-backend:3001}
-      GOOGLE_TAG_MANAGER_KEY: ${GOOGLE_TAG_MANAGER_KEY}
+      MPDP_BACKEND_ENDPOINT: http://fcp-mpdp-backend:3001
+    networks:
+      - fcp-mpdp
+
+networks:
+  fcp-mpdp:
+    driver: bridge
+    name: fcp-mpdp
