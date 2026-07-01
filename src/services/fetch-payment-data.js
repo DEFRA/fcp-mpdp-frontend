@@ -9,7 +9,7 @@ export async function fetchPaymentData (
   action,
   limit = config.get('search.limit')
 ) {
-  const response = await post('', {
+  const result = await post('', {
     searchString,
     limit,
     offset,
@@ -17,20 +17,6 @@ export async function fetchPaymentData (
     sortBy,
     action
   })
-
-  if (!response) {
-    return {
-      results: [],
-      total: 0,
-      filterOptions: {
-        schemes: [],
-        years: [],
-        countries: []
-      }
-    }
-  }
-
-  const result = JSON.parse(response.payload)
 
   return {
     results: result.rows,

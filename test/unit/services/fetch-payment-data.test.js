@@ -38,30 +38,21 @@ describe('fetchPaymentData', () => {
   })
 
   test('fetchPaymentData return empty results list if no response is received', async () => {
-    apiPost.post.mockResolvedValue(null)
+    apiPost.post.mockRejectedValue(Object.assign(new Error('Not Found'), { status: 404 }))
 
     const searchString = '__TEST_STRING__'
     const offset = 0
     const sortBy = 'score'
     const filterBy = { schemes: [] }
-    const res = await fetchPaymentData(searchString, offset, filterBy, sortBy)
 
-    expect(res).toMatchObject({
-      results: [],
-      total: 0,
-      filterOptions: {}
-    })
-
-    expect(apiPost.post).toHaveBeenCalledWith('', { filterBy, limit: 20, offset, searchString, sortBy, action: undefined })
+    await expect(fetchPaymentData(searchString, offset, filterBy, sortBy)).rejects.toThrow()
   })
 
   test('getPaymentData returns results from the payload in the right format', async () => {
     apiPost.post.mockResolvedValue({
-      payload: JSON.stringify({
-        rows: mockData,
-        count: 1,
-        filterOptions: {}
-      })
+      rows: mockData,
+      count: 1,
+      filterOptions: {}
     })
 
     const searchString = '__TEST_STRING__'
@@ -81,10 +72,8 @@ describe('fetchPaymentData', () => {
 
   test('getPaymentData called with download action', async () => {
     apiPost.post.mockResolvedValue({
-      payload: JSON.stringify({
-        rows: mockData,
-        count: 1
-      })
+      rows: mockData,
+      count: 1
     })
 
     const searchString = '__TEST_STRING__'

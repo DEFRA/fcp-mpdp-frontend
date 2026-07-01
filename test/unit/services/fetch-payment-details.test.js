@@ -37,7 +37,7 @@ describe('fetchPaymentDetails', () => {
   }]
 
   test('fetchPaymentDetails returns results', async () => {
-    apiGet.get.mockResolvedValue({ payload: JSON.stringify(mockData) })
+    apiGet.get.mockResolvedValue(mockData)
 
     const payeeName = '__PAYEE_NAME__'
     const partPostcode = '__POST_CODE'

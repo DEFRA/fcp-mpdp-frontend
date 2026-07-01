@@ -1,5 +1,5 @@
 import http2 from 'node:http2'
-import { post } from '../../api/post.js'
+import { postBuffer } from '../../api/post-buffer.js'
 import { resultsQuery as query } from '../../routes/queries/results.js'
 
 const { constants: httpConstants } = http2
@@ -27,7 +27,7 @@ export const downloadResults = {
         years: typeof years === 'string' ? [years] : years
       }
 
-      const { payload: content } = await post('/file', { searchString, filterBy, sortBy })
+      const content = await postBuffer('/file', { searchString, filterBy, sortBy })
 
       return h
         .response(content)

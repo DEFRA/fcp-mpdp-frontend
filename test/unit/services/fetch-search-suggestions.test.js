@@ -31,7 +31,7 @@ describe('fetchSearchSuggestions', () => {
   })
 
   test('should return default object if no response is received', async () => {
-    apiGet.get.mockResolvedValue(null)
+    apiGet.get.mockRejectedValue(Object.assign(new Error('Not Found'), { status: 404 }))
 
     const searchString = '__PAYEE_NAME__'
     const res = await fetchSearchSuggestions(searchString)
@@ -43,7 +43,7 @@ describe('fetchSearchSuggestions', () => {
   })
 
   test('should return results', async () => {
-    apiGet.get.mockResolvedValue({ res: { status: 200 }, payload: JSON.stringify(mockSuggestions) })
+    apiGet.get.mockResolvedValue(mockSuggestions)
 
     const searchString = '__TEST_STRING__'
     const res = await fetchSearchSuggestions(searchString)
@@ -55,7 +55,7 @@ describe('fetchSearchSuggestions', () => {
   })
 
   test('should return empty results when backend returns 404', async () => {
-    apiGet.get.mockResolvedValue({ res: { status: 404 }, payload: Buffer.from('') })
+    apiGet.get.mockRejectedValue(Object.assign(new Error('Not Found'), { status: 404 }))
 
     const res = await fetchSearchSuggestions('__NO_RESULTS__')
 

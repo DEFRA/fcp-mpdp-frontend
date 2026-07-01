@@ -17,27 +17,21 @@ describe('fetchSchemePaymentsByYear', () => {
   })
 
   test('should call getUrlParams with "summary" and return parsed payload', async () => {
+    const mockData = { year: 2023, amount: 1000 }
     getUrlParams.mockReturnValue('/test/url')
-    get.mockResolvedValue({ payload: '{ "year": 2023, "amount": 1000 }' })
+    get.mockResolvedValue(mockData)
 
     const result = await fetchSchemePaymentsByYear()
 
     expect(getUrlParams).toHaveBeenCalledWith('summary')
     expect(get).toHaveBeenCalledWith('/test/url')
-    expect(result).toEqual({ year: 2023, amount: 1000 })
+    expect(result).toEqual(mockData)
   })
 
-  test('should return null if get returns a falsy value', async () => {
+  test('should throw if get rejects', async () => {
     getUrlParams.mockReturnValue('/test/url')
-    get.mockResolvedValue(null)
+    get.mockRejectedValue(new Error('Backend error'))
 
-    await expect(fetchSchemePaymentsByYear()).rejects.toThrow()
-  })
-
-  test('should throw if payload is not valid JSON', async () => {
-    getUrlParams.mockReturnValue('/test/url')
-    get.mockResolvedValue({ payload: 'invalid-json' })
-
-    await expect(fetchSchemePaymentsByYear()).rejects.toThrow(SyntaxError)
+    await expect(fetchSchemePaymentsByYear()).rejects.toThrow('Backend error')
   })
 })
