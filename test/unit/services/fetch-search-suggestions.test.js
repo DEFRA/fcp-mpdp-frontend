@@ -1,10 +1,11 @@
 import { describe, afterEach, beforeEach, test, expect, vi } from 'vitest'
-import Wreck from '@hapi/wreck'
 import { fetchSearchSuggestions } from '../../../src/services/fetch-search-suggestions.js'
 import { getUrlParams } from '../../../src/api/get-url-params.js'
 import { config } from '../../../src/config/config.js'
 import mockSuggestions from '../../data/mock-suggestions.js'
+import * as apiGet from '../../../src/api/get.js'
 
+vi.mock('../../../src/api/get.js')
 vi.mock('../../../src/api/get-backend-auth-headers.js', () => ({
   getBackendAuthHeaders: vi.fn().mockReturnValue({})
 }))
@@ -30,8 +31,7 @@ describe('fetchSearchSuggestions', () => {
   })
 
   test('should return default object if no response is received', async () => {
-    const mockGet = vi.fn().mockResolvedValue(null)
-    vi.spyOn(Wreck, 'get').mockImplementation(mockGet)
+    apiGet.get.mockResolvedValue(null)
 
     const searchString = '__PAYEE_NAME__'
     const res = await fetchSearchSuggestions(searchString)
@@ -39,16 +39,11 @@ describe('fetchSearchSuggestions', () => {
     expect(res).toEqual({ rows: [], count: 0 })
 
     const newRoute = getUrlParams('search', { searchString })
-
-    expect(mockGet).toHaveBeenCalledWith(`${endpoint}${path}${newRoute}`, { headers: {} })
+    expect(apiGet.get).toHaveBeenCalledWith(newRoute)
   })
 
   test('should return results', async () => {
-    const mockGet = vi.fn().mockResolvedValue({
-      payload: JSON.stringify(mockSuggestions)
-    })
-
-    vi.spyOn(Wreck, 'get').mockImplementation(mockGet)
+    apiGet.get.mockResolvedValue({ res: { status: 200 }, payload: JSON.stringify(mockSuggestions) })
 
     const searchString = '__TEST_STRING__'
     const res = await fetchSearchSuggestions(searchString)
@@ -56,15 +51,11 @@ describe('fetchSearchSuggestions', () => {
     expect(res).toMatchObject(mockSuggestions)
 
     const newRoute = getUrlParams('search', { searchString })
-
-    expect(mockGet).toHaveBeenCalledWith(`${endpoint}${path}${newRoute}`, { headers: {} })
+    expect(apiGet.get).toHaveBeenCalledWith(newRoute)
   })
 
   test('should return empty results when backend returns 404', async () => {
-    const notFoundError = Object.assign(new Error('Not Found'), {
-      output: { statusCode: 404 }
-    })
-    vi.spyOn(Wreck, 'get').mockRejectedValue(notFoundError)
+    apiGet.get.mockResolvedValue({ res: { status: 404 }, payload: Buffer.from('') })
 
     const res = await fetchSearchSuggestions('__NO_RESULTS__')
 
@@ -72,10 +63,7 @@ describe('fetchSearchSuggestions', () => {
   })
 
   test('should rethrow non-404 errors', async () => {
-    const serverError = Object.assign(new Error('Internal Server Error'), {
-      output: { statusCode: 500 }
-    })
-    vi.spyOn(Wreck, 'get').mockRejectedValue(serverError)
+    apiGet.get.mockRejectedValue(new Error('Internal Server Error'))
 
     await expect(fetchSearchSuggestions('__ERROR__')).rejects.toThrow('Internal Server Error')
   })
