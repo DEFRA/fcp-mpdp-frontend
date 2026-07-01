@@ -8,7 +8,7 @@ export async function postBuffer (url, payload) {
     const headers = await getBackendAuthHeaders()
     const response = await fetch(backendUrl, {
       method: 'POST',
-      body: payload != null ? JSON.stringify(payload) : undefined,
+      body: payload == null ? undefined : JSON.stringify(payload),
       headers: { 'Content-Type': 'application/json', ...headers }
     })
 
