@@ -630,6 +630,6 @@ describe('Results route', () => {
     const downloadAllLink = $('#download-all-scheme-payment-data-link')
 
     expect(downloadAllLink).toBeDefined()
-    expect(downloadAllLink.text()).toMatch('download all scheme payment data (34.7MB)')
+    expect(downloadAllLink.text()).toMatch('download all scheme payment data (39.3MB)')
   })
 })
