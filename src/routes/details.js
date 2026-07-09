@@ -2,6 +2,7 @@ import http2 from 'node:http2'
 import Joi from 'joi'
 import { detailsModel } from './models/details.js'
 import { getRelatedContentLinks } from '../common/utils/related-content.js'
+import { metricsCounter } from '../common/helpers/metrics.js'
 
 const { constants: httpConstants } = http2
 
@@ -35,6 +36,13 @@ export const details = {
     },
     handler: async function (request, h) {
       request.query.searchString = encodeURIComponent(request.query.searchString)
+
+      request.logger.info({
+        message: 'Payee detail viewed',
+        event: { action: 'payee-detail', category: 'page-view' }
+      })
+      metricsCounter('PageView_Details')
+
       return h.view('details', await detailsModel(request.query))
     }
   }

@@ -1,6 +1,7 @@
 import http2 from 'node:http2'
 import { resultsModel } from '../models/search/results.js'
 import { resultsQuery as query } from '../queries/results.js'
+import { metricsCounter } from '../../common/helpers/metrics.js'
 
 const { constants: httpConstants } = http2
 
@@ -34,7 +35,17 @@ export const results = {
     handler: async function (request, h) {
       const { searchString } = request.query
       request.query.searchString = encodeURIComponent(searchString)
-      return h.view('search/results', await resultsModel(request))
+      const model = await resultsModel(request)
+
+      request.logger.info({
+        message: 'Search results viewed',
+        event: { action: 'search-results', category: 'page-view' },
+        resultCount: model.results?.length ?? 0,
+        page: model.currentPage ?? 1
+      })
+      metricsCounter('PageView_Search')
+
+      return h.view('search/results', model)
     }
   }
 }

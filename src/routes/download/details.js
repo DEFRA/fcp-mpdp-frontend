@@ -1,6 +1,7 @@
 import Joi from 'joi'
 import http2 from 'node:http2'
 import { fetchPaymentDetailsForDownload } from '../../services/fetch-payment-details-for-download.js'
+import { metricsCounter } from '../../common/helpers/metrics.js'
 
 const { constants: httpConstants } = http2
 
@@ -22,6 +23,13 @@ export const downloadDetails = {
     },
     handler: async function (request, h) {
       const { payeeName, partPostcode } = request.query
+
+      request.logger.info({
+        message: 'Download payee detail',
+        event: { action: 'download-detail', category: 'download' }
+      })
+      metricsCounter('Download_Detail')
+
       const content = await fetchPaymentDetailsForDownload(payeeName, partPostcode)
 
       return h
