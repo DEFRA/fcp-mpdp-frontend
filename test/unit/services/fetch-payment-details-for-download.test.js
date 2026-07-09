@@ -43,8 +43,9 @@ describe('fetchPaymentDetailsForDownload', () => {
 
     getBufferFromUrl.mockResolvedValueOnce(bufferedData)
 
-    await fetchPaymentDetailsForDownload(specialPayeeName, specialPostcode)
+    const response = await fetchPaymentDetailsForDownload(specialPayeeName, specialPostcode)
 
     expect(getBufferFromUrl).toHaveBeenCalledWith(expectedRoute)
+    expect(response).toEqual(bufferedData)
   })
 })
