@@ -36,7 +36,7 @@ describe('fetchPaymentDetailsForDownload', () => {
   })
 
   test('encodes special characters in path', async () => {
-    const specialPayeeName = 'M/S LLJ & J LUGG'
+    const specialPayeeName = 'A/B Test & Co'
     const specialPostcode = 'TR13'
     const expectedRoute = getUrlParams(`${encodeURIComponent(specialPayeeName)}/${encodeURIComponent(specialPostcode)}/file`)
     const bufferedData = Buffer.from('csv')

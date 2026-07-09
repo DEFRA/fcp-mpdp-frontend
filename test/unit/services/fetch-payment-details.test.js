@@ -52,7 +52,7 @@ describe('fetchPaymentDetails', () => {
   test('fetchPaymentDetails encodes special characters in path', async () => {
     apiGet.get.mockResolvedValue(mockData)
 
-    const payeeName = 'M/S LLJ & J LUGG'
+    const payeeName = 'A/B Test & Co'
     const partPostcode = 'TR13'
     await fetchPaymentDetails(payeeName, partPostcode)
 
