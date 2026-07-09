@@ -45,7 +45,18 @@ describe('fetchPaymentDetails', () => {
 
     expect(response).toMatchObject(mockData)
 
-    const newRoute = getUrlParams(`${payeeName}/${partPostcode}`)
+    const newRoute = getUrlParams(`${encodeURIComponent(payeeName)}/${encodeURIComponent(partPostcode)}`)
     expect(apiGet.get).toHaveBeenCalledWith(newRoute)
+  })
+
+  test('fetchPaymentDetails encodes special characters in path', async () => {
+    apiGet.get.mockResolvedValue(mockData)
+
+    const payeeName = 'A/B Test & Co'
+    const partPostcode = 'TR13'
+    await fetchPaymentDetails(payeeName, partPostcode)
+
+    const expectedRoute = getUrlParams(`${encodeURIComponent(payeeName)}/${encodeURIComponent(partPostcode)}`)
+    expect(apiGet.get).toHaveBeenCalledWith(expectedRoute)
   })
 })

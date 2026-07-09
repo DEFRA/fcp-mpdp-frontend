@@ -30,18 +30,6 @@ describe('fetchSearchSuggestions', () => {
     vi.restoreAllMocks()
   })
 
-  test('should return default object if no response is received', async () => {
-    apiGet.get.mockRejectedValue(Object.assign(new Error('Not Found'), { status: 404 }))
-
-    const searchString = '__PAYEE_NAME__'
-    const res = await fetchSearchSuggestions(searchString)
-
-    expect(res).toEqual({ rows: [], count: 0 })
-
-    const newRoute = getUrlParams('search', { searchString })
-    expect(apiGet.get).toHaveBeenCalledWith(newRoute)
-  })
-
   test('should return results', async () => {
     apiGet.get.mockResolvedValue(mockSuggestions)
 
@@ -54,15 +42,7 @@ describe('fetchSearchSuggestions', () => {
     expect(apiGet.get).toHaveBeenCalledWith(newRoute)
   })
 
-  test('should return empty results when backend returns 404', async () => {
-    apiGet.get.mockRejectedValue(Object.assign(new Error('Not Found'), { status: 404 }))
-
-    const res = await fetchSearchSuggestions('__NO_RESULTS__')
-
-    expect(res).toEqual({ rows: [], count: 0 })
-  })
-
-  test('should rethrow non-404 errors', async () => {
+  test('should rethrow errors', async () => {
     apiGet.get.mockRejectedValue(new Error('Internal Server Error'))
 
     await expect(fetchSearchSuggestions('__ERROR__')).rejects.toThrow('Internal Server Error')

@@ -12,7 +12,7 @@ describe('fetchPaymentDetailsForDownload', () => {
 
   const payeeName = '__PAYEE_NAME__'
   const partPostcode = '__PART_POSTCODE__'
-  const route = getUrlParams(`${payeeName}/${partPostcode}/file`)
+  const route = getUrlParams(`${encodeURIComponent(payeeName)}/${encodeURIComponent(partPostcode)}/file`)
 
   test('returns buffer when getBufferFromUrl resolves successfully', async () => {
     const content = '__MOCK_CSV_CONTENT__'
@@ -33,5 +33,19 @@ describe('fetchPaymentDetailsForDownload', () => {
 
     await expect(fetchPaymentDetailsForDownload(payeeName, partPostcode)).rejects.toThrowError(Error)
     expect(getBufferFromUrl).toHaveBeenCalled()
+  })
+
+  test('encodes special characters in path', async () => {
+    const specialPayeeName = 'A/B Test & Co'
+    const specialPostcode = 'TR13'
+    const expectedRoute = getUrlParams(`${encodeURIComponent(specialPayeeName)}/${encodeURIComponent(specialPostcode)}/file`)
+    const bufferedData = Buffer.from('csv')
+
+    getBufferFromUrl.mockResolvedValueOnce(bufferedData)
+
+    const response = await fetchPaymentDetailsForDownload(specialPayeeName, specialPostcode)
+
+    expect(getBufferFromUrl).toHaveBeenCalledWith(expectedRoute)
+    expect(response).toEqual(bufferedData)
   })
 })
