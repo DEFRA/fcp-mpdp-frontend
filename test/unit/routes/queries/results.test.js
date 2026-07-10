@@ -138,7 +138,8 @@ describe('graceful redirect of /results route to /search', () => {
           years: [],
           counties: []
         },
-        headers: { referer: '/search' }
+        headers: { referer: '/search' },
+        logger: { info: vi.fn() }
       }
 
       const mockView = vi.fn()

@@ -1,6 +1,7 @@
 import http2 from 'node:http2'
 import { postBuffer } from '../../api/post-buffer.js'
 import { resultsQuery as query } from '../../routes/queries/results.js'
+import { metricsCounter } from '../../common/helpers/metrics.js'
 
 const { constants: httpConstants } = http2
 
@@ -26,6 +27,12 @@ export const downloadResults = {
         counties: typeof counties === 'string' ? [counties] : counties,
         years: typeof years === 'string' ? [years] : years
       }
+
+      request.logger.info({
+        message: 'Download filtered results',
+        event: { action: 'download-filtered', category: 'download' }
+      })
+      metricsCounter('Download_Filtered')
 
       const content = await postBuffer('/file', { searchString, filterBy, sortBy })
 
