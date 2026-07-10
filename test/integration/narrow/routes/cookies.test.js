@@ -233,7 +233,7 @@ describe('Cookies route', () => {
     const $page = cheerio.load(result.payload)
 
     expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
-    expect($page('.govuk-notification-banner--success').length).toBe(1)
+    expect($page('.govuk-notification-banner--success')).toHaveLength(1)
   })
 
   test('POST /cookies with returnUrl exceeding 2000 chars returns 400', async () => {
