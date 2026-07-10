@@ -1,7 +1,6 @@
 import { fetchSchemePaymentsByYear } from '../services/fetch-scheme-payments-by-year.js'
 import { schemePaymentsByYearModel } from './models/scheme-payments-by-year.js'
 import { getRelatedContentLinks } from '../common/utils/related-content.js'
-import { metricsCounter } from '../common/helpers/metrics.js'
 
 export const schemePaymentsByYear = {
   method: 'GET',
@@ -14,7 +13,7 @@ export const schemePaymentsByYear = {
       message: 'Scheme payments by year viewed',
       event: { action: 'scheme-payments-by-year', category: 'page-view' }
     })
-    metricsCounter('PageView_Summary')
+    request.metrics.counter('PageView_Summary')
 
     return h.view(
       'scheme-payments-by-year',

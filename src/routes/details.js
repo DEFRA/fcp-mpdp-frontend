@@ -2,7 +2,6 @@ import http2 from 'node:http2'
 import Joi from 'joi'
 import { detailsModel } from './models/details.js'
 import { getRelatedContentLinks } from '../common/utils/related-content.js'
-import { metricsCounter } from '../common/helpers/metrics.js'
 
 const { constants: httpConstants } = http2
 
@@ -41,7 +40,7 @@ export const details = {
         message: 'Payee detail viewed',
         event: { action: 'payee-detail', category: 'page-view' }
       })
-      metricsCounter('PageView_Details')
+      request.metrics.counter('PageView_Details')
 
       return h.view('details', await detailsModel(request.query))
     }
