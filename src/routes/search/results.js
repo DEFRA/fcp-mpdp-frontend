@@ -37,10 +37,8 @@ export const results = {
       const model = await resultsModel(request)
 
       request.logger.info({
-        message: 'Search results viewed',
-        event: { action: 'search-results', category: 'page-view' },
-        resultCount: model.results?.length ?? 0,
-        page: model.currentPage ?? 1
+        message: `Search results viewed results=${model.results?.length ?? 0} page=${model.currentPage ?? 1}`,
+        event: { action: 'search-results', category: 'page-view' }
       })
       request.metrics.counter('PageView_Search')
 
