@@ -9,14 +9,22 @@ export const cookies = [
   {
     method: 'GET',
     path: '/cookies',
+    options: {
+      validate: {
+        query: {
+          updated: Joi.boolean().default(false),
+          referer: Joi.string().allow('').max(2000).optional()
+        }
+      }
+    },
     handler: function (request, h) {
       return h.view(
         'cookies/policy',
         {
           pageTitle: 'Cookies',
           ...cookiesModel(
-            false,
-            getRefererPath(request.headers.referer, request.info.hostname),
+            request.query.updated,
+            getRefererPath(request.query.referer ?? request.headers.referer, request.info.hostname),
             request.state[config.get('cookie.name')]
           )
         }
@@ -50,17 +58,8 @@ export const cookies = [
         return h.redirect(safeReturnUrl)
       }
 
-      return h.view(
-        'cookies/policy',
-        {
-          pageTitle: 'Cookies',
-          ...cookiesModel(
-            true,
-            getRefererPath(payload.referer, request.info.hostname),
-            request.state[config.get('cookie.name')]
-          )
-        }
-      )
+      const safeReferer = getRefererPath(payload.referer, request.info.hostname)
+      return h.redirect(`/cookies?updated=true&referer=${encodeURIComponent(safeReferer)}`)
     }
   }
 ]
