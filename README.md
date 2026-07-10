@@ -47,6 +47,13 @@ Copy the example environment file and fill in any values for your machine:
 cp .env.example .env
 ```
 
+| Variable | Default | Description |
+|---|---|---|
+| `PORT` | `3000` | Server port |
+| `NODE_ENV` | `development` | Node environment |
+| `MPDP_BACKEND_ENDPOINT` | `http://localhost:3001` | Backend API URL |
+| `AWS_EMF_ENVIRONMENT` | `Local` | Prevents metrics from connecting to CloudWatch EMF agent locally |
+
 ### Development
 
 Run locally with hot reload:
