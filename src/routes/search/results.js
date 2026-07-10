@@ -1,7 +1,6 @@
 import http2 from 'node:http2'
 import { resultsModel } from '../models/search/results.js'
 import { resultsQuery as query } from '../queries/results.js'
-import { metricsCounter } from '../../common/helpers/metrics.js'
 
 const { constants: httpConstants } = http2
 
@@ -43,7 +42,7 @@ export const results = {
         resultCount: model.results?.length ?? 0,
         page: model.currentPage ?? 1
       })
-      metricsCounter('PageView_Search')
+      request.metrics.counter('PageView_Search')
 
       return h.view('search/results', model)
     }

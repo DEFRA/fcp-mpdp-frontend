@@ -1,5 +1,4 @@
 import { getStream } from '../../api/get-stream.js'
-import { metricsCounter } from '../../common/helpers/metrics.js'
 
 export const downloadAllSchemePaymentData = {
   method: 'GET',
@@ -9,7 +8,7 @@ export const downloadAllSchemePaymentData = {
       message: 'Download all data',
       event: { action: 'download-all', category: 'download' }
     })
-    metricsCounter('Download_All')
+    request.metrics.counter('Download_All')
 
     const stream = await getStream('/file')
 
