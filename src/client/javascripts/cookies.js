@@ -53,6 +53,16 @@ export default {
   init () {
     this.setupCookieComponentListeners()
     this.cleanupStaleCookies()
+    this.setupBfcacheGuard()
+  },
+
+  setupBfcacheGuard () {
+    globalThis.addEventListener('pageshow', (event) => {
+      if (event.persisted) {
+        deleteGoogleAnalyticsCookies()
+        globalThis.location.reload()
+      }
+    })
   },
 
   cleanupStaleCookies () {

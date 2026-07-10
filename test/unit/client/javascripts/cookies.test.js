@@ -11,6 +11,7 @@ describe('cookies', () => {
     globalThis.document = dom.window.document
     globalThis.window = dom.window
     globalThis.location = dom.window.location
+    globalThis.addEventListener = (...args) => dom.window.addEventListener(...args)
   })
 
   beforeEach(() => {
@@ -298,5 +299,46 @@ describe('cookies', () => {
     cookies.init()
 
     expect(document.cookie).toContain('_ga=GA1')
+  })
+})
+
+describe('cookies — setupBfcacheGuard', () => {
+  let reloadSpy
+  let pageshowHandler
+
+  beforeEach(() => {
+    reloadSpy = vi.fn()
+    vi.stubGlobal('location', { hostname: 'localhost', reload: reloadSpy })
+
+    document.cookie = '_ga=GA1.2.123456789.1234567890'
+
+    // Spy on addEventListener so we can capture the exact handler this
+    // call registers, rather than dispatching an event that would trigger
+    // all accumulated pageshow listeners from earlier tests.
+    const addEventListenerSpy = vi.spyOn(dom.window, 'addEventListener')
+    cookies.setupBfcacheGuard()
+    const pageshowCall = addEventListenerSpy.mock.calls.find(([event]) => event === 'pageshow')
+    pageshowHandler = pageshowCall?.[1]
+    addEventListenerSpy.mockRestore()
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    vi.clearAllMocks()
+  })
+
+  test('reloads on bfcache restore (persisted = true)', () => {
+    pageshowHandler({ persisted: true })
+    expect(reloadSpy).toHaveBeenCalledOnce()
+  })
+
+  test('does not reload on normal page load (persisted = false)', () => {
+    pageshowHandler({ persisted: false })
+    expect(reloadSpy).not.toHaveBeenCalled()
+  })
+
+  test('clears GA cookies before reload on bfcache restore', () => {
+    pageshowHandler({ persisted: true })
+    expect(document.cookie).not.toContain('_ga=GA1')
   })
 })

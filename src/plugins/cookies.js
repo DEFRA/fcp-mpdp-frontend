@@ -21,6 +21,8 @@ export const cookies = {
           statusCode !== httpConstants.HTTP_STATUS_FORBIDDEN &&
           request.response.source.context
         ) {
+          request.response.header('cache-control', 'no-store')
+
           const cookiesPolicy = getCurrentPolicy(request, h)
 
           request.response.source.context.cookiesPolicy = cookiesPolicy

@@ -39,6 +39,11 @@ describe('Cookies route', () => {
     expect(response.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
   })
 
+  test('GET /cookies has Cache-Control: no-store header', async () => {
+    const result = await server.inject(getOptions('cookies', 'GET'))
+    expect(result.headers['cache-control']).toBe('no-store')
+  })
+
   test('Check for common elements', () => {
     expectPageTitle($, 'Cookies')
     expectHeader($)
@@ -181,7 +186,7 @@ describe('Cookies route', () => {
     expect(result.headers.location).toBe('/search')
   })
 
-  test('POST /cookies with external returnUrl falls through to policy view', async () => {
+  test('POST /cookies with external returnUrl redirects to /cookies?updated=true', async () => {
     const getResponse = await server.inject(getOptions('cookies', 'GET'))
     const $page = cheerio.load(getResponse.payload)
     const cookies = getResponse.headers['set-cookie']
@@ -201,11 +206,11 @@ describe('Cookies route', () => {
       }
     })
 
-    expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
-    expect(result.request.response.source.template).toBe('cookies/policy')
+    expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_FOUND)
+    expect(result.headers.location).toBe('/cookies?updated=true&referer=%2F')
   })
 
-  test('POST /cookies with protocol-relative returnUrl falls through to policy view', async () => {
+  test('POST /cookies with protocol-relative returnUrl redirects to /cookies?updated=true', async () => {
     const getResponse = await server.inject(getOptions('cookies', 'GET'))
     const $page = cheerio.load(getResponse.payload)
     const cookies = getResponse.headers['set-cookie']
@@ -225,8 +230,8 @@ describe('Cookies route', () => {
       }
     })
 
-    expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
-    expect(result.request.response.source.template).toBe('cookies/policy')
+    expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_FOUND)
+    expect(result.headers.location).toBe('/cookies?updated=true&referer=%2F')
   })
 
   test('POST /cookies fallback sanitizes an unsafe referer back link to /', async () => {
@@ -235,7 +240,7 @@ describe('Cookies route', () => {
     const cookies = getResponse.headers['set-cookie']
     const crumb = $page('input[name="crumb"]').val()
 
-    const result = await server.inject({
+    const postResult = await server.inject({
       method: 'POST',
       url: '/cookies',
       headers: {
@@ -250,12 +255,29 @@ describe('Cookies route', () => {
       }
     })
 
-    expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
-    expect(result.request.response.source.template).toBe('cookies/policy')
+    expect(postResult.statusCode).toBe(httpConstants.HTTP_STATUS_FOUND)
 
-    const payload = result.payload
-    const $payload = cheerio.load(payload)
+    const getResult = await server.inject({
+      method: 'GET',
+      url: postResult.headers.location,
+      headers: {
+        cookie: postResult.headers['set-cookie']
+          ? [postResult.headers['set-cookie']].flat().join(';')
+          : ''
+      }
+    })
+
+    expect(getResult.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
+    const $payload = cheerio.load(getResult.payload)
     expectBackLink($payload, '/', 'Back')
+  })
+
+  test('GET /cookies?updated=true renders success notification banner', async () => {
+    const result = await server.inject({ method: 'GET', url: '/cookies?updated=true' })
+    const $page = cheerio.load(result.payload)
+
+    expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_OK)
+    expect($page('.govuk-notification-banner--success').length).toBe(1)
   })
 
   test('POST /cookies with returnUrl exceeding 2000 chars returns 400', async () => {
