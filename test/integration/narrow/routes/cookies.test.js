@@ -162,7 +162,11 @@ describe('Cookies route', () => {
     expectPhaseBanner($)
   })
 
-  test('POST /cookies with valid returnUrl redirects to that URL', async () => {
+  test.each([
+    { label: 'valid returnUrl', returnUrl: '/search', expectedLocation: '/search' },
+    { label: 'external returnUrl', returnUrl: 'https://evil.example.com', expectedLocation: '/cookies?updated=true&referer=%2F' },
+    { label: 'protocol-relative returnUrl', returnUrl: '//evil.example.com', expectedLocation: '/cookies?updated=true&referer=%2F' }
+  ])('POST /cookies with $label redirects to $expectedLocation', async ({ returnUrl, expectedLocation }) => {
     const getResponse = await server.inject(getOptions('cookies', 'GET'))
     const $page = cheerio.load(getResponse.payload)
     const cookies = getResponse.headers['set-cookie']
@@ -177,61 +181,13 @@ describe('Cookies route', () => {
       payload: {
         analytics: true,
         async: false,
-        returnUrl: '/search',
+        returnUrl,
         crumb
       }
     })
 
     expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_FOUND)
-    expect(result.headers.location).toBe('/search')
-  })
-
-  test('POST /cookies with external returnUrl redirects to /cookies?updated=true', async () => {
-    const getResponse = await server.inject(getOptions('cookies', 'GET'))
-    const $page = cheerio.load(getResponse.payload)
-    const cookies = getResponse.headers['set-cookie']
-    const crumb = $page('input[name="crumb"]').val()
-
-    const result = await server.inject({
-      method: 'POST',
-      url: '/cookies',
-      headers: {
-        cookie: cookies ? cookies.join(';') : ''
-      },
-      payload: {
-        analytics: true,
-        async: false,
-        returnUrl: 'https://evil.example.com',
-        crumb
-      }
-    })
-
-    expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_FOUND)
-    expect(result.headers.location).toBe('/cookies?updated=true&referer=%2F')
-  })
-
-  test('POST /cookies with protocol-relative returnUrl redirects to /cookies?updated=true', async () => {
-    const getResponse = await server.inject(getOptions('cookies', 'GET'))
-    const $page = cheerio.load(getResponse.payload)
-    const cookies = getResponse.headers['set-cookie']
-    const crumb = $page('input[name="crumb"]').val()
-
-    const result = await server.inject({
-      method: 'POST',
-      url: '/cookies',
-      headers: {
-        cookie: cookies ? cookies.join(';') : ''
-      },
-      payload: {
-        analytics: false,
-        async: false,
-        returnUrl: '//evil.example.com',
-        crumb
-      }
-    })
-
-    expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_FOUND)
-    expect(result.headers.location).toBe('/cookies?updated=true&referer=%2F')
+    expect(result.headers.location).toBe(expectedLocation)
   })
 
   test('POST /cookies fallback sanitizes an unsafe referer back link to /', async () => {
