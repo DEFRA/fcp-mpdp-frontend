@@ -327,8 +327,8 @@ describe('search', () => {
     test('should handle optional parameters', () => {
       const option = search.getOption('value', 'text', vi.fn())
 
-      expect(option.onmouseover).toBe(null)
-      expect(option.classList.length).toBe(0)
+      expect(option.onmouseover).toBeNull()
+      expect(option.classList).toHaveLength(0)
     })
   })
 
@@ -618,24 +618,12 @@ describe('search', () => {
       expect(hideSuggestionsSpy).toHaveBeenCalled()
     })
 
-    test('should hide suggestions when input length is less than minCharLength', () => {
-      searchInput.value = 'te'
-      const hideSuggestionsSpy = vi.spyOn(search, 'hideSuggestions')
-      searchInput.dispatchEvent(new window.Event('input', { bubbles: true }))
-
-      expect(hideSuggestionsSpy).toHaveBeenCalled()
-    })
-
-    test('should hide suggestions when input length equals the minCharLength but has a leading space', () => {
-      searchInput.value = ' te'
-      const hideSuggestionsSpy = vi.spyOn(search, 'hideSuggestions')
-      searchInput.dispatchEvent(new window.Event('input', { bubbles: true }))
-
-      expect(hideSuggestionsSpy).toHaveBeenCalled()
-    })
-
-    test('should hide suggestions when input length equals the minCharLength but has a trailing space', () => {
-      searchInput.value = 'te '
+    test.each([
+      ['te', 'input length is less than minCharLength'],
+      [' te', 'input length equals minCharLength but has a leading space'],
+      ['te ', 'input length equals minCharLength but has a trailing space']
+    ])('should hide suggestions when %s — %s', (value) => {
+      searchInput.value = value
       const hideSuggestionsSpy = vi.spyOn(search, 'hideSuggestions')
       searchInput.dispatchEvent(new window.Event('input', { bubbles: true }))
 

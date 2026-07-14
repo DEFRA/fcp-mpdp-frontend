@@ -82,8 +82,8 @@ describe('Details route', () => {
     expect($('#date-range').text()).toMatch('1 April 2021 to 31 March 2023')
     expect($('#total-schemes').text()).toMatch('Payments from 2 schemes')
     expect($('#total-years').text()).toMatch('Over 2 financial years')
-    expect($('.schemeDetails').length).toBe(2)
-    expect($('.schemeActivity').length).toBe(4)
+    expect($('.schemeDetails')).toHaveLength(2)
+    expect($('.schemeActivity')).toHaveLength(4)
   })
 
   test.each([

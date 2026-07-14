@@ -122,7 +122,7 @@ describe('Results route', () => {
     test('Results are displayed on the page up to a limit of 20', () => {
       const resultElements = $('.govuk-link.govuk-link--no-visited-state')
 
-      expect(resultElements.length).toBe(20)
+      expect(resultElements).toHaveLength(20)
     })
 
     test('Total results show the real number', () => {
@@ -181,7 +181,7 @@ describe('Results route', () => {
     test('Page 2 only shows the last 3 results from the mock results', () => {
       const resultElements = $('.govuk-link.govuk-link--no-visited-state')
 
-      expect(resultElements.length).toBe(3)
+      expect(resultElements).toHaveLength(3)
     })
 
     test('Total results show the real number', () => {
@@ -238,7 +238,7 @@ describe('Results route', () => {
     })
 
     test('Sort by dropdown is not shown to the user', () => {
-      expect($('#sort-by-dropdown').length).toBe(0)
+      expect($('#sort-by-dropdown')).toHaveLength(0)
     })
   })
 
@@ -292,7 +292,7 @@ describe('Results route', () => {
     })
 
     test('Sort by dropdown is not shown to the user', () => {
-      expect($('#sort-by-dropdown').length).toBe(0)
+      expect($('#sort-by-dropdown')).toHaveLength(0)
     })
   })
 
@@ -331,7 +331,7 @@ describe('Results route', () => {
 
     test('Results returns 20 rows', () => {
       const resultElements = $('.govuk-link.govuk-link--no-visited-state')
-      expect(resultElements.length).toBe(20)
+      expect(resultElements).toHaveLength(20)
     })
 
     test.each([
