@@ -56,40 +56,18 @@ describe('Search route', () => {
     expectFooter($)
   })
 
-  test('Should render a back link with referer', async () => {
+  test.each([
+    ['/previous-page', '/previous-page', 'renders back link with referer'],
+    ['https://evil.com', '/', 'does not use an external URL as the back link href'],
+    ['javascript:alert(1)', '/', 'does not use a javascript URI as the back link href']
+  ])('Back link when referer is %s — %s', async (referer, expectedHref) => {
     options = getOptions('search', 'GET')
-    options.headers = {
-      referer: '/previous-page'
-    }
+    options.headers = { referer }
 
     response = await server.inject(options)
     $ = cheerio.load(response.payload)
 
-    expectBackLink($, '/previous-page', 'Back')
-  })
-
-  test('Should not use an external URL as the back link href', async () => {
-    options = getOptions('search', 'GET')
-    options.headers = {
-      referer: 'https://evil.com'
-    }
-
-    response = await server.inject(options)
-    $ = cheerio.load(response.payload)
-
-    expectBackLink($, '/', 'Back')
-  })
-
-  test('Should not use a javascript URI as the back link href', async () => {
-    options = getOptions('search', 'GET')
-    options.headers = {
-      referer: 'javascript:alert(1)'
-    }
-
-    response = await server.inject(options)
-    $ = cheerio.load(response.payload)
-
-    expectBackLink($, '/', 'Back')
+    expectBackLink($, expectedHref, 'Back')
   })
 
   test('Check for search page specific elements', () => {
@@ -163,7 +141,7 @@ describe('Search route', () => {
       const $page = cheerio.load(result.payload)
 
       expect(result.statusCode).toBe(httpConstants.HTTP_STATUS_BAD_REQUEST)
-      expect($page('.govuk-cookie-banner').length).toBe(0)
+      expect($page('.govuk-cookie-banner')).toHaveLength(0)
     })
   })
 })

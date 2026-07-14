@@ -48,37 +48,17 @@ describe('Accessibility route', () => {
     expectFooter($)
   })
 
-  test('Should render a back link with referer', async () => {
-    options.headers = {
-      referer: '/previous-page'
-    }
+  test.each([
+    ['/previous-page', '/previous-page', 'renders back link with referer'],
+    ['https://evil.com', '/', 'does not use an external URL as the back link href'],
+    ['javascript:alert(1)', '/', 'does not use a javascript URI as the back link href']
+  ])('Back link when referer is %s — %s', async (referer, expectedHref) => {
+    options.headers = { referer }
 
     response = await server.inject(options)
     $ = cheerio.load(response.payload)
 
-    expectBackLink($, '/previous-page', 'Back')
-  })
-
-  test('Should not use an external URL as the back link href', async () => {
-    options.headers = {
-      referer: 'https://evil.com'
-    }
-
-    response = await server.inject(options)
-    $ = cheerio.load(response.payload)
-
-    expectBackLink($, '/', 'Back')
-  })
-
-  test('Should not use a javascript URI as the back link href', async () => {
-    options.headers = {
-      referer: 'javascript:alert(1)'
-    }
-
-    response = await server.inject(options)
-    $ = cheerio.load(response.payload)
-
-    expectBackLink($, '/', 'Back')
+    expectBackLink($, expectedHref, 'Back')
   })
 
   test.each([

@@ -137,7 +137,7 @@ describe('cookies', () => {
 
     acceptButton.dispatchEvent(new window.MouseEvent('click', { bubbles: true, cancelable: true }))
 
-    expect(document.head.querySelectorAll('script').length).toBe(scriptsBefore)
+    expect(document.head.querySelectorAll('script')).toHaveLength(scriptsBefore)
   })
 
   test('should not inject GTM script when no gtm key is set', () => {
@@ -149,7 +149,7 @@ describe('cookies', () => {
 
     acceptButton.dispatchEvent(new window.MouseEvent('click', { bubbles: true, cancelable: true }))
 
-    expect(document.head.querySelectorAll('script').length).toBe(scriptsBefore)
+    expect(document.head.querySelectorAll('script')).toHaveLength(scriptsBefore)
   })
 
   test('should delete GA cookies on reject', () => {

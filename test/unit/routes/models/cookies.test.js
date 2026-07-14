@@ -37,14 +37,14 @@ describe('cookiesModel', () => {
   test('defaults to empty object when no cookiesPolicy is passed', () => {
     const model = cookiesModel(false, '', undefined)
 
-    expect(model.analytics.items[0].checked).toBe(undefined)
+    expect(model.analytics.items[0].checked).toBeUndefined()
     expect(model.analytics.items[1].checked).toBe(true)
   })
 
   test('defaults updated and referer when not provided', () => {
     const model = cookiesModel(undefined, undefined, { analytics: true })
 
-    expect(model.updated).toBe(undefined)
+    expect(model.updated).toBeUndefined()
     expect(model.referer).toBe('')
   })
 })
