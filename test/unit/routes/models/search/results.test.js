@@ -162,4 +162,30 @@ describe('resultsModel', () => {
     expect(result.previous.href).toContain('page=1')
     expect(result.next.href).toContain('page=3')
   })
+  test('should not override the visible pagination link text with an aria-label', async () => {
+    fetchPaymentData.mockResolvedValue({
+      results: Array(15).fill({ id: 1, total_amount: 50 }),
+      total: 25,
+      filterOptions: { schemes: [], years: [], counties: [] }
+    })
+
+    const request = {
+      query: {
+        searchString: 'farms',
+        sortBy: 'score',
+        page: 2,
+        schemes: [],
+        years: [],
+        counties: []
+      },
+      headers: { referer: '/previous-page' }
+    }
+
+    const result = await resultsModel(request, false)
+
+    expect(result.previous.attributes).toEqual({ id: 'prev-option' })
+    expect(result.next.attributes).toEqual({ id: 'next-option' })
+    expect(result.previous.labelText).toBe('1 of 3 ')
+    expect(result.next.labelText).toBe('3 of 3 ')
+  })
 })
