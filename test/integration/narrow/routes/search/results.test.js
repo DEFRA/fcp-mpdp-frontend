@@ -116,7 +116,9 @@ describe('Results route', () => {
     test('Next button on pagination is present on the results page', () => {
       const nextButton = $('#next-option')
 
-      expect(nextButton).toBeDefined()
+      expect(nextButton).toHaveLength(1)
+      expect(nextButton.attr('aria-label')).toBeUndefined()
+      expect(nextButton.text()).toContain('Next')
     })
 
     test('Results are displayed on the page up to a limit of 20', () => {
@@ -170,12 +172,14 @@ describe('Results route', () => {
       expect(searchBox.val()).toMatch(searchString)
     })
 
-    test('Next and previous buttons on pagination is present on the results page', () => {
+    test('Only the previous link is present on the last page, without an overriding aria-label', () => {
       const nextButton = $('#next-option')
       const previousButton = $('#prev-option')
 
-      expect(nextButton).toBeDefined()
-      expect(previousButton).toBeDefined()
+      expect(nextButton).toHaveLength(0)
+      expect(previousButton).toHaveLength(1)
+      expect(previousButton.attr('aria-label')).toBeUndefined()
+      expect(previousButton.text()).toContain('Previous')
     })
 
     test('Page 2 only shows the last 3 results from the mock results', () => {

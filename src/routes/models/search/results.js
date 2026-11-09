@@ -147,8 +147,7 @@ function getPaginationAttributes (totalResults, requestedPage, searchString, fil
         href: prevHref,
         labelText: `${requestedPage - 1} of ${totalPages} `,
         attributes: {
-          id: 'prevOption',
-          'aria-label': 'Go to previous page of results: ' + `${requestedPage - 1} of ${totalPages} `
+          id: 'prev-option'
         }
       }
 
@@ -158,8 +157,7 @@ function getPaginationAttributes (totalResults, requestedPage, searchString, fil
         href: nextHref,
         labelText: `${requestedPage + 1} of ${totalPages} `,
         attributes: {
-          id: 'next-option',
-          'aria-label': 'Go to next page of results: ' + `${requestedPage + 1} of ${totalPages} `
+          id: 'next-option'
         }
       }
 
